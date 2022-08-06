@@ -1,0 +1,49 @@
+plugins {
+    id 'org.springframework.boot' version '2.7.1'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id 'java'
+}
+
+group = 'com.example'
+version = '0.0.1-SNAPSHOT'
+targetCompatibility = JavaVersion.VERSION_17
+
+compileJava   {
+    sourceCompatibility = '17'
+    targetCompatibility = '17'
+}
+
+repositories {
+    mavenCentral()
+}
+
+ext {
+    set('springCloudVersion', "2021.0.3")
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+    }
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter'
+    implementation 'org.springframework.cloud:spring-cloud-starter-task'
+    implementation 'org.springframework.cloud:spring-cloud-starter-loadbalancer'
+    implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
+    implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
+    implementation 'org.springframework.cloud:spring-cloud-starter-netflix-hystrix:2.2.10.RELEASE'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation 'com.sun.jersey.contribs:jersey-apache-client4:1.19.4'
+
+    implementation project(':service:survey')
+
+    compileOnly 'org.projectlombok:lombok'
+    runtimeOnly 'com.h2database:h2'
+    annotationProcessor 'org.projectlombok:lombok'
+
+
+}

@@ -1,0 +1,6 @@
+rootProject.name = 'nextfeed'
+include 'library'
+include 'service:eureka'
+include 'service:gateway'
+include 'service:survey'
+include 'service:user'

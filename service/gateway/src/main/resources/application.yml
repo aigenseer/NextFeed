@@ -1,0 +1,36 @@
+server:
+  port: 8030
+
+spring:
+  main:
+    allow-bean-definition-overriding: true
+
+  application:
+    name: gateway-service
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+      routes:
+        - id: customers
+          uri: lb://survey-service
+          predicates:
+            - Path=/survey/**
+        - id: restaurants
+          uri: lb://user-service
+          predicates:
+            - Path=/user/**
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: ${EUREKA_URI:http://localhost:8000/eureka}
+  instance:
+    hostname: localhost
+    preferIpAddress: true
+
+
+
+
+
