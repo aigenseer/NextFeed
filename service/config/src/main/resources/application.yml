@@ -1,0 +1,40 @@
+server:
+  port: 8040
+
+nextfeed:
+  config-path: "/configs"
+#  config-path: "C:/Users/aigenseer/Downloads/configtest"
+  search-locations: "classpath:${nextfeed.config-path}/{application},file:///${nextfeed.config-path}/{application}/"
+
+spring:
+  main:
+    allow-bean-definition-overriding: true
+  application:
+    name: config-service
+
+  profiles:
+    active: native
+  cloud:
+    config:
+      server:
+        bootstrap: true
+        native:
+          search-locations: ${nextfeed.search-locations}
+
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: ${EUREKA_URI:http://localhost:8000/eureka}
+  instance:
+    instanceId: ${spring.application.name}:${random.value}
+    hostname: localhost
+    preferIpAddress: true
+
+logging:
+  level:
+    ROOT: INFO
+    org.springframework.cloud.config: DEBUG
+
+
+
