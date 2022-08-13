@@ -1,12 +1,17 @@
 plugins {
+//    id 'org.springframework.boot' version '2.7.1' apply false
     id 'org.springframework.boot' version '2.7.1'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
-    id 'java'
+    id 'java-library'
 }
 
-group = 'com.nextfeed'
+group = 'com.nextfeed.library.manager'
 version = '0.0.1-SNAPSHOT'
-targetCompatibility = JavaVersion.VERSION_17
+sourceCompatibility = "17"
+
+bootJar {
+    enabled = false
+}
 
 compileJava   {
     sourceCompatibility = '17'
@@ -27,23 +32,25 @@ dependencyManagement {
     }
 }
 
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter'
-    implementation 'org.springframework.cloud:spring-cloud-starter-task'
     implementation 'org.springframework.cloud:spring-cloud-starter-loadbalancer'
-    implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
+    implementation 'org.projectlombok:lombok:1.18.20'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa:2.7.2'
+    implementation 'com.fasterxml.jackson.core:jackson-annotations:2.13.3'
     implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
-    implementation 'org.springframework.cloud:spring-cloud-starter-netflix-hystrix:2.2.10.RELEASE'
-    implementation 'org.springframework.boot:spring-boot-starter-web'
 
-    implementation 'org.springframework.boot:spring-boot-starter-actuator'
-    implementation 'com.sun.jersey.contribs:jersey-apache-client4:1.19.4'
+
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
 
     implementation project(':library:core')
 
-    compileOnly 'org.projectlombok:lombok'
-//    runtimeOnly 'com.h2database:h2'
-    annotationProcessor 'org.projectlombok:lombok'
-
-
 }
+targetCompatibility = JavaVersion.VERSION_16

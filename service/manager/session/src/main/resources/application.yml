@@ -1,0 +1,67 @@
+server:
+  port: 8050
+
+spring:
+  application:
+    name: session-manager-service
+  main:
+    allow-bean-definition-overriding: true
+
+  datasource:
+    url: jdbc:h2:mem:testdb
+    username: sa
+    password: sa
+    driverClassName: org.h2.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    properties:
+      hibernate:
+        globally_quoted_identifiers: true
+    show-sql: true
+  h2:
+    console:
+      enabled: true
+      #http://localhost:8050/h2-console/
+
+
+
+  kafka:
+    bootstrap-servers: localhost:9092
+
+
+#  cloud:
+#    stream:
+#      function:
+#        bindings:  orderBuySupplier
+#      bindings:
+#        orderBuySupplier-out-0:
+#          destination: orders.buy
+#      kafka:
+#        bindings:
+#          orderBuySupplier-out-0:
+#            producer:
+#              configuration:
+#                key:
+#                  serializer: org.apache.kafka.common.serialization.LongSerializer
+
+
+
+
+management:
+  endpoints:
+    jmx:
+      exposure:
+        include: health,info,env,beans
+    web:
+      exposure:
+        include: health,info,env,beans,refresh
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: ${EUREKA_URI:http://localhost:8000/eureka}
+  instance:
+    instanceId: ${spring.application.name}:${random.value}
+    hostname: localhost
+    preferIpAddress: true
+
