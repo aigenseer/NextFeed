@@ -9,9 +9,9 @@ import org.springframework.kafka.config.TopicBuilder;
 @Configuration
 public class KafkaTopicConfig {
 
-    @Bean
-    public NewTopic nextFeedTopic(){
-        return TopicBuilder.name("firsttopic").build();
-    }
+//    @Bean
+//    public NewTopic nextFeedTopic(){
+//        return TopicBuilder.name("firsttopic").build();
+//    }
 
 }
