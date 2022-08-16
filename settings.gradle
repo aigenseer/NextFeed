@@ -9,3 +9,5 @@ include 'service:config'
 include 'service:manager:session'
 include 'service:survey'
 include 'service:user'
+
+include 'service:manager:example'

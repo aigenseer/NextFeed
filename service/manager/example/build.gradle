@@ -29,10 +29,7 @@ dependencyManagement {
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
-    annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
     implementation 'org.springframework.kafka:spring-kafka'
-    implementation 'org.hibernate:hibernate-validator:7.0.5.Final'
-
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
 }
