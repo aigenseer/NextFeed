@@ -1,4 +1,4 @@
-package com.nextfeed.service.manager.session.kafaconfig.initionaliser;
+package com.nextfeed.library.core.config.kafka;
 
 import lombok.Data;
 

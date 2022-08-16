@@ -2,8 +2,8 @@ package com.nextfeed.service.manager.session;
 
 import java.util.concurrent.ThreadLocalRandom;
 
-import com.nextfeed.service.manager.session.entities.Result;
-import com.nextfeed.service.manager.session.entities.Student;
+import com.nextfeed.library.core.service.entities.Result;
+import com.nextfeed.library.core.service.entities.Student;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Component;

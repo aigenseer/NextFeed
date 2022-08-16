@@ -1,4 +1,4 @@
-package com.nextfeed.service.manager.session.entities;
+package com.nextfeed.library.core.service.entities;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,9 +9,8 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Result {
-	
+public class Student {
+	private String registrationNumber;
 	private String name;
-	private String percentage;
-	private String result;
+	private String grade;
 }

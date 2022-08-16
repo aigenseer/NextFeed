@@ -1,8 +1,7 @@
-package com.nextfeed.service.manager.session.kafaconfig.initionaliser;
+package com.nextfeed.library.core.config.kafka;
 
 
 import lombok.Data;
-import lombok.Getter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
@@ -13,6 +12,4 @@ import java.util.Map;
 @ConfigurationProperties(prefix = "nextfeed.kafka")
 public class ReplyConfigProperties {
     public Map<String, ReplyConfigProperty> relays;
-    public String test;
-//    public Object relays;
 }
