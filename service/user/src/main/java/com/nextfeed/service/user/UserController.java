@@ -2,7 +2,7 @@ package com.nextfeed.service.user;
 
 
 import com.nextfeed.library.core.service.SessionManagerService;
-import com.nextfeed.library.core.service.request.NewSession;
+import com.nextfeed.library.core.service.dto.manager.session.NewSessionRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -36,11 +36,8 @@ public class UserController {
 
     @GetMapping("/create")
     public UserRequest create() {
-        var session = sessionManagerService.createEntity(NewSession.builder().name("Test").build());
+        var session = sessionManagerService.create(NewSessionRequest.builder().name("myName").build());
         System.out.printf("yes %s", session.getName());
         return new UserRequest("TestUser");
     }
-
-
-
 }

@@ -1,7 +1,7 @@
 package com.nextfeed.service.survey;
 
 
-import com.nextfeed.library.core.LoadBalancerConfiguration;
+import com.nextfeed.library.core.config.LoadBalancerConfiguration;
 import org.springframework.cloud.loadbalancer.annotation.LoadBalancerClient;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.RequestMapping;

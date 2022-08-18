@@ -2,7 +2,7 @@ package com.nextfeed.service.survey;
 
 
 import com.nextfeed.library.core.service.SessionManagerService;
-import com.nextfeed.library.core.service.request.NewSession;
+import com.nextfeed.library.core.service.dto.manager.session.NewSessionRequest;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
@@ -45,7 +45,7 @@ public class SurveyController implements SurveyService {
 
     @GetMapping("/test")
     public TestRequest create() {
-        var session = sessionManagerService.createEntity(new NewSession("TestName"));
+        var session = sessionManagerService.create(NewSessionRequest.builder().name("Hallo?").build());
         System.out.println(session.getName());
         System.out.println("yes geht " +uniqueID+ "password: "+password);
 //        try {

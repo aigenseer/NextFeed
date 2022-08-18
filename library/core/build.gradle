@@ -35,13 +35,16 @@ dependencyManagement {
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter'
-//    implementation 'org.springframework.cloud:spring-cloud-starter-loadbalancer'
-    implementation 'org.projectlombok:lombok:1.18.20'
-    implementation 'com.fasterxml.jackson.core:jackson-annotations:2.13.3'
-//    implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
     implementation 'org.springframework.boot:spring-boot-starter-web:2.7.2'
+//    implementation 'com.fasterxml.jackson.core:jackson-annotations:2.13.3'
+
     compileOnlyApi 'org.springframework.boot:spring-boot-starter-data-jpa:2.7.2'
 
+    implementation 'org.springframework.cloud:spring-cloud-starter-loadbalancer'
+    implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
+
+
+    implementation 'org.projectlombok:lombok:1.18.20'
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
 

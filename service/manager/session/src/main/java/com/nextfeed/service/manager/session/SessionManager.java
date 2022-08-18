@@ -21,9 +21,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class SessionManager {
 
-//    private final SessionDataService sessionDataService;
     private final SessionDBService sessionDBService;
-//    private final ParticipantDBService participantDBService;
     private static final int SESSION_CODE_LENGTH = 8;
 
     public boolean isSessionClosed(int sessionId){

@@ -1,5 +1,5 @@
 server:
-  port: 8050
+  port: 8110
 
 spring:
   application:
@@ -22,46 +22,6 @@ spring:
     console:
       enabled: true
       #http://localhost:8050/h2-console/
-
-
-
-#  kafka:
-#    bootstrap-servers: localhost:9092
-
-  cloud:
-    function:
-      definition: consumer;producer;uppercase
-    stream:
-      kafka:
-        binder:
-          brokers: localhost:9092
-      bindings:
-        producer-out-0:
-          destination: first-topic
-        consumer-in-0:
-          destination: first-topic
-        uppercase-in-0:
-          destination: input
-
-
-
-#  cloud:
-#    stream:
-#      function:
-#        bindings:  orderBuySupplier
-#      bindings:
-#        orderBuySupplier-out-0:
-#          destination: orders.buy
-#      kafka:
-#        bindings:
-#          orderBuySupplier-out-0:
-#            producer:
-#              configuration:
-#                key:
-#                  serializer: org.apache.kafka.common.serialization.LongSerializer
-
-
-
 
 management:
   endpoints:
