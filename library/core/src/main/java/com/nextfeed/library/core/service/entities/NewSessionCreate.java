@@ -7,8 +7,7 @@ import lombok.*;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Student {
-	private String registrationNumber;
-	private String name;
-	private String grade;
+public class NewSessionCreate {
+    private String name;
 }
+

@@ -18,17 +18,17 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class KafkaController {
 
-    private final SessionManagerService sessionManagerService;
-
-	@PostMapping("/get-result-a")
-	public ResponseEntity<Result> getObjectA(@RequestBody Student student) throws InterruptedException, ExecutionException {
-		return new ResponseEntity<>(sessionManagerService.getObjectA(student), HttpStatus.OK);
-	}
-
-    @PostMapping("/get-result-b")
-    public ResponseEntity<Result> getObjectB(@RequestBody Student student) throws InterruptedException, ExecutionException {
-        return new ResponseEntity<>(sessionManagerService.getObjectB(student), HttpStatus.OK);
-    }
+//    private final SessionManagerService sessionManagerService;
+//
+//	@PostMapping("/get-result-a")
+//	public ResponseEntity<Result> getObjectA(@RequestBody Student student) throws InterruptedException, ExecutionException {
+//		return new ResponseEntity<>(sessionManagerService.getObjectA(student), HttpStatus.OK);
+//	}
+//
+//    @PostMapping("/get-result-b")
+//    public ResponseEntity<Result> getObjectB(@RequestBody Student student) throws InterruptedException, ExecutionException {
+//        return new ResponseEntity<>(sessionManagerService.getObjectB(student), HttpStatus.OK);
+//    }
 
 
 }

@@ -1,5 +1,6 @@
 server:
-  port: 8020
+#  port: 8020
+  port: 0
 
 spring:
   application:
@@ -7,12 +8,16 @@ spring:
 
   main:
     allow-bean-definition-overriding: true
+  config:
+    import: classpath:config.yml
 
-feign:
-  client:
-    refresh-enabled: true
-  circuitbreaker:
-    enabled: true
+
+  kafka:
+
+    consumer:
+      group-id: user-service
+    admin:
+      client-id: user-service-${server.port}
 
 management:
   endpoints:
