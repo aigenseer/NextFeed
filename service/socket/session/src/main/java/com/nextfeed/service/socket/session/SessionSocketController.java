@@ -1,9 +1,6 @@
 package com.nextfeed.service.socket.session;
 
 
-import com.nextfeed.library.core.service.SessionManagerService;
-import com.nextfeed.library.core.service.dto.manager.session.NewSessionRequest;
-
 import com.nextfeed.library.socket.utils.PrincipalUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.SpringApplication;
@@ -16,7 +13,6 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 
@@ -28,10 +24,10 @@ import java.security.Principal;
 @EnableHystrix
 @RequiredArgsConstructor
 @Controller
-public class SessionSocket{
+public class SessionSocketController {
 
     public static void main(String[] args) {
-        SpringApplication.run(SessionSocket.class, args);
+        SpringApplication.run(SessionSocketController.class, args);
     }
 
     @MessageMapping("/participant/session/{sessionId}/mood/{rating}")
