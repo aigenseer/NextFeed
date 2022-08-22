@@ -36,7 +36,8 @@ dependencyManagement {
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter'
     implementation 'org.springframework.boot:spring-boot-starter-web:2.7.2'
-//    implementation 'com.fasterxml.jackson.core:jackson-annotations:2.13.3'
+    implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
+    implementation 'com.fasterxml.jackson.core:jackson-annotations:2.13.3'
 
     compileOnlyApi 'org.springframework.boot:spring-boot-starter-data-jpa:2.7.2'
 

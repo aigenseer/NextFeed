@@ -25,12 +25,12 @@ public class SessionSocketRestController implements SessionSocketService {
     }
 
     @GetMapping("/v1/session/socket/session/{sessionId}/notify/session/close")
-    public void sendMood(@PathVariable("sessionId") Integer sessionId){
+    public void sendClose(@PathVariable("sessionId") Integer sessionId){
         sessionDataService.sendClose(sessionId);
     }
 
     @PostMapping("/v1/session/socket/session/{sessionId}/notify/participants/status")
-    public void sendNewParticipantToAll(@PathVariable("sessionId") Integer sessionId, @RequestBody List<Participant> participants){
+    public void sendConnectionStatus(@PathVariable("sessionId") Integer sessionId, @RequestBody List<Participant> participants){
         sessionDataService.sendConnectionStatus(sessionId, participants);
     }
 

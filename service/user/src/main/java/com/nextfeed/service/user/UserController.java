@@ -1,7 +1,10 @@
 package com.nextfeed.service.user;
 
 
+import com.nextfeed.library.core.entity.Participant;
 import com.nextfeed.library.core.service.SessionManagerService;
+import com.nextfeed.library.core.service.SessionSocketService;
+import com.nextfeed.library.core.service.SessionSocketServices;
 import com.nextfeed.library.core.service.dto.manager.session.NewSessionRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.SpringApplication;
@@ -33,11 +36,18 @@ public class UserController {
 
 //    private final SurveyService surveyService;
     private final SessionManagerService sessionManagerService;
+    private final SessionSocketService sessionSocketService;
+    private final SessionSocketServices sessionSocketServices;
 
     @GetMapping("/create")
     public UserRequest create() {
         var session = sessionManagerService.create(NewSessionRequest.builder().name("myName").build());
         System.out.printf("yes %s", session.getName());
         return new UserRequest("TestUser");
+    }
+
+    @GetMapping("/test")
+    public void test() {
+        sessionSocketServices.sendClose(1);
     }
 }
