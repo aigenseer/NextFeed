@@ -48,8 +48,4 @@ public class SessionManagerRestController implements SessionManagerService {
         return sessionManager.saveSession(session);
     }
 
-
-
-
-
 }
