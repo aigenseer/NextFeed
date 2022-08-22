@@ -1,7 +1,9 @@
-package com.nextfeed.service.manager.session;
+package com.nextfeed.service.manager.participant;
 
 
+import com.nextfeed.library.core.entity.Participant;
 import com.nextfeed.library.core.entity.Session;
+import com.nextfeed.library.core.service.ParticipantManagerService;
 import com.nextfeed.library.core.service.SessionManagerService;
 import com.nextfeed.library.core.service.dto.manager.session.NewSessionRequest;
 import lombok.AllArgsConstructor;
@@ -24,32 +26,17 @@ import org.springframework.web.bind.annotation.*;
 @RefreshScope
 @AllArgsConstructor
 @RestController
-@RequestMapping(value = "/session-manager")
-public class SessionManagerRestController implements SessionManagerService {
+@RequestMapping(value = "/participant-manager")
+public class ParticipantManagerRestController implements ParticipantManagerService {
 
     public static void main(String[] args) {
-        SpringApplication.run(SessionManagerRestController.class, args);
+        SpringApplication.run(ParticipantManagerRestController.class, args);
     }
 
-    private final SessionManager sessionManager;
+    private final ParticipantManager participantManager;
 
-    @PostMapping("/v1/session/create")
-    public Session createSessionEntity(@RequestBody NewSessionRequest request){
-        return sessionManager.createSessionEntity(request.getName());
+    @PostMapping("/participant-manager/v1/session/{sessionId}")
+    public Participant createParticipantBySessionId(@PathVariable("sessionId") Integer sessionId, @RequestBody Participant participant) {
+        return participantManager.createParticipantBySessionId(sessionId, participant.getNickname());
     }
-
-    @GetMapping("/session-manager/v1/session/{sessionId}")
-    public Session getSessionById(@PathVariable("sessionId") Integer sessionId){
-        return sessionManager.getSessionById(sessionId);
-    }
-
-    @PostMapping("/session-manager/v1/session/save")
-    public Session saveSession(@RequestBody Session session){
-        return sessionManager.saveSession(session);
-    }
-
-
-
-
-
 }

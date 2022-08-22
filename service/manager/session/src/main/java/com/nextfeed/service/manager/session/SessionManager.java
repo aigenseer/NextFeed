@@ -21,6 +21,8 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class SessionManager {
 
+    //Todo: muss noch integriert werden
+//    private final SessionDataService sessionDataService;
     private final SessionDBService sessionDBService;
     private static final int SESSION_CODE_LENGTH = 8;
 

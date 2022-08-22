@@ -1,9 +1,12 @@
 package com.nextfeed.library.core.service;
 
 import com.nextfeed.library.core.config.LoadBalancerConfiguration;
+import com.nextfeed.library.core.entity.Session;
 import com.nextfeed.library.core.service.dto.manager.session.NewSessionRequest;
 import org.springframework.cloud.loadbalancer.annotation.LoadBalancerClient;
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -12,6 +15,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 public interface SessionManagerService {
 
     @PostMapping("/session-manager/v1/session/create")
-    public NewSessionRequest create(@RequestBody NewSessionRequest request);
+    public Session createSessionEntity(@RequestBody NewSessionRequest request);
+
+    @GetMapping("/session-manager/v1/session/{sessionId}")
+    public Session getSessionById(@PathVariable("sessionId") Integer sessionId);
+
+    @PostMapping("/session-manager/v1/session/save")
+    public Session saveSession(@RequestBody Session session);
 
 }

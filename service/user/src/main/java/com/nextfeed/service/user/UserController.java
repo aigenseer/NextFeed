@@ -41,7 +41,7 @@ public class UserController {
 
     @GetMapping("/create")
     public UserRequest create() {
-        var session = sessionManagerService.create(NewSessionRequest.builder().name("myName").build());
+        var session = sessionManagerService.createSessionEntity(NewSessionRequest.builder().name("myName").build());
         System.out.printf("yes %s", session.getName());
         return new UserRequest("TestUser");
     }

@@ -45,7 +45,7 @@ public class SurveyController implements SurveyService {
 
     @GetMapping("/test")
     public TestRequest create() {
-        var session = sessionManagerService.create(NewSessionRequest.builder().name("Hallo?").build());
+        var session = sessionManagerService.createSessionEntity(NewSessionRequest.builder().name("Hallo?").build());
         System.out.println(session.getName());
         System.out.println("yes geht " +uniqueID+ "password: "+password);
 //        try {

@@ -11,6 +11,8 @@ include 'service:webclient'
 include 'service:socket:session'
 
 include 'service:manager:session'
+include 'service:manager:participant'
+
 include 'service:survey'
 include 'service:user'
 
