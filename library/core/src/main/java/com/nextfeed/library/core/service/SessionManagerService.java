@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 public interface SessionManagerService {
 
     @PostMapping("/session-manager/v1/session/create")
-    public Session createSessionEntity(@RequestBody NewSessionRequest request);
+    public Session createSession(@RequestBody NewSessionRequest request);
 
     @GetMapping("/session-manager/v1/session/{sessionId}")
     public Session getSessionById(@PathVariable("sessionId") Integer sessionId);

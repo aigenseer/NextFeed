@@ -41,16 +41,16 @@ public class SessionManagerRestController implements SessionManagerService {
 
 
     @PostMapping("/v1/session/create")
-    public Session createSessionEntity(@RequestBody NewSessionRequest request){
-        return sessionManager.createSessionEntity(request.getName());
+    public Session createSession(@RequestBody NewSessionRequest request){
+        return sessionManager.createSession(request.getName());
     }
 
-    @GetMapping("/session-manager/v1/session/{sessionId}")
+    @GetMapping("/v1/session/{sessionId}")
     public Session getSessionById(@PathVariable("sessionId") Integer sessionId){
         return sessionManager.getSessionById(sessionId);
     }
 
-    @PostMapping("/session-manager/v1/session/save")
+    @PostMapping("/v1/session/save")
     public Session saveSession(@RequestBody Session session){
         return sessionManager.saveSession(session);
     }

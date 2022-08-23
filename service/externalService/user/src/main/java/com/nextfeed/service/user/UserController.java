@@ -1,6 +1,8 @@
 package com.nextfeed.service.user;
 
 
+import com.nextfeed.library.core.entity.Participant;
+import com.nextfeed.library.core.service.ParticipantManagerService;
 import com.nextfeed.library.core.service.SessionManagerService;
 import com.nextfeed.library.core.service.SessionSocketService;
 import com.nextfeed.library.core.service.SessionSocketServices;
@@ -35,18 +37,21 @@ public class UserController {
 
 //    private final SurveyService surveyService;
     private final SessionManagerService sessionManagerService;
+    private final ParticipantManagerService participantManagerService;
     private final SessionSocketService sessionSocketService;
     private final SessionSocketServices sessionSocketServices;
 
     @GetMapping("/create")
     public UserRequest create() {
-        var session = sessionManagerService.createSessionEntity(NewSessionRequest.builder().name("myName").build());
+        var session = sessionManagerService.createSession(NewSessionRequest.builder().name("myName").build());
         System.out.printf("yes %s", session.getName());
         return new UserRequest("TestUser");
     }
 
     @GetMapping("/test")
     public void test() {
-        sessionSocketServices.sendClose(1);
+        var session = sessionManagerService.createSession(NewSessionRequest.builder().name("myName").build());
+        participantManagerService.createParticipantBySessionId(session.getId(), Participant.builder().nickname("MyNickname").build());
+//        sessionSocketServices.sendClose(1);
     }
 }
