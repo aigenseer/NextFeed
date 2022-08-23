@@ -3,15 +3,16 @@ package com.nextfeed.library.manager.repository.service;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
 
 @AllArgsConstructor
-public abstract class AbstractService <TYPE,REPO extends JpaRepository<TYPE,Integer>>{
+public abstract class AbstractService <TYPE,REPO extends CrudRepository<TYPE,Integer>>{
     protected final REPO repo;
 
     public List<TYPE> findAll(){
-        return repo.findAll();
+        return (List<TYPE>) repo.findAll();
     }
 
     public TYPE findById(int id){
@@ -35,6 +36,6 @@ public abstract class AbstractService <TYPE,REPO extends JpaRepository<TYPE,Inte
     }
 
     public List<TYPE> saveAll(Iterable<TYPE> toSave){
-        return repo.saveAll(toSave);
+        return (List<TYPE>) repo.saveAll(toSave);
     }
 }

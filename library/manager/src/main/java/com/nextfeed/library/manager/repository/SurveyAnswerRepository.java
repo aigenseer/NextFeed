@@ -2,6 +2,9 @@ package com.nextfeed.library.manager.repository;
 
 import com.nextfeed.library.core.entity.survey.SurveyAnswer;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
 
-public interface SurveyAnswerRepository extends JpaRepository<SurveyAnswer,Integer> {
+@Repository
+public interface SurveyAnswerRepository extends CrudRepository<SurveyAnswer,Integer> {
 }

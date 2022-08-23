@@ -7,7 +7,6 @@ plugins {
 
 group = 'com.nextfeed.library.manager'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = "17"
 
 bootJar {
     enabled = false
@@ -53,4 +52,3 @@ dependencies {
     implementation project(':library:core')
 
 }
-targetCompatibility = JavaVersion.VERSION_16

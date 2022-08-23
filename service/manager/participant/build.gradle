@@ -39,7 +39,7 @@ dependencies {
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
 
-    runtimeOnly 'com.h2database:h2:1.4.200'
+//    runtimeOnly 'com.h2database:h2'
 
     implementation project(':library:core')
     implementation project(':library:manager')
