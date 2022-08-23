@@ -1,7 +1,6 @@
 package com.nextfeed.service.user;
 
 
-import com.nextfeed.library.core.entity.Participant;
 import com.nextfeed.library.core.service.SessionManagerService;
 import com.nextfeed.library.core.service.SessionSocketService;
 import com.nextfeed.library.core.service.SessionSocketServices;

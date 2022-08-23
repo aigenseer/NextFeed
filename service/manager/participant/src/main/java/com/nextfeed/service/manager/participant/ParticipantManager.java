@@ -5,20 +5,14 @@ package com.nextfeed.service.manager.participant;
 
 import com.nextfeed.library.core.entity.Participant;
 import com.nextfeed.library.core.entity.Session;
-import com.nextfeed.library.core.entity.SessionMetadata;
 import com.nextfeed.library.core.service.SessionManagerService;
-import com.nextfeed.library.core.utils.StringUtils;
 import com.nextfeed.library.manager.repository.service.ParticipantDBService;
-import com.nextfeed.library.manager.repository.service.SessionDBService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.Date;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor

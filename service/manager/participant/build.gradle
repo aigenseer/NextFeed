@@ -33,14 +33,11 @@ dependencies {
     implementation 'com.sun.jersey.contribs:jersey-apache-client4:1.19.4'
     implementation 'org.springframework.boot:spring-boot-starter-web'
 
-
-
-
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
-//    runtimeOnly 'com.h2database:h2'
+    implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
 
     runtimeOnly 'com.h2database:h2:1.4.200'
 
