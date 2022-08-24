@@ -1,6 +1,9 @@
 package com.nextfeed.service.socket.session;
 
 
+import com.nextfeed.library.core.service.manager.MoodManagerService;
+import com.nextfeed.library.core.service.manager.ParticipantManagerService;
+import com.nextfeed.library.core.service.manager.dto.mood.NewCalculatedMoodRequest;
 import com.nextfeed.library.socket.utils.PrincipalUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.SpringApplication;
@@ -30,14 +33,17 @@ public class SessionSocketController {
         SpringApplication.run(SessionSocketController.class, args);
     }
 
+    private final ParticipantManagerService participantManagerService;
+    private final MoodManagerService moodManagerService;
+
     @MessageMapping("/participant/session/{sessionId}/mood/{rating}")
     public void ratingChange(@DestinationVariable Integer sessionId, @DestinationVariable Integer rating, Principal principal){
         var claimId = PrincipalUtils.getClaim("id", principal);
         if(claimId != null){
             int participantId = claimId.asInt();
-//            if(participantManager.existsParticipantId(participantId)){
-//                moodManager.createCalculatedMoodValue(sessionId, participantId, rating);
-//            }
+            if(participantManagerService.existsParticipantId(participantId)){
+                moodManagerService.createCalculatedMoodValue(sessionId, new NewCalculatedMoodRequest(participantId, rating));
+            }
         }
     }
 
