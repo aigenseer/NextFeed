@@ -18,6 +18,7 @@ include 'service:externalService:user'
 //Session
 include 'service:socket:session'
 include 'service:socket:question'
+include 'service:socket:survey'
 
 //Manager
 include 'service:manager:session'

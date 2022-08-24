@@ -16,7 +16,7 @@ public class QuestionSocketServices {
     private final static String INSTANCE_NAME = "question-socket-service";
 
     public void sendQuestion(Integer sessionId, Question question){
-        String path = "/question-socket/v1/socket/session/%s/question".formatted(sessionId);
+        String path = "/question-socket/v1/socket/session/%d/question".formatted(sessionId);
         serviceUtils.getInstanceInfoByName(INSTANCE_NAME).forEach(instance -> {
             try {
                 serviceUtils.postRequest(serviceUtils.getURIByInstance(instance, path), question, String.class);

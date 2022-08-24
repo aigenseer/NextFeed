@@ -1,20 +1,19 @@
 package com.nextfeed.service.socket.question;
 
 import com.nextfeed.library.core.entity.Question;
+import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
 
+@RequiredArgsConstructor
 @Service
 public class QuestionService {
-    private final SimpMessagingTemplate simpMessagingTemplate;
-    private final String WS_MESSAGE_TRANSFER_DESTINATION = "/%s/session/%d/question/onupdate";
-    private final String[] roots = {"admin","participant"};
 
-    QuestionService(SimpMessagingTemplate simpMessagingTemplate){
-        this.simpMessagingTemplate = simpMessagingTemplate;
-    }
+    private final SimpMessagingTemplate simpMessagingTemplate;
+    private static final String WS_MESSAGE_TRANSFER_DESTINATION = "/%s/session/%d/question/onupdate";
+    private static final String[] roots = {"admin","participant"};
 
     public void sendQuestion(int sessionId, Question question){
                     Arrays.stream(roots).
