@@ -5,7 +5,7 @@ package com.nextfeed.service.manager.participant;
 
 import com.nextfeed.library.core.entity.Participant;
 import com.nextfeed.library.core.entity.Session;
-import com.nextfeed.library.core.service.SessionManagerService;
+import com.nextfeed.library.core.service.manager.SessionManagerService;
 import com.nextfeed.library.manager.repository.service.ParticipantDBService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

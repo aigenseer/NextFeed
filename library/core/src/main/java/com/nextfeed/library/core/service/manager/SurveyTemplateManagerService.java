@@ -1,4 +1,4 @@
-package com.nextfeed.library.core.service;
+package com.nextfeed.library.core.service.manager;
 
 import com.nextfeed.library.core.config.LoadBalancerConfiguration;
 import org.springframework.cloud.loadbalancer.annotation.LoadBalancerClient;

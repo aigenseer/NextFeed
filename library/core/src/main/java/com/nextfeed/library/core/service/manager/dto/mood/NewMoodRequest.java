@@ -1,4 +1,4 @@
-package com.nextfeed.library.core.service.dto.manager.mood;
+package com.nextfeed.library.core.service.manager.dto.mood;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class NewCalculatedMoodRequest {
+public class NewMoodRequest {
     private Integer moodValue;
-    private Integer participantId;
+    private Integer participantsCount;
 }

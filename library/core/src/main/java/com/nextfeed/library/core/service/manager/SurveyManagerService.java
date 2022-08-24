@@ -1,11 +1,8 @@
-package com.nextfeed.library.core.service;
+package com.nextfeed.library.core.service.manager;
 
 import com.nextfeed.library.core.config.LoadBalancerConfiguration;
-import com.nextfeed.library.core.entity.MoodEntity;
 import com.nextfeed.library.core.entity.survey.Survey;
 import com.nextfeed.library.core.entity.survey.SurveyTemplate;
-import com.nextfeed.library.core.service.dto.manager.mood.NewCalculatedMoodRequest;
-import com.nextfeed.library.core.service.dto.manager.mood.NewMoodRequest;
 import org.springframework.cloud.loadbalancer.annotation.LoadBalancerClient;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PathVariable;

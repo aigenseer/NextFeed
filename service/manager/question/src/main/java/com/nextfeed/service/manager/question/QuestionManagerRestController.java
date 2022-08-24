@@ -2,8 +2,8 @@ package com.nextfeed.service.manager.question;
 
 
 import com.nextfeed.library.core.entity.Question;
-import com.nextfeed.library.core.service.QuestionManagerService;
-import com.nextfeed.library.core.service.dto.manager.question.NewQuestionRequest;
+import com.nextfeed.library.core.service.manager.QuestionManagerService;
+import com.nextfeed.library.core.service.manager.dto.question.NewQuestionRequest;
 import lombok.AllArgsConstructor;
 
 import org.springframework.boot.SpringApplication;

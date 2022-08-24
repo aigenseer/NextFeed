@@ -2,11 +2,11 @@ package com.nextfeed.service.user;
 
 
 import com.nextfeed.library.core.entity.Participant;
-import com.nextfeed.library.core.service.ParticipantManagerService;
-import com.nextfeed.library.core.service.SessionManagerService;
-import com.nextfeed.library.core.service.SessionSocketService;
-import com.nextfeed.library.core.service.SessionSocketServices;
-import com.nextfeed.library.core.service.dto.manager.session.NewSessionRequest;
+import com.nextfeed.library.core.service.manager.ParticipantManagerService;
+import com.nextfeed.library.core.service.manager.SessionManagerService;
+import com.nextfeed.library.core.service.socket.SessionSocketService;
+import com.nextfeed.library.core.service.socket.SessionSocketServices;
+import com.nextfeed.library.core.service.manager.dto.session.NewSessionRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

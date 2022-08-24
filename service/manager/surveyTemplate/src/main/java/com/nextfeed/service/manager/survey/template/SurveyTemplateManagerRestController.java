@@ -1,7 +1,7 @@
 package com.nextfeed.service.manager.survey.template;
 
 import com.nextfeed.library.core.entity.survey.SurveyTemplate;
-import com.nextfeed.library.core.service.SurveyTemplateManagerService;
+import com.nextfeed.library.core.service.manager.SurveyTemplateManagerService;
 import lombok.AllArgsConstructor;
 
 import org.springframework.boot.SpringApplication;

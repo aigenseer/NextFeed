@@ -1,8 +1,8 @@
 package com.nextfeed.service.survey;
 
 
-import com.nextfeed.library.core.service.SessionManagerService;
-import com.nextfeed.library.core.service.dto.manager.session.NewSessionRequest;
+import com.nextfeed.library.core.service.manager.SessionManagerService;
+import com.nextfeed.library.core.service.manager.dto.session.NewSessionRequest;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;

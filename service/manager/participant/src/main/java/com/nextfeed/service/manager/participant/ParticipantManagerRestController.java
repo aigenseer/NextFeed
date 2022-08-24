@@ -3,7 +3,7 @@ package com.nextfeed.service.manager.participant;
 
 import com.nextfeed.library.core.entity.Participant;
 import com.nextfeed.library.core.entity.Session;
-import com.nextfeed.library.core.service.ParticipantManagerService;
+import com.nextfeed.library.core.service.manager.ParticipantManagerService;
 import lombok.AllArgsConstructor;
 
 import org.springframework.boot.SpringApplication;

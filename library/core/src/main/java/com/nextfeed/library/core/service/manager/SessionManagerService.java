@@ -1,8 +1,8 @@
-package com.nextfeed.library.core.service;
+package com.nextfeed.library.core.service.manager;
 
 import com.nextfeed.library.core.config.LoadBalancerConfiguration;
 import com.nextfeed.library.core.entity.Session;
-import com.nextfeed.library.core.service.dto.manager.session.NewSessionRequest;
+import com.nextfeed.library.core.service.manager.dto.session.NewSessionRequest;
 import org.springframework.cloud.loadbalancer.annotation.LoadBalancerClient;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;

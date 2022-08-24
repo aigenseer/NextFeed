@@ -1,4 +1,4 @@
-package com.nextfeed.library.core.service.dto.manager.session;
+package com.nextfeed.library.core.service.manager.dto.session;
 
 
 import lombok.*;

@@ -1,4 +1,4 @@
-package com.nextfeed.library.core.service.dto.manager.question;
+package com.nextfeed.library.core.service.manager.dto.question;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

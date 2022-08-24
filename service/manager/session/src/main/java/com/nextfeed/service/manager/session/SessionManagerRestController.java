@@ -2,8 +2,8 @@ package com.nextfeed.service.manager.session;
 
 
 import com.nextfeed.library.core.entity.Session;
-import com.nextfeed.library.core.service.SessionManagerService;
-import com.nextfeed.library.core.service.dto.manager.session.NewSessionRequest;
+import com.nextfeed.library.core.service.manager.SessionManagerService;
+import com.nextfeed.library.core.service.manager.dto.session.NewSessionRequest;
 import lombok.AllArgsConstructor;
 
 import org.springframework.boot.SpringApplication;

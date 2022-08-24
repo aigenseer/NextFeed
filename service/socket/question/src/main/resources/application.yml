@@ -1,5 +1,5 @@
 server:
-  port: 8220
+  port: 8210
 #  port: 0
 
 spring:

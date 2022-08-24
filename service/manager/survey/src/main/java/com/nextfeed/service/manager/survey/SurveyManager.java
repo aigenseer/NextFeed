@@ -3,7 +3,7 @@ package com.nextfeed.service.manager.survey;
 import com.nextfeed.library.core.entity.survey.Survey;
 import com.nextfeed.library.core.entity.survey.SurveyAnswer;
 import com.nextfeed.library.core.entity.survey.SurveyTemplate;
-import com.nextfeed.library.core.service.SessionManagerService;
+import com.nextfeed.library.core.service.manager.SessionManagerService;
 import com.nextfeed.library.manager.repository.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
