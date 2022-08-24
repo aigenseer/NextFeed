@@ -75,7 +75,8 @@ public class ParticipantManager {
         return participantDBService.findById(participantId)!=null;
     }
 
-
-
+    public Participant getParticipantById(int participantId){
+        return participantDBService.findById(participantId);
+    }
 
 }

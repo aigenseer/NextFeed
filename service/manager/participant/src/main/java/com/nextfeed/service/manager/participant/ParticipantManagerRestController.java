@@ -72,4 +72,9 @@ public class ParticipantManagerRestController implements ParticipantManagerServi
         return participantManager.existsParticipantId(participantId);
     }
 
+    @RequestMapping(value = "/v1/participant/{participantId}", method = RequestMethod.GET)
+    public Participant getParticipant(@PathVariable("participantId") Integer participantId) {
+        return participantManager.getParticipantById(participantId);
+    }
+
 }

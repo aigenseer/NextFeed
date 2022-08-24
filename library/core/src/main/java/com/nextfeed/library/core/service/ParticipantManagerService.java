@@ -35,5 +35,9 @@ public interface ParticipantManagerService {
     @RequestMapping(value = "/v1/participant/{participantId}/exists", method = RequestMethod.GET)
     public Boolean existsParticipantId(@PathVariable("participantId") Integer participantId);
 
+    @RequestMapping(value = "/v1/participant/{participantId}", method = RequestMethod.GET)
+    public Participant getParticipant(@PathVariable("participantId") Integer participantId);
+
+
 
 }

@@ -1,15 +1,12 @@
 server:
-  port: 8140
+  port: 8160
 
 spring:
   config:
     import:
       - classpath:db.config.yml
-      - eureka.client.config.yml
+      - classpath:eureka.client.config.yml
   application:
-    name: session-manager-service
+    name: survey-template-manager-service
   main:
     allow-bean-definition-overriding: true
-
-
-
