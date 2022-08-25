@@ -13,10 +13,10 @@ import org.springframework.stereotype.Service;
 public class SurveyService {
     private final SimpMessagingTemplate simpMessagingTemplate;
 
-    private static final String WS_MESSAGE_CREATE_TRANSFER_DESTINATION = "/%s/session/%d/survey/oncreate";
-    private static final String WS_MESSAGE_CLOSE_TRANSFER_DESTINATION = "/session/%d/survey/%d/onclose";
-    private static final String WS_MESSAGE_RESULT_TRANSFER_DESTINATION = "/%s/session/%d/survey/%d/onresult";
-    private static final String WS_MESSAGE_UPDATE_TRANSFER_DESTINATION = "/admin/session/%d/survey/%d/onupdate";
+    private static final String WS_MESSAGE_CREATE_TRANSFER_DESTINATION = "/socket/survey-socket/v1/%s/session/%d/survey/oncreate";
+    private static final String WS_MESSAGE_CLOSE_TRANSFER_DESTINATION = "/socket/survey-socket/v1/session/%d/survey/%d/onclose";
+    private static final String WS_MESSAGE_RESULT_TRANSFER_DESTINATION = "/socket/survey-socket/v1/%s/session/%d/survey/%d/onresult";
+    private static final String WS_MESSAGE_UPDATE_TRANSFER_DESTINATION = "/socket/survey-socket/v1/admin/session/%d/survey/%d/onupdate";
 
     public void onCreateByAdmin(int sessionId, Survey survey){
         String path = WS_MESSAGE_CREATE_TRANSFER_DESTINATION.formatted("admin", sessionId);

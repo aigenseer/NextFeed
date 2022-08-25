@@ -27,7 +27,7 @@ import org.springframework.web.bind.annotation.*;
 @RefreshScope
 @AllArgsConstructor
 @RestController
-@RequestMapping(value = "/question-manager")
+@RequestMapping(value = "/api/question-manager")
 public class QuestionManagerRestController implements QuestionManagerService {
 
     public static void main(String[] args) {

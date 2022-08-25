@@ -35,7 +35,7 @@ public class QuestionSocketController {
     private final SessionManagerService sessionManagerService;
     private final QuestionManagerService questionManagerService;
 
-    @MessageMapping("/participant/question/session/{sessionId}/question/{questionId}/rating/{rating}")
+    @MessageMapping("/socket/question-socket/v1/participant/question/session/{sessionId}/question/{questionId}/rating/{rating}")
     public void ratingChange(@DestinationVariable Integer sessionId, @DestinationVariable Integer questionId, @DestinationVariable String rating, Principal principal){
         int userId = PrincipalUtils.getClaim("id", principal).asInt();
         if(sessionManagerService.existsSessionId(sessionId) && questionManagerService.existsQuestionId(questionId)){
@@ -48,7 +48,7 @@ public class QuestionSocketController {
         }
     }
 
-    @MessageMapping("/admin/question/session/{sessionId}/question/{questionId}/close")
+    @MessageMapping("/socket/question-socket/v1/admin/question/session/{sessionId}/question/{questionId}/close")
     public void closeQuestion(@DestinationVariable Integer sessionId, @DestinationVariable Integer questionId){
         if(sessionManagerService.existsSessionId(sessionId) && questionManagerService.existsQuestionId(questionId)){
             questionManagerService.closeQuestion(sessionId, questionId);

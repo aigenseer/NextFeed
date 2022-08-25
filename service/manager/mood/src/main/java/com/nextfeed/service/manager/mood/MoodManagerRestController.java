@@ -27,7 +27,7 @@ import org.springframework.web.bind.annotation.*;
 @RefreshScope
 @AllArgsConstructor
 @RestController
-@RequestMapping(value = "/question-manager")
+@RequestMapping(value = "/api/mood-manager")
 public class MoodManagerRestController implements MoodManagerService {
 
     public static void main(String[] args) {

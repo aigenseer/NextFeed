@@ -13,28 +13,28 @@ import java.util.List;
 @LoadBalancerClient(name = "participant-manager-service", configuration = LoadBalancerConfiguration.class)
 public interface ParticipantManagerService {
 
-    @RequestMapping(value = "/v1/session/{sessionId}", method = RequestMethod.POST)
+    @RequestMapping(value = "/api/participant-manager/v1/session/{sessionId}", method = RequestMethod.POST)
     public Participant createParticipantBySessionId(@PathVariable("sessionId") Integer sessionId, @RequestBody Participant participant);
 
-    @RequestMapping(value = "/v1/session/{sessionId}/participants", method = RequestMethod.GET)
+    @RequestMapping(value = "/api/participant-manager/v1/session/{sessionId}/participants", method = RequestMethod.GET)
     public List<Participant> getParticipantsBySessionId(@PathVariable("sessionId") Integer sessionId);
 
-    @RequestMapping(value = "/v1/session/{sessionId}/participants/connected", method = RequestMethod.GET)
+    @RequestMapping(value = "/api/participant-manager/v1/session/{sessionId}/participants/connected", method = RequestMethod.GET)
     public List<Participant> getConnectedParticipantsBySessionId(@PathVariable("sessionId") Integer sessionId);
 
-    @RequestMapping(value = "/v1/participant/{participantId}/session", method = RequestMethod.GET)
+    @RequestMapping(value = "/api/participant-manager/v1/participant/{participantId}/session", method = RequestMethod.GET)
     public Session getSessionByParticipantId(@PathVariable("participantId") Integer participantId);
 
-    @RequestMapping(value = "/v1/participant/{participantId}/session/id", method = RequestMethod.GET)
+    @RequestMapping(value = "/api/participant-manager/v1/participant/{participantId}/session/id", method = RequestMethod.GET)
     public Integer getSessionIdByParticipantId(@PathVariable("participantId") Integer participantId);
 
-    @RequestMapping(value = "/v1/participant/{participantId}/session/id", method = RequestMethod.PATCH)
+    @RequestMapping(value = "/api/participant-manager/v1/participant/{participantId}/session/id", method = RequestMethod.PUT)
     public void updateConnectionStatusByParticipantId(@PathVariable("participantId") Integer participantId, @RequestBody Boolean status);
 
-    @RequestMapping(value = "/v1/participant/{participantId}/exists", method = RequestMethod.GET)
+    @RequestMapping(value = "/api/participant-manager/v1/participant/{participantId}/exists", method = RequestMethod.GET)
     public Boolean existsParticipantId(@PathVariable("participantId") Integer participantId);
 
-    @RequestMapping(value = "/v1/participant/{participantId}", method = RequestMethod.GET)
+    @RequestMapping(value = "/api/participant-manager/v1/participant/{participantId}", method = RequestMethod.GET)
     public Participant getParticipant(@PathVariable("participantId") Integer participantId);
 
 

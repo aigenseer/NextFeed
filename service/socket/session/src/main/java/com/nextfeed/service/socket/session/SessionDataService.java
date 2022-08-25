@@ -7,9 +7,9 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 enum SessionDataServiceAdminPath {
-    sendNewParticipantToAll("/admin/session/%d/user/onjoin"),
-    sendMood("/admin/session/%d/mood/onupdate"),
-    sendParticipantConnectionStatus("/admin/session/%d/participant/connections/status");
+    sendNewParticipantToAll("/socket/session-socket/v1/admin/session/%d/user/onjoin"),
+    sendMood("/socket/session-socket/v1/admin/session/%d/mood/onupdate"),
+    sendParticipantConnectionStatus("/socket/session-socket/v1/admin/session/%d/participant/connections/status");
 
     private final String path;
     SessionDataServiceAdminPath(String path) {
@@ -23,8 +23,8 @@ enum SessionDataServiceAdminPath {
 }
 
 enum SessionDataServiceParticipantPath {
-    sendNewParticipantToAll("/participant/session/%d/user/onjoin"),
-    sendMood("/participant/session/%d/mood/onupdate");
+    sendNewParticipantToAll("/socket/session-socket/v1/participant/session/%d/user/onjoin"),
+    sendMood("/socket/session-socket/v1/participant/session/%d/mood/onupdate");
 
     private final String path;
     SessionDataServiceParticipantPath(String path) {
@@ -38,7 +38,7 @@ enum SessionDataServiceParticipantPath {
 }
 
 enum SessionDataServiceSharedPath {
-    sendClosedToAll("/session/%d/onclose");
+    sendClosedToAll("/socket/session-socket/v1/session/%d/onclose");
 
     private final String path;
     SessionDataServiceSharedPath(String path) {

@@ -2,7 +2,7 @@ package com.nextfeed.library.core.service.socket;
 
 import com.nextfeed.library.core.entity.survey.Survey;
 import com.nextfeed.library.core.entity.survey.SurveyTemplate;
-import com.nextfeed.library.core.utils.ServiceUtils;
+import com.nextfeed.library.core.utils.SocketServiceUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -10,11 +10,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class SurveySocketServices {
 
-    private final ServiceUtils serviceUtils;
+    private final SocketServiceUtils serviceUtils;
     private final static String INSTANCE_NAME = "survey-socket-service";
 
     public void onCreateByAdmin(Integer sessionId, Survey survey){
-        String path = "/survey-socket/v1/socket/session/%d/survey/admin".formatted(sessionId);
+        String path = "/api/survey-socket/v1/session/%d/survey/admin".formatted(sessionId);
         serviceUtils.getInstanceInfoByName(INSTANCE_NAME).forEach(instance -> {
             try {
                 serviceUtils.postRequest(serviceUtils.getURIByInstance(instance, path), survey, String.class);
@@ -27,7 +27,7 @@ public class SurveySocketServices {
 
 
     public void onCreateByParticipant(Integer sessionId, Integer surveyId, SurveyTemplate template){
-        String path = "/session-socket/v1/socket/session/%d/survey/%d".formatted(sessionId, surveyId);
+        String path = "/api/survey-socket/v1/session/%d/survey/%d".formatted(sessionId, surveyId);
         serviceUtils.getInstanceInfoByName(INSTANCE_NAME).forEach(instance -> {
             try {
                 serviceUtils.postRequest(serviceUtils.getURIByInstance(instance, path), template, String.class);
@@ -39,7 +39,7 @@ public class SurveySocketServices {
     }
 
     public void onClose(Integer sessionId, Integer surveyId){
-        String path = "/session-socket/v1/socket/session/%d/survey/%d/close".formatted(sessionId, surveyId);
+        String path = "/api/survey-socket/v1/session/%d/survey/%d/close".formatted(sessionId, surveyId);
         serviceUtils.getInstanceInfoByName(INSTANCE_NAME).forEach(instance -> {
             try {
                 serviceUtils.getRequest(serviceUtils.getURIByInstance(instance, path), String.class);
@@ -51,7 +51,7 @@ public class SurveySocketServices {
     }
 
     public void onUpdate(Integer sessionId, Survey survey){
-        String path = "/v1/socket/session/%d/survey/update".formatted(sessionId);
+        String path = "/api/survey-socket/v1/session/%d/survey/update".formatted(sessionId);
         serviceUtils.getInstanceInfoByName(INSTANCE_NAME).forEach(instance -> {
             try {
                 serviceUtils.postRequest(serviceUtils.getURIByInstance(instance, path), survey, String.class);
@@ -63,7 +63,7 @@ public class SurveySocketServices {
     }
 
     public void onResult(Integer sessionId, Survey survey){
-        String path = "/session-socket/v1/socket/session/%d/survey/result".formatted(sessionId);
+        String path = "/api/survey-socket/v1/session/%d/survey/result".formatted(sessionId);
         serviceUtils.getInstanceInfoByName(INSTANCE_NAME).forEach(instance -> {
             try {
                 serviceUtils.postRequest(serviceUtils.getURIByInstance(instance, path), survey, String.class);

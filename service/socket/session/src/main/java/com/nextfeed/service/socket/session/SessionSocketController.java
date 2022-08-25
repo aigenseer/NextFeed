@@ -36,7 +36,7 @@ public class SessionSocketController {
     private final ParticipantManagerService participantManagerService;
     private final MoodManagerService moodManagerService;
 
-    @MessageMapping("/participant/session/{sessionId}/mood/{rating}")
+    @MessageMapping("/socket/session-socket/v1/participant/session/{sessionId}/mood/{rating}")
     public void ratingChange(@DestinationVariable Integer sessionId, @DestinationVariable Integer rating, Principal principal){
         var claimId = PrincipalUtils.getClaim("id", principal);
         if(claimId != null){

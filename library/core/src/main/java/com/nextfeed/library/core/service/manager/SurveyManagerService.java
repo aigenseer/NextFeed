@@ -16,16 +16,16 @@ import java.util.Collection;
 @LoadBalancerClient(name = "survey-manager-service", configuration = LoadBalancerConfiguration.class)
 public interface SurveyManagerService {
 
-    @RequestMapping(value = "/v1/session/{sessionId}/survey/create", method = RequestMethod.POST)
+    @RequestMapping(value = "/api/survey-manager/v1/session/{sessionId}/survey/create", method = RequestMethod.POST)
     public SurveyTemplate createSurvey(@PathVariable("sessionId") Integer sessionId, @RequestBody SurveyTemplate template);
 
-    @RequestMapping(value = "/v1/survey/update", method = RequestMethod.PATCH)
+    @RequestMapping(value = "/api/survey-manager/v1/survey/update", method = RequestMethod.PUT)
     public void updateSurvey(@RequestBody Survey survey);
 
-    @RequestMapping(value = "/v1/session/{sessionId}/surveys", method = RequestMethod.GET)
+    @RequestMapping(value = "/api/survey-manager/v1/session/{sessionId}/surveys", method = RequestMethod.GET)
     public Collection<Survey> getSurveys(@PathVariable("sessionId") Integer sessionId);
 
-    @RequestMapping(value = "/v1/session/{sessionId}/survey/{surveyId}/participant/{participantId}/answer", method = RequestMethod.PUT)
+    @RequestMapping(value = "/api/survey-manager/v1/session/{sessionId}/survey/{surveyId}/participant/{participantId}/answer", method = RequestMethod.PUT)
     public void addAnswerToSurvey(@PathVariable("sessionId") Integer sessionId, @PathVariable("surveyId") Integer surveyId, @PathVariable("participantId") Integer participantId, @RequestBody String answer);
 
 }

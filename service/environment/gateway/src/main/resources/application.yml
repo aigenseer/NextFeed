@@ -1,5 +1,5 @@
 server:
-  port: 8030
+  port: 8001
 
 spring:
   main:
@@ -13,14 +13,31 @@ spring:
         locator:
           enabled: true
       routes:
-        - id: customers
+        - id: obsolet-service
+          uri: lb://obsolet-service
+          predicates:
+            - Path=/api/obsolet-service/**
+        - id: session-service
+          uri: lb://session-service
+          predicates:
+            - Path=/api/session-service/**
+        - id: survey-service
           uri: lb://survey-service
           predicates:
-            - Path=/survey/**
-        - id: restaurants
-          uri: lb://user-service
+            - Path=/api/survey-service/**
+
+        - id: session-socket
+          uri: lb://session-socket
           predicates:
-            - Path=/user/**
+            - Path=/socket/session-socket/**
+        - id: survey-socket
+          uri: lb://survey-socket
+          predicates:
+            - Path=/socket/survey-socket/**
+        - id: question-socket
+          uri: lb://question-socket
+          predicates:
+            - Path=/socket/question-socket/**
 
 eureka:
   client:

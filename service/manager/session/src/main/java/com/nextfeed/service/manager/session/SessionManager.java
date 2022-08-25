@@ -41,9 +41,7 @@ public class SessionManager {
         return session;
     }
 
-    public SessionMetadata toMetadata(Session session){
-        return new SessionMetadata(session.getId(),session.getName(),session.getClosed());
-    }
+
 
     public boolean isCorrectSessionCode(Integer sessionId, String sessionCode){
         Session session = getSessionById(sessionId);
@@ -70,17 +68,7 @@ public class SessionManager {
     }
 
 
-    public void checkSessionId(Integer sessionId, boolean closedAllowed){
-        if(sessionId == null)
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "SessionId are not exists");
-        Session session = getSessionById(sessionId);
-        if (session == null || closedAllowed && session.getClosed() != 0L)
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, String.format("SessionId %d are not exists", sessionId));
-    }
 
-    public void checkSessionId(Integer sessionId){
-        this.checkSessionId(sessionId, false);
-    }
 
     public boolean existsSessionId(int sessionId){
         return getSessionById(sessionId) != null;

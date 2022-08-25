@@ -26,7 +26,7 @@ import java.util.Collection;
 @RefreshScope
 @AllArgsConstructor
 @RestController
-@RequestMapping(value = "/survey-manager")
+@RequestMapping(value = "/api/survey-template-manager")
 public class SurveyTemplateManagerRestController implements SurveyTemplateManagerService {
 
     public static void main(String[] args) {

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Set;
 
 
@@ -23,10 +24,10 @@ public class Survey {
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "survey")
     private Set<SurveyAnswer> surveyAnswers = Set.of();
 
-//    @JsonGetter("answers")
-//    public List<String> getAnswers(){
-//        return surveyAnswers.stream().map(SurveyAnswer::getValue).toList();
-//    }
+    @JsonIgnore
+    public List<String> getAnswers(){
+        return surveyAnswers.stream().map(SurveyAnswer::getValue).toList();
+    }
 
     @ManyToOne
     @JoinColumn(name = "template_id")

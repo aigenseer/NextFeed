@@ -28,7 +28,7 @@ import java.util.List;
 @RefreshScope
 @AllArgsConstructor
 @RestController
-@RequestMapping(value = "/participant-manager")
+@RequestMapping(value = "/api/participant-manager")
 public class ParticipantManagerRestController implements ParticipantManagerService {
 
     public static void main(String[] args) {
@@ -62,7 +62,7 @@ public class ParticipantManagerRestController implements ParticipantManagerServi
         return participantManager.getSessionIdByParticipantId(participantId);
     }
 
-    @RequestMapping(value = "/v1/participant/{participantId}/session/id", method = RequestMethod.PATCH)
+    @RequestMapping(value = "/v1/participant/{participantId}/session/id", method = RequestMethod.PUT)
     public void updateConnectionStatusByParticipantId(@PathVariable("participantId") Integer participantId, @RequestBody Boolean status) {
         participantManager.updateConnectionStatusByParticipantId(participantId, status);
     }

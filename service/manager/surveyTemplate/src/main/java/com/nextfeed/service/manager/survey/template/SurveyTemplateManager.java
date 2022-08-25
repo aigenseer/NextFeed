@@ -19,11 +19,6 @@ public class SurveyTemplateManager {
         return surveyTemplateDBService.save(template);
     }
 
-    public void checkTemplateId(int templateId){
-        if (surveyTemplateDBService.findById(templateId)==null)
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, String.format("Template-Id %d are not exists", templateId));
-    }
-
     public Collection<SurveyTemplate> getAllTemplates(){
         return surveyTemplateDBService.findAll();
     }

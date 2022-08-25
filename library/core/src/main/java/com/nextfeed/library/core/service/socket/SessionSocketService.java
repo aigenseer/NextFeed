@@ -11,15 +11,15 @@ import java.util.List;
 @LoadBalancerClient(name = "session-socket-service")
 public interface SessionSocketService {
 
-    @RequestMapping(value = "/v1/socket/session/{sessionId}/notify/participant", method = RequestMethod.POST)
+    @RequestMapping(value = "/api/session-socket/v1/session/{sessionId}/notify/participant", method = RequestMethod.POST)
     public void sendNewParticipantToAll(@PathVariable("sessionId") Integer sessionId, @RequestBody Participant participant);
 
-    @RequestMapping(value = "/v1/socket/session/{sessionId}/notify/mood", method = RequestMethod.POST)
+    @RequestMapping(value = "/api/session-socket/v1/session/{sessionId}/notify/mood", method = RequestMethod.POST)
     public void sendMood(@PathVariable("sessionId") Integer sessionId, @RequestBody Double value);
 
-    @RequestMapping(value = "/v1/socket/session/{sessionId}/notify/session/close", method = RequestMethod.GET)
+    @RequestMapping(value = "/api/session-socket/v1/session/{sessionId}/notify/session/close", method = RequestMethod.GET)
     public void sendClose(@PathVariable("sessionId") Integer sessionId);
 
-    @RequestMapping(value = "/v1/socket/session/{sessionId}/notify/participants/status", method = RequestMethod.POST)
+    @RequestMapping(value = "/api/session-socket/v1/session/{sessionId}/notify/participants/status", method = RequestMethod.POST)
     public void sendConnectionStatus(@PathVariable("sessionId") Integer sessionId, @RequestBody List<Participant> participants);
 }

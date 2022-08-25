@@ -12,8 +12,12 @@ include 'service:environment:config'
 
 //External Service
 include 'service:externalService:webclient'
-include 'service:externalService:survey'
 include 'service:externalService:user'
+
+include 'service:externalService:session'
+include 'service:externalService:survey'
+
+include 'service:externalService:obsolet'
 
 //Session
 include 'service:socket:session'

@@ -14,16 +14,16 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @LoadBalancerClient(name = "question-manager-service", configuration = LoadBalancerConfiguration.class)
 public interface QuestionManagerService {
 
-    @RequestMapping(value = "/v1/question/{questionId}/exists", method = RequestMethod.GET)
+    @RequestMapping(value = "/api/question-manager/v1/question/{questionId}/exists", method = RequestMethod.GET)
     public Boolean existsQuestionId(@PathVariable("questionId") Integer questionId);
 
-    @RequestMapping(value = "/v1/session/{sessionId}/question/create", method = RequestMethod.POST)
+    @RequestMapping(value = "/api/question-manager/v1/session/{sessionId}/question/create", method = RequestMethod.POST)
     public Question createQuestion(@PathVariable("sessionId") Integer sessionId, @RequestBody NewQuestionRequest request);
 
-    @RequestMapping(value = "/v1/session/{sessionId}/question/{questionId}/participant/{participantId}", method = RequestMethod.PUT)
+    @RequestMapping(value = "/api/question-manager/v1/session/{sessionId}/question/{questionId}/participant/{participantId}", method = RequestMethod.PUT)
     public void ratingUpByQuestionId(@PathVariable("sessionId") Integer sessionId, @PathVariable("questionId") Integer questionId, @PathVariable("participantId") Integer participantId, @RequestBody Boolean rating);
 
-    @RequestMapping(value = "/v1/session/{sessionId}/question/{questionId}/close", method = RequestMethod.POST)
+    @RequestMapping(value = "/api/question-manager/v1/session/{sessionId}/question/{questionId}/close", method = RequestMethod.POST)
     public void closeQuestion(@PathVariable("sessionId") Integer sessionId, @PathVariable("questionId") Integer questionId);
 
 }

@@ -9,6 +9,6 @@ import org.springframework.web.bind.annotation.*;
 @LoadBalancerClient(name = "question-socket-service")
 public interface QuestionSocketService {
 
-    @RequestMapping(value = "/v1/socket/session/{sessionId}/question", method = RequestMethod.POST)
+    @RequestMapping(value = "/api/question-socket/v1/session/{sessionId}/question", method = RequestMethod.POST)
     public void sendQuestion(@PathVariable("sessionId") Integer sessionId, @RequestBody Question question);
 }

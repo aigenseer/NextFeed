@@ -66,11 +66,6 @@ public class ParticipantManager {
         }
     }
 
-    public void checkParticipantId(Integer participantId){
-        if (participantId == null || participantDBService.findById(participantId)==null)
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, String.format("Participant-Id %d are not exists", participantId));
-    }
-
     public boolean existsParticipantId(int participantId){
         return participantDBService.findById(participantId)!=null;
     }

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.netflix.appinfo.InstanceInfo;
 import com.netflix.discovery.EurekaClient;
+import com.netflix.discovery.shared.Application;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -14,16 +15,22 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
 
 @RequiredArgsConstructor
 @Service
-public class ServiceUtils {
+public class SocketServiceUtils {
 
     private final EurekaClient eurekaClient;
 
     public List<InstanceInfo> getInstanceInfoByName(String instanceName){
-        return eurekaClient.getApplication(instanceName).getInstances();
+        Application application = eurekaClient.getApplication(instanceName);
+        if(application != null){
+            return application.getInstances();
+        }
+        System.out.println("No instance of %s found".formatted(instanceName));
+        return new ArrayList<>();
     }
 
     public String objectToJson(Object o){

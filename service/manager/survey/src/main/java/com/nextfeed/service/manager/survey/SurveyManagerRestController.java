@@ -27,7 +27,7 @@ import java.util.Collection;
 @RefreshScope
 @AllArgsConstructor
 @RestController
-@RequestMapping(value = "/survey-manager")
+@RequestMapping(value = "/api/survey-manager")
 public class SurveyManagerRestController implements SurveyManagerService {
 
     public static void main(String[] args) {
@@ -41,7 +41,7 @@ public class SurveyManagerRestController implements SurveyManagerService {
         return surveyManager.createSurvey(sessionId, template);
     }
 
-    @RequestMapping(value = "/v1/survey/update", method = RequestMethod.PATCH)
+    @RequestMapping(value = "/v1/survey/update", method = RequestMethod.PUT)
     public void updateSurvey(@RequestBody Survey survey) {
         surveyManager.updateSurvey(survey);
     }

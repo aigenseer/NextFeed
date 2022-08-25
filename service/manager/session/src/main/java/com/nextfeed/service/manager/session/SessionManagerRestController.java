@@ -28,7 +28,7 @@ import java.util.List;
 @RefreshScope
 @AllArgsConstructor
 @RestController
-@RequestMapping(value = "/session-manager")
+@RequestMapping(value = "/api/session-manager")
 public class SessionManagerRestController implements SessionManagerService {
 
     public static void main(String[] args) {
@@ -48,7 +48,7 @@ public class SessionManagerRestController implements SessionManagerService {
         sessionManager.deleteSession(sessionId);
     }
 
-    @RequestMapping(value = "/v1/session", method = RequestMethod.PATCH)
+    @RequestMapping(value = "/v1/session", method = RequestMethod.PUT)
     public Session saveSession(@RequestBody Session session){
         return sessionManager.saveSession(session);
     }
@@ -56,6 +56,11 @@ public class SessionManagerRestController implements SessionManagerService {
     @RequestMapping(value = "/v1/session/{sessionId}", method = RequestMethod.GET)
     public Session getSessionById(@PathVariable("sessionId") Integer sessionId){
         return sessionManager.getSessionById(sessionId);
+    }
+
+    @RequestMapping(value = "/v1/session/{sessionId}/close", method = RequestMethod.GET)
+    public void closeSession(@PathVariable("sessionId") Integer sessionId){
+        sessionManager.closeSession(sessionId);
     }
 
     @RequestMapping(value = "/v1/session/{sessionId}/check/closed", method = RequestMethod.GET)
