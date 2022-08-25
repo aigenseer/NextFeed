@@ -6,6 +6,8 @@ import com.nextfeed.library.core.entity.Session;
 import com.nextfeed.library.core.service.manager.ParticipantManagerService;
 import com.nextfeed.library.core.service.manager.SessionManagerService;
 import com.nextfeed.library.core.service.manager.dto.question.NewQuestionRequest;
+import com.nextfeed.library.core.service.socket.QuestionSocketService;
+import com.nextfeed.library.core.service.socket.QuestionSocketServices;
 import com.nextfeed.library.manager.repository.service.QuestionDBService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -18,7 +20,7 @@ public class QuestionManager {
     private final QuestionDBService questionDBService;
     private final SessionManagerService sessionManagerService;
     //todo: muss noch gemacht werden
-//    private final QuestionService questionService;
+    private final QuestionSocketServices questionSocketServices;
     private final ParticipantManagerService participantManagerService;
 
 
@@ -39,7 +41,7 @@ public class QuestionManager {
         Session session = sessionManagerService.getSessionById(sessionId);
         session.getQuestions().add(question);
         sessionManagerService.saveSession(session);
-//        questionService.sendQuestion(sessionId, question);
+        questionSocketServices.sendQuestion(sessionId, question);
         return question;
     }
 
@@ -52,7 +54,7 @@ public class QuestionManager {
             question.setRating(question.getRating() + (rating? +1: -1));
             questionDBService.save(question);
             updateQuestion(sessionId, question);
-//            questionService.sendQuestion(sessionId, question);
+            questionSocketServices.sendQuestion(sessionId, question);
         }
     }
 
@@ -62,7 +64,7 @@ public class QuestionManager {
             question.setClosed(System.currentTimeMillis());
             questionDBService.save(question);
             updateQuestion(sessionId, question);
-//            questionService.sendQuestion(sessionId, question);
+            questionSocketServices.sendQuestion(sessionId, question);
         }
     }
 

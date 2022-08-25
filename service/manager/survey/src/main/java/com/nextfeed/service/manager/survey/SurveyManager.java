@@ -4,6 +4,7 @@ import com.nextfeed.library.core.entity.survey.Survey;
 import com.nextfeed.library.core.entity.survey.SurveyAnswer;
 import com.nextfeed.library.core.entity.survey.SurveyTemplate;
 import com.nextfeed.library.core.service.manager.SessionManagerService;
+import com.nextfeed.library.core.service.socket.SurveySocketServices;
 import com.nextfeed.library.manager.repository.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -16,7 +17,7 @@ import java.util.*;
 public class SurveyManager {
 
     //todo: muss noch gemacht werden
-//    private final SurveyService surveyService;
+    private final SurveySocketServices surveySocketServices;
     private final SessionManagerService sessionManagerService;
     private final SurveyDBService surveyDBService;
     private final SurveyAnswerDBService surveyAnswerDBService;
@@ -31,12 +32,12 @@ public class SurveyManager {
         surveyDBService.save(survey);
 
         //todo: muss noch gemacht werden
-//        surveyService.onCreateByAdmin(sessionId, survey);
-//        surveyService.onCreateByParticipant(sessionId, survey.getId(), template);
+        surveySocketServices.onCreateByAdmin(sessionId, survey);
+        surveySocketServices.onCreateByParticipant(sessionId, survey.getId(), template);
 
         //start Thread to publish survey after a given amount of time
         //todo: muss noch gemacht werden
-//        new SurveyTimer(sessionId, survey.getId(), surveyService, this).start();
+        new SurveyTimer(sessionId, survey.getId(), surveySocketServices, this).start();
 
         return template;
     }
@@ -50,7 +51,7 @@ public class SurveyManager {
         if(survey != null){
             this.addAnswerToSurvey(survey, participantId, answer);
             //todo: muss noch gemacht werden
-//            surveyService.onUpdate(sessionId, getSurveyById(surveyId));
+            surveySocketServices.onUpdate(sessionId, getSurveyById(surveyId));
         }
     }
 

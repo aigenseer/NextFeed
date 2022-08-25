@@ -10,6 +10,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class NewMoodRequest {
-    private Integer moodValue;
+    private Double moodValue;
     private Integer participantsCount;
 }

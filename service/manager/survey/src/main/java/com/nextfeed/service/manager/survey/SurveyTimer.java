@@ -2,6 +2,7 @@ package com.nextfeed.service.manager.survey;
 
 
 import com.nextfeed.library.core.entity.survey.Survey;
+import com.nextfeed.library.core.service.socket.SurveySocketServices;
 import lombok.RequiredArgsConstructor;
 
 import java.util.Date;
@@ -11,7 +12,7 @@ public class SurveyTimer extends Thread{
     private final int sessionId;
     private final int surveyId;
     //todo: muss noch gemacht werden
-//    private final SurveyService surveyService;
+    private final SurveySocketServices surveySocketServices;
     private final SurveyManager surveyManager;
 
     @Override
@@ -23,8 +24,8 @@ public class SurveyTimer extends Thread{
             survey.setTimestamp(new Date().getTime());
             surveyManager.updateSurvey(survey);
             //todo: muss noch gemacht werden
-//            surveyService.onClose(sessionId, survey.getId());
-//            surveyService.onResult(sessionId, survey);
+            surveySocketServices.onClose(sessionId, survey.getId());
+            surveySocketServices.onResult(sessionId, survey);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

@@ -6,6 +6,7 @@ package com.nextfeed.service.manager.participant;
 import com.nextfeed.library.core.entity.Participant;
 import com.nextfeed.library.core.entity.Session;
 import com.nextfeed.library.core.service.manager.SessionManagerService;
+import com.nextfeed.library.core.service.socket.SessionSocketServices;
 import com.nextfeed.library.manager.repository.service.ParticipantDBService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -19,8 +20,7 @@ import java.util.List;
 public class ParticipantManager {
 
     private final SessionManagerService sessionManagerService;
-    //todo: muss noch hinzugefügt werden
-//    private final SessionDataService sessionDataService;
+    private final SessionSocketServices sessionSocketServices;
     private final ParticipantDBService participantDBService;
 
     public Participant createParticipantBySessionId(Integer sessionId, String nickname){
@@ -30,7 +30,7 @@ public class ParticipantManager {
             participantDBService.save(participant);
             session.getParticipants().add(participant);
             sessionManagerService.saveSession(session);
-//            sessionDataService.sendNewParticipantToAll(sessionId, participant);
+            sessionSocketServices.sendNewParticipantToAll(sessionId, participant);
             return participant;
         }
         return null;

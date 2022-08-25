@@ -5,6 +5,7 @@ package com.nextfeed.service.manager.session;
 
 import com.nextfeed.library.core.entity.Session;
 import com.nextfeed.library.core.entity.SessionMetadata;
+import com.nextfeed.library.core.service.socket.SessionSocketServices;
 import com.nextfeed.library.core.utils.StringUtils;
 import com.nextfeed.library.manager.repository.service.SessionDBService;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +23,7 @@ import java.util.stream.Collectors;
 public class SessionManager {
 
     //Todo: muss noch integriert werden
-//    private final SessionDataService sessionDataService;
+    private final SessionSocketServices sessionSocketServices;
     private final SessionDBService sessionDBService;
     private static final int SESSION_CODE_LENGTH = 8;
 
@@ -37,7 +38,6 @@ public class SessionManager {
     public Session createSession(String name){
         Session session = createSessionEntity(name);
         sessionDBService.save(session);
-//       participantDBService.save(Participant.builder().session(session).nickname("hidden").connected(false).build());
         return session;
     }
 
@@ -65,7 +65,7 @@ public class SessionManager {
     public void closeSession(int sessionId){
         Session session = getSessionById(sessionId);
         session.setClosed(new Date().getTime());
-//        sessionDataService.sendClose(sessionId);
+        sessionSocketServices.sendClose(sessionId);
         sessionDBService.save(session);
     }
 

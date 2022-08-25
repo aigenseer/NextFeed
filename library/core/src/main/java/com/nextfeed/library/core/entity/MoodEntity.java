@@ -18,7 +18,7 @@ public class MoodEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    int value;
+    double value;
     long timestamp;
     int participantsCount;
 }

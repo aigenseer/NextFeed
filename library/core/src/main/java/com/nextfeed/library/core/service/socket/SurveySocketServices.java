@@ -38,11 +38,23 @@ public class SurveySocketServices {
         });
     }
 
-    public void sendClose(Integer sessionId, Integer surveyId){
+    public void onClose(Integer sessionId, Integer surveyId){
         String path = "/session-socket/v1/socket/session/%d/survey/%d/close".formatted(sessionId, surveyId);
         serviceUtils.getInstanceInfoByName(INSTANCE_NAME).forEach(instance -> {
             try {
                 serviceUtils.getRequest(serviceUtils.getURIByInstance(instance, path), String.class);
+            }catch (Exception e){
+                System.err.println("Can not call instance");
+                System.err.println(e);
+            }
+        });
+    }
+
+    public void onUpdate(Integer sessionId, Survey survey){
+        String path = "/v1/socket/session/%d/survey/update".formatted(sessionId);
+        serviceUtils.getInstanceInfoByName(INSTANCE_NAME).forEach(instance -> {
+            try {
+                serviceUtils.postRequest(serviceUtils.getURIByInstance(instance, path), survey, String.class);
             }catch (Exception e){
                 System.err.println("Can not call instance");
                 System.err.println(e);
