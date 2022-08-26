@@ -3,26 +3,16 @@ server:
 #  port: 0
 
 spring:
+  config:
+    import:
+      - classpath:eureka.client.config.yml
   application:
-    name: session-socket-service
+    name: survey-socket-service
   main:
     allow-bean-definition-overriding: true
 
-management:
-  endpoints:
-    jmx:
-      exposure:
-        include: health,info,env,beans
-    web:
-      exposure:
-        include: health,info,env,beans,refresh
-
-eureka:
-  client:
-    serviceUrl:
-      defaultZone: ${EUREKA_URI:http://localhost:8000/eureka}
-  instance:
-    instanceId: ${spring.application.name}:${random.value}
-    hostname: localhost
-    preferIpAddress: true
+nextfeed:
+  socket:
+    endpoint:
+      prefix: "/socket/survey-socket"
 

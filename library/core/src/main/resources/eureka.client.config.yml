@@ -6,9 +6,13 @@ management:
     web:
       exposure:
         include: health,info,env,beans,refresh
+#  info:
+#    env:
+#      enabled: true
 
 eureka:
   client:
+    registry-fetch-interval-seconds: 10
     serviceUrl:
       defaultZone: ${EUREKA_URI:http://localhost:8000/eureka}
   instance:
@@ -16,3 +20,9 @@ eureka:
     hostname: localhost
     preferIpAddress: true
 
+#info:
+#  app:
+#    name: order-service
+#    version: 1.0.0
+#    description: you can insert any kind of data in the property file like this
+#  author: mafei

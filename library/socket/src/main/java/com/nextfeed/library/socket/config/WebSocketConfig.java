@@ -1,7 +1,9 @@
 package com.nextfeed.library.socket.config;
 
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,23 +23,27 @@ import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
 import org.springframework.web.socket.messaging.SessionSubscribeEvent;
 
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Configuration
 @EnableWebSocketMessageBroker
 public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     private final CustomHandshakeHandler customHandshakeHandler;
 
-    @Override
-    public void configureMessageBroker(MessageBrokerRegistry config) {
-        config.enableSimpleBroker("/admin", "/participant", "/session");
-    }
+//    @Override
+//    public void configureMessageBroker(MessageBrokerRegistry config) {
+//        config.enableSimpleBroker("/admin", "/participant", "/session");
+//    }
+
+    @Value("${nextfeed.socket.endpoint.prefix}")
+    private String endpointPrefix;
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
+        System.out.println("Connect to endpoint %s/ws".formatted(endpointPrefix));
         registry
-                .addEndpoint("/api/ws")
-                .setAllowedOriginPatterns("http://localhost:4200")
+                .addEndpoint("%s/ws".formatted(endpointPrefix))
+                .setAllowedOriginPatterns("*")
                 .setHandshakeHandler(customHandshakeHandler)
                 .withSockJS();
     }

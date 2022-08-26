@@ -41,7 +41,9 @@ public class MoodManager {
 
     private Map<Integer, Integer> getParticipantMoodValueCacheBySessionId(int sessionId){
         if(sessionManagerService.isSessionClosed(sessionId)) return null;
-        List<Integer> connectedParticipantIds = participantManager.getConnectedParticipantsBySessionId(sessionId).stream().map(Participant::getId).toList();
+        //todo: muss noch gemacht werden
+//        List<Integer> connectedParticipantIds = participantManager.getConnectedParticipantsBySessionId(sessionId).stream().map(Participant::getId).toList();
+        List<Integer> connectedParticipantIds = participantManager.getParticipantsBySessionId(sessionId).stream().map(Participant::getId).toList();
         if(!sessionsParticipantMoodValueCache.containsKey(sessionId)){
             Map<Integer, Integer> cache = new HashMap<>();
             connectedParticipantIds.forEach(participantId -> cache.put(participantId, 0));

@@ -34,27 +34,27 @@ public class SurveySocketRestController implements SurveySocketService {
 
     private final SurveyService surveyService;
 
-    @RequestMapping(value = "/v1/socket/session/{sessionId}/survey/admin", method = RequestMethod.POST)
+    @RequestMapping(value = "/v1/session/{sessionId}/survey/admin", method = RequestMethod.POST)
     public void onCreateByAdmin(@PathVariable("sessionId") Integer sessionId, @RequestBody Survey survey){
         surveyService.onCreateByAdmin(sessionId, survey);
     }
 
-    @RequestMapping(value = "/v1/socket/session/{sessionId}/survey/{surveyId}", method = RequestMethod.POST)
+    @RequestMapping(value = "/v1/session/{sessionId}/survey/{surveyId}", method = RequestMethod.POST)
     public void onCreateByParticipant(@PathVariable("sessionId") Integer sessionId, @PathVariable("surveyId") Integer surveyId, @RequestBody SurveyTemplate template){
         surveyService.onCreateByParticipant(sessionId, surveyId, template);
     }
 
-    @RequestMapping(value = "/v1/socket/session/{sessionId}/survey/{surveyId}/close", method = RequestMethod.GET)
+    @RequestMapping(value = "/v1/session/{sessionId}/survey/{surveyId}/close", method = RequestMethod.GET)
     public void onClose(@PathVariable("sessionId") Integer sessionId, @PathVariable("surveyId") Integer surveyId){
         surveyService.onClose(sessionId, surveyId);
     }
 
-    @RequestMapping(value = "/v1/socket/session/{sessionId}/survey/update", method = RequestMethod.POST)
+    @RequestMapping(value = "/v1/session/{sessionId}/survey/update", method = RequestMethod.POST)
     public void onUpdate(@PathVariable("sessionId") Integer sessionId, @RequestBody Survey survey){
         surveyService.onUpdate(sessionId, survey);
     }
 
-    @RequestMapping(value = "/v1/socket/session/{sessionId}/survey/result", method = RequestMethod.POST)
+    @RequestMapping(value = "/v1/session/{sessionId}/survey/result", method = RequestMethod.POST)
     public void onResult(@PathVariable("sessionId") Integer sessionId, @RequestBody Survey survey){
         surveyService.onResult(sessionId, survey);
     }

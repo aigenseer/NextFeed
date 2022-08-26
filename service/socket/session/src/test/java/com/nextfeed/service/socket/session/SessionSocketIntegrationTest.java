@@ -69,7 +69,7 @@ public class SessionSocketIntegrationTest {
                 int sessionId = 1;
                 int rating = 1;
                 try {
-                    session.send("/participant/session/%d/mood/%d".formatted(sessionId, rating), "");
+                    session.send("socket/socket-service/api/v1/participant/session/%d/mood/%d".formatted(sessionId, rating), "");
                 } catch (Throwable t) {
                     failure.set(t);
                     latch.countDown();
@@ -78,7 +78,7 @@ public class SessionSocketIntegrationTest {
                 }
             }
         };
-        this.stompClient.connect("ws://localhost:8210/api/ws", this.headers, handler);
+        this.stompClient.connect("ws://localhost:8220/socket/session-socket/ws", this.headers, handler);
         if (latch.await(3, SECONDS)) {
             if (failure.get() != null) {
                 throw new AssertionError("", failure.get());

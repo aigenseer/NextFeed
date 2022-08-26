@@ -15,7 +15,7 @@ public class SessionSocketServices {
     private final static String INSTANCE_NAME = "session-socket-service";
 
     public void sendNewParticipantToAll(Integer sessionId, Participant participant){
-        String path = "/api/session-socket/v1/session-socket/v1/socket/session/%d/notify/participant".formatted(sessionId);
+        String path = "/api/session-socket/v1/session/%d/notify/participant".formatted(sessionId);
         serviceUtils.getInstanceInfoByName(INSTANCE_NAME).forEach(instance -> {
             try {
                 serviceUtils.postRequest(serviceUtils.getURIByInstance(instance, path), participant, String.class);
@@ -28,7 +28,7 @@ public class SessionSocketServices {
 
 
     public void sendMood(Integer sessionId, Double value){
-        String path = "/api/session-socket/v1/session-socket/v1/socket/session/%d/notify/mood".formatted(sessionId);
+        String path = "/api/session-socket/v1/session/%d/notify/mood".formatted(sessionId);
         serviceUtils.getInstanceInfoByName(INSTANCE_NAME).forEach(instance -> {
             try {
                 serviceUtils.postRequest(serviceUtils.getURIByInstance(instance, path), value, String.class);
@@ -40,7 +40,7 @@ public class SessionSocketServices {
     }
 
     public void sendClose(Integer sessionId){
-        String path = "/api/session-socket/v1/session-socket/v1/socket/session/%d/notify/session/close".formatted(sessionId);
+        String path = "/api/session-socket/v1/session/%d/notify/session/close".formatted(sessionId);
         serviceUtils.getInstanceInfoByName(INSTANCE_NAME).forEach(instance -> {
             try {
                 serviceUtils.getRequest(serviceUtils.getURIByInstance(instance, path), String.class);
@@ -52,7 +52,7 @@ public class SessionSocketServices {
     }
 
     public void sendConnectionStatus(Integer sessionId, List<Participant> participants){
-        String path = "/api/session-socket/v1/session-socket/v1/socket/session/%d/notify/participants/status".formatted(sessionId);
+        String path = "/api/session-socket/v1/session/%d/notify/participants/status".formatted(sessionId);
         serviceUtils.getInstanceInfoByName(INSTANCE_NAME).forEach(instance -> {
             try {
                 serviceUtils.postRequest(serviceUtils.getURIByInstance(instance, path), participants, String.class);

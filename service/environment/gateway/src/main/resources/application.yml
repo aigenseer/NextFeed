@@ -12,6 +12,18 @@ spring:
       discovery:
         locator:
           enabled: true
+      default-filters:
+        - DedupeResponseHeader=Access-Control-Allow-Credentials Access-Control-Allow-Origin
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowCredentials: true
+            allowedOriginPatterns: "*"
+            allowedMethods: "*"
+            allowedHeaders: "*"
+
+
+
       routes:
         - id: obsolet-service
           uri: lb://obsolet-service
@@ -26,21 +38,22 @@ spring:
           predicates:
             - Path=/api/survey-service/**
 
-        - id: session-socket
-          uri: lb://session-socket
+        - id: session-socket-service
+          uri: lb://session-socket-service
           predicates:
             - Path=/socket/session-socket/**
-        - id: survey-socket
-          uri: lb://survey-socket
+        - id: survey-socket-service
+          uri: lb://survey-socket-service
           predicates:
             - Path=/socket/survey-socket/**
-        - id: question-socket
-          uri: lb://question-socket
+        - id: question-socket-service
+          uri: lb://question-socket-service
           predicates:
             - Path=/socket/question-socket/**
 
 eureka:
   client:
+    registry-fetch-interval-seconds: 5
     serviceUrl:
       defaultZone: ${EUREKA_URI:http://localhost:8000/eureka}
   instance:

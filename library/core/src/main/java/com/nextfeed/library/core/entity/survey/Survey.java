@@ -24,7 +24,7 @@ public class Survey {
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "survey")
     private Set<SurveyAnswer> surveyAnswers = Set.of();
 
-    @JsonIgnore
+//    @JsonIgnore
     public List<String> getAnswers(){
         return surveyAnswers.stream().map(SurveyAnswer::getValue).toList();
     }

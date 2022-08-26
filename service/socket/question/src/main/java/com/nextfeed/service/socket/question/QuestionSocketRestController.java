@@ -12,7 +12,7 @@ public class QuestionSocketRestController implements QuestionSocketService {
 
     private final QuestionService questionService;
 
-    @RequestMapping(value = "/v1/socket/session/{sessionId}/question", method = RequestMethod.POST)
+    @RequestMapping(value = "/v1/session/{sessionId}/question", method = RequestMethod.POST)
     public void sendQuestion(@PathVariable("sessionId") Integer sessionId, @RequestBody Question question){
         questionService.sendQuestion(sessionId, question);
     }

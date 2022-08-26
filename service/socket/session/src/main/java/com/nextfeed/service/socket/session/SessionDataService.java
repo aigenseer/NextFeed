@@ -1,6 +1,7 @@
 package com.nextfeed.service.socket.session;
 
 import com.nextfeed.library.core.entity.Participant;
+import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
@@ -51,13 +52,10 @@ enum SessionDataServiceSharedPath {
     }
 }
 
+@RequiredArgsConstructor
 @Service
 public class SessionDataService {
     private final SimpMessagingTemplate simpMessagingTemplate;
-
-    SessionDataService(SimpMessagingTemplate simpMessagingTemplate){
-        this.simpMessagingTemplate = simpMessagingTemplate;
-    }
 
     public void sendNewParticipantToAll(int sessionId, Participant participant){
         String adminPath = String.format(SessionDataServiceAdminPath.sendNewParticipantToAll.toString(),sessionId);
