@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 @AllArgsConstructor
 @RestController
-@RequestMapping(value = "/api/question-socket")
+@RequestMapping(value = "/api/internal/question-socket")
 public class QuestionSocketRestController implements QuestionSocketService {
 
     private final QuestionService questionService;

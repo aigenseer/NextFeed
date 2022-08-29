@@ -9,7 +9,7 @@ import java.util.List;
 
 @AllArgsConstructor
 @RestController
-@RequestMapping(value = "/api/session-socket")
+@RequestMapping(value = "/api/internal/session-socket")
 public class SessionSocketRestController implements SessionSocketService {
 
     private final SessionDataService sessionDataService;

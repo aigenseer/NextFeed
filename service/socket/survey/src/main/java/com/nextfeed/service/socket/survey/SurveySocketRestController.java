@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.*;
 @EnableHystrix
 @RequiredArgsConstructor
 @RestController
-@RequestMapping(value = "/api/survey-socket")
+@RequestMapping(value = "/api/internal/survey-socket")
 public class SurveySocketRestController implements SurveySocketService {
 
     public static void main(String[] args) {

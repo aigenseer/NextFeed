@@ -14,7 +14,7 @@ public class SurveySocketServices {
     private final static String INSTANCE_NAME = "survey-socket-service";
 
     public void onCreateByPresenter(Integer sessionId, Survey survey){
-        String path = "/api/survey-socket/v1/session/%d/survey/presenter".formatted(sessionId);
+        String path = "/api/internal/survey-socket/v1/session/%d/survey/presenter".formatted(sessionId);
         serviceUtils.getInstanceInfoByName(INSTANCE_NAME).forEach(instance -> {
             try {
                 serviceUtils.postRequest(serviceUtils.getURIByInstance(instance, path), survey, String.class);
@@ -27,7 +27,7 @@ public class SurveySocketServices {
 
 
     public void onCreateByParticipant(Integer sessionId, Integer surveyId, SurveyTemplate template){
-        String path = "/api/survey-socket/v1/session/%d/survey/%d".formatted(sessionId, surveyId);
+        String path = "/api/internal/survey-socket/v1/session/%d/survey/%d".formatted(sessionId, surveyId);
         serviceUtils.getInstanceInfoByName(INSTANCE_NAME).forEach(instance -> {
             try {
                 serviceUtils.postRequest(serviceUtils.getURIByInstance(instance, path), template, String.class);
@@ -39,7 +39,7 @@ public class SurveySocketServices {
     }
 
     public void onClose(Integer sessionId, Integer surveyId){
-        String path = "/api/survey-socket/v1/session/%d/survey/%d/close".formatted(sessionId, surveyId);
+        String path = "/api/internal/survey-socket/v1/session/%d/survey/%d/close".formatted(sessionId, surveyId);
         serviceUtils.getInstanceInfoByName(INSTANCE_NAME).forEach(instance -> {
             try {
                 serviceUtils.getRequest(serviceUtils.getURIByInstance(instance, path), String.class);
@@ -51,7 +51,7 @@ public class SurveySocketServices {
     }
 
     public void onUpdate(Integer sessionId, Survey survey){
-        String path = "/api/survey-socket/v1/session/%d/survey/update".formatted(sessionId);
+        String path = "/api/internal/survey-socket/v1/session/%d/survey/update".formatted(sessionId);
         serviceUtils.getInstanceInfoByName(INSTANCE_NAME).forEach(instance -> {
             try {
                 serviceUtils.postRequest(serviceUtils.getURIByInstance(instance, path), survey, String.class);
@@ -63,7 +63,7 @@ public class SurveySocketServices {
     }
 
     public void onResult(Integer sessionId, Survey survey){
-        String path = "/api/survey-socket/v1/session/%d/survey/result".formatted(sessionId);
+        String path = "/api/internal/survey-socket/v1/session/%d/survey/result".formatted(sessionId);
         serviceUtils.getInstanceInfoByName(INSTANCE_NAME).forEach(instance -> {
             try {
                 serviceUtils.postRequest(serviceUtils.getURIByInstance(instance, path), survey, String.class);

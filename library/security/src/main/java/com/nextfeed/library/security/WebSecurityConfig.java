@@ -29,6 +29,7 @@ public class WebSecurityConfig {
                 .and().cors().and().csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/api/authorization-service/**").permitAll()
+                .antMatchers("/api/internal/**").permitAll()
                 .antMatchers("/api/session-service/presenter/**", "/api/survey-service/v1/presenter/").hasRole(UserRole.PRESENTER.getRole())
 //                .antMatchers("/api/ws/**").authenticated()
                 .anyRequest().authenticated()
