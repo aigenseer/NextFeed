@@ -13,8 +13,8 @@ public class SurveySocketServices {
     private final SocketServiceUtils serviceUtils;
     private final static String INSTANCE_NAME = "survey-socket-service";
 
-    public void onCreateByAdmin(Integer sessionId, Survey survey){
-        String path = "/api/survey-socket/v1/session/%d/survey/admin".formatted(sessionId);
+    public void onCreateByPresenter(Integer sessionId, Survey survey){
+        String path = "/api/survey-socket/v1/session/%d/survey/presenter".formatted(sessionId);
         serviceUtils.getInstanceInfoByName(INSTANCE_NAME).forEach(instance -> {
             try {
                 serviceUtils.postRequest(serviceUtils.getURIByInstance(instance, path), survey, String.class);

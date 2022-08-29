@@ -40,54 +40,55 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class SessionSocketIntegrationTest {
 
 
-    private SockJsClient sockJsClient;
-
-    private WebSocketStompClient stompClient;
+//    private SockJsClient sockJsClient;
 //
-    private final WebSocketHttpHeaders headers = new WebSocketHttpHeaders();
+//    private WebSocketStompClient stompClient;
+////
+//    private final WebSocketHttpHeaders headers = new WebSocketHttpHeaders();
+////
+//    @BeforeEach
+//    public void setup() {
+//        List<Transport> transports = new ArrayList<>();
+//        transports.add(new WebSocketTransport(new StandardWebSocketClient()));
+//        this.sockJsClient = new SockJsClient(transports);
+//        this.stompClient = new WebSocketStompClient(sockJsClient);
+//        this.stompClient.setMessageConverter(new MappingJackson2MessageConverter());
 //
-    @BeforeEach
-    public void setup() {
-        List<Transport> transports = new ArrayList<>();
-        transports.add(new WebSocketTransport(new StandardWebSocketClient()));
-        this.sockJsClient = new SockJsClient(transports);
-        this.stompClient = new WebSocketStompClient(sockJsClient);
-        this.stompClient.setMessageConverter(new MappingJackson2MessageConverter());
-
-    }
-
-
-
-    @Test
-    public void testRatingChange() throws InterruptedException {
-        final CountDownLatch latch = new CountDownLatch(1);
-        final AtomicReference<Throwable> failure = new AtomicReference<>();
-
-        StompSessionHandler handler = new TestSessionHandler(failure) {
-            @Override
-            public void afterConnected(final StompSession session, StompHeaders connectedHeaders) {
-                int sessionId = 1;
-                int rating = 1;
-                try {
-                    session.send("socket/socket-service/api/v1/participant/session/%d/mood/%d".formatted(sessionId, rating), "");
-                } catch (Throwable t) {
-                    failure.set(t);
-                    latch.countDown();
-                } finally {
-                    latch.countDown();
-                }
-            }
-        };
-        this.stompClient.connect("ws://localhost:8220/socket/session-socket/ws", this.headers, handler);
-        if (latch.await(3, SECONDS)) {
-            if (failure.get() != null) {
-                throw new AssertionError("", failure.get());
-            }
-        }
-        else {
-            fail("Greeting not received");
-        }
-    }
+//    }
+//
+//
+//
+//    @Test
+//    public void testRatingChange() throws InterruptedException {
+//        final CountDownLatch latch = new CountDownLatch(1);
+//        final AtomicReference<Throwable> failure = new AtomicReference<>();
+//
+//        StompSessionHandler handler = new TestSessionHandler(failure) {
+//            @Override
+//            public void afterConnected(final StompSession session, StompHeaders connectedHeaders) {
+//                int sessionId = 1;
+//                int rating = 1;
+//                try {
+//                    session.send("socket/socket-service/api/v1/participant/session/%d/mood/%d".formatted(sessionId, rating), "");
+//                } catch (Throwable t) {
+//                    failure.set(t);
+//                    latch.countDown();
+//                } finally {
+//                    latch.countDown();
+//                }
+//            }
+//        };
+//
+//        this.stompClient.connect("ws://localhost:8220/socket/session-socket/ws", this.headers, handler);
+//        if (latch.await(3, SECONDS)) {
+//            if (failure.get() != null) {
+//                throw new AssertionError("", failure.get());
+//            }
+//        }
+//        else {
+//            fail("Greeting not received");
+//        }
+//    }
 
     @Test
     public void getGreeting() throws Exception {

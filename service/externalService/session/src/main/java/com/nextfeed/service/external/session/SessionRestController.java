@@ -78,7 +78,7 @@ public class SessionRestController implements SessionService {
     @GetMapping("/v1/session/{sessionId}/initial")
     public Map<String,Object> getSessionData(@PathVariable("sessionId") Integer sessionId, @RequestHeader("Authorization") String token) {
         //todo: muss noch angepasst werden
-//        if(!SecurityContextHolderUtils.isCurrentUserAdmin()) tokenService.checkSessionIdByToken(token, sessionId);
+//        if(!SecurityContextHolderUtils.isCurrentUser()) tokenService.checkSessionIdByToken(token, sessionId);
         serviceUtils.checkSessionId(sessionId);
 
         if(sessionManagerService.isSessionClosed(sessionId)){

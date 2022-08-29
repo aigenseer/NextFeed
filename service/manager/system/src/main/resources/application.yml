@@ -1,0 +1,12 @@
+server:
+  port: 8170
+
+spring:
+  config:
+    import:
+      - classpath:db.config.yml
+      - classpath:eureka.client.config.yml
+  application:
+    name: system-manager-service
+  main:
+    allow-bean-definition-overriding: true

@@ -41,6 +41,7 @@ dependencies {
 
 
     implementation project(':library:core')
+    implementation project(':library:security')
 
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'

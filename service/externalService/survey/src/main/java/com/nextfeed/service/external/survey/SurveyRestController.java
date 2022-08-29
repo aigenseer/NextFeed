@@ -42,33 +42,33 @@ public class SurveyRestController implements SurveyService {
 //    private final TokenService tokenService;
 
 
-    @GetMapping("/v1/admin/session/{sessionId}/survey/templates")
+    @GetMapping("/presenter/v1/session/{sessionId}/survey/templates")
     public Collection<SurveyTemplate> getSessionTemplates(@PathVariable int sessionId){
         serviceUtils.checkSessionId(sessionId);
         return surveyTemplateManagerService.getAllTemplates();
     }
 
-    @GetMapping("/v1/admin/session/{sessionId}/surveys")
+    @GetMapping("/presenter/v1/session/{sessionId}/surveys")
     public Collection<Survey> getSessionSurveys(@PathVariable int sessionId){
         serviceUtils.checkSessionId(sessionId);
         return surveyManagerService.getSurveys(sessionId);
     }
 
-    @GetMapping("/v1/admin/session/{sessionId}/survey/create/{templateId}")
+    @GetMapping("/presenter/v1/session/{sessionId}/survey/create/{templateId}")
     public void create(@PathVariable int sessionId, @PathVariable int templateId){
         serviceUtils.checkSessionId(sessionId);
         serviceUtils.checkTemplateId(templateId);
         surveyManagerService.createSurvey(sessionId, surveyTemplateManagerService.getTemplate(templateId));
     }
 
-    @PostMapping("/v1/admin/session/{sessionId}/survey/create")
+    @PostMapping("/presenter/v1/session/{sessionId}/survey/create")
     public SurveyTemplate create(@PathVariable int sessionId, @RequestBody SurveyTemplate template){
         serviceUtils.checkSessionId(sessionId);
         surveyManagerService.createSurvey(sessionId, surveyTemplateManagerService.createTemplate(template));
         return template;
     }
 
-    @PostMapping("/v1/participant/session/{sessionId}/survey/{surveyId}/answer")
+    @PostMapping("/participant/v1/session/{sessionId}/survey/{surveyId}/answer")
     public void setAnswer(@PathVariable int sessionId, @PathVariable int surveyId, @RequestBody MessageRequest request, @RequestHeader("Authorization") String token){
         //todo: muss noch gemacht werden
 //        tokenService.checkSessionIdByToken(token, sessionId);

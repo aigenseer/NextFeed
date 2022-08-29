@@ -4,6 +4,7 @@ server:
 spring:
   config:
     import:
+      - classpath:security.config.yml
       - classpath:eureka.client.config.yml
   application:
     name: session-service

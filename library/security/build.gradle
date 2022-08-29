@@ -1,0 +1,44 @@
+plugins {
+//    id 'org.springframework.boot' version '2.7.1' apply false
+    id 'org.springframework.boot' version '2.7.1'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id 'java-library'
+}
+
+group = 'com.nextfeed.library.core'
+version = '0.0.1-SNAPSHOT'
+
+bootJar {
+    enabled = false
+}
+
+compileJava   {
+    sourceCompatibility = '17'
+    targetCompatibility = '17'
+}
+
+repositories {
+    mavenCentral()
+}
+
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'io.jsonwebtoken:jjwt:0.9.1'
+
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+//    implementation 'org.springframework.security:spring-security-messaging:5.7.3'
+    implementation 'org.springframework.boot:spring-boot-starter-websocket'
+    implementation project(':library:core')
+
+//    implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
+//    implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+//    implementation 'org.springframework:spring-webflux:5.3.22'
+//    implementation 'io.projectreactor.netty:reactor-netty:1.0.22'
+
+    implementation 'org.projectlombok:lombok:1.18.20'
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+
+}

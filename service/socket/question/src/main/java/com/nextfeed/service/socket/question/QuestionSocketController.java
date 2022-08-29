@@ -48,7 +48,7 @@ public class QuestionSocketController {
         }
     }
 
-    @MessageMapping("/socket/question-socket/v1/admin/question/session/{sessionId}/question/{questionId}/close")
+    @MessageMapping("/socket/question-socket/v1/presenter/question/session/{sessionId}/question/{questionId}/close")
     public void closeQuestion(@DestinationVariable Integer sessionId, @DestinationVariable Integer questionId){
         if(sessionManagerService.existsSessionId(sessionId) && questionManagerService.existsQuestionId(questionId)){
             questionManagerService.closeQuestion(sessionId, questionId);

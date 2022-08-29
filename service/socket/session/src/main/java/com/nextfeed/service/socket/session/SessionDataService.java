@@ -7,13 +7,13 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-enum SessionDataServiceAdminPath {
-    sendNewParticipantToAll("/socket/session-socket/v1/admin/session/%d/user/onjoin"),
-    sendMood("/socket/session-socket/v1/admin/session/%d/mood/onupdate"),
-    sendParticipantConnectionStatus("/socket/session-socket/v1/admin/session/%d/participant/connections/status");
+enum SessionDataServicePresenterPath {
+    sendNewParticipantToAll("/socket/session-socket/v1/presenter/session/%d/user/onjoin"),
+    sendMood("/socket/session-socket/v1/presenter/session/%d/mood/onupdate"),
+    sendParticipantConnectionStatus("/socket/session-socket/v1/presenter/session/%d/participant/connections/status");
 
     private final String path;
-    SessionDataServiceAdminPath(String path) {
+    SessionDataServicePresenterPath(String path) {
         this.path = path;
     }
 
@@ -58,18 +58,18 @@ public class SessionDataService {
     private final SimpMessagingTemplate simpMessagingTemplate;
 
     public void sendNewParticipantToAll(int sessionId, Participant participant){
-        String adminPath = String.format(SessionDataServiceAdminPath.sendNewParticipantToAll.toString(),sessionId);
+        String presenterPath = String.format(SessionDataServicePresenterPath.sendNewParticipantToAll.toString(),sessionId);
         String participantPath = String.format(SessionDataServiceParticipantPath.sendNewParticipantToAll.toString(),sessionId);
 
-        simpMessagingTemplate.convertAndSend(adminPath, participant);
+        simpMessagingTemplate.convertAndSend(presenterPath, participant);
         simpMessagingTemplate.convertAndSend(participantPath,participant);
     }
 
     public void sendMood(int sessionId, double value){
-        String adminPath = String.format(SessionDataServiceAdminPath.sendMood.toString(),sessionId);
+        String presenterPath = String.format(SessionDataServicePresenterPath.sendMood.toString(),sessionId);
         String participantPath = String.format(SessionDataServiceParticipantPath.sendMood.toString(),sessionId);
 
-        simpMessagingTemplate.convertAndSend(adminPath, value);
+        simpMessagingTemplate.convertAndSend(presenterPath, value);
         simpMessagingTemplate.convertAndSend(participantPath, value);
     }
 
@@ -79,7 +79,7 @@ public class SessionDataService {
     }
 
     public void sendConnectionStatus(int sessionId, List<Participant> participants){
-        String path = String.format(SessionDataServiceAdminPath.sendParticipantConnectionStatus.toString(),sessionId);
+        String path = String.format(SessionDataServicePresenterPath.sendParticipantConnectionStatus.toString(),sessionId);
         simpMessagingTemplate.convertAndSend(path, participants);
     }
 

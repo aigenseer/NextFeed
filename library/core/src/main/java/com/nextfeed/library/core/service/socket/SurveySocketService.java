@@ -1,6 +1,5 @@
 package com.nextfeed.library.core.service.socket;
 
-import com.nextfeed.library.core.entity.Question;
 import com.nextfeed.library.core.entity.survey.Survey;
 import com.nextfeed.library.core.entity.survey.SurveyTemplate;
 import org.springframework.cloud.loadbalancer.annotation.LoadBalancerClient;
@@ -14,8 +13,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @LoadBalancerClient(name = "survey-socket-service")
 public interface SurveySocketService {
 
-    @RequestMapping(value = "/api/survey-socket/v1/session/{sessionId}/survey/admin", method = RequestMethod.POST)
-    public void onCreateByAdmin(@PathVariable("sessionId") Integer sessionId, @RequestBody Survey survey);
+    @RequestMapping(value = "/api/survey-socket/v1/session/{sessionId}/survey/presenter", method = RequestMethod.POST)
+    public void onCreateByPresenter(@PathVariable("sessionId") Integer sessionId, @RequestBody Survey survey);
 
     @RequestMapping(value = "/api/survey-socket/v1/session/{sessionId}/survey/{surveyId}", method = RequestMethod.POST)
     public void onCreateByParticipant(@PathVariable("sessionId") Integer sessionId, @PathVariable("surveyId") Integer surveyId, @RequestBody SurveyTemplate template);

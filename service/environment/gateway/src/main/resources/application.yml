@@ -25,10 +25,10 @@ spring:
 
 
       routes:
-        - id: obsolet-service
-          uri: lb://obsolet-service
+        - id: authorization-service
+          uri: lb://authorization-service
           predicates:
-            - Path=/api/obsolet-service/**
+            - Path=/api/authorization-service/**
         - id: session-service
           uri: lb://session-service
           predicates:
@@ -37,6 +37,8 @@ spring:
           uri: lb://survey-service
           predicates:
             - Path=/api/survey-service/**
+
+
 
         - id: session-socket-service
           uri: lb://session-socket-service

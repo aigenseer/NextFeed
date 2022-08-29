@@ -14,16 +14,16 @@ import java.util.Collection;
 @LoadBalancerClient(name = "survey-service", configuration = LoadBalancerConfiguration.class)
 public interface SurveyService {
 
-    @GetMapping("/api/survey-service/v1/admin/session/{sessionId}/survey/templates")
+    @GetMapping("/api/survey-service/v1/presenter/session/{sessionId}/survey/templates")
     public Collection<SurveyTemplate> getSessionTemplates(@PathVariable int sessionId);
 
-    @GetMapping("/api/survey-service/v1/admin/session/{sessionId}/surveys")
+    @GetMapping("/api/survey-service/v1/presenter/session/{sessionId}/surveys")
     public Collection<Survey> getSessionSurveys(@PathVariable int sessionId);
 
-    @GetMapping("/api/survey-service/v1/admin/session/{sessionId}/survey/create/{templateId}")
+    @GetMapping("/api/survey-service/v1/presenter/session/{sessionId}/survey/create/{templateId}")
     public void create(@PathVariable int sessionId, @PathVariable int templateId);
 
-    @PostMapping("/api/survey-service/v1/admin/session/{sessionId}/survey/create")
+    @PostMapping("/api/survey-service/v1/presenter/session/{sessionId}/survey/create")
     public SurveyTemplate create(@PathVariable int sessionId, @RequestBody SurveyTemplate template);
 
     @PostMapping("/api/survey-service/v1/participant/session/{sessionId}/survey/{surveyId}/answer")

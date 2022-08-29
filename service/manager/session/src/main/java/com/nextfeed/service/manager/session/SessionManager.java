@@ -41,13 +41,6 @@ public class SessionManager {
         return session;
     }
 
-
-
-    public boolean isCorrectSessionCode(Integer sessionId, String sessionCode){
-        Session session = getSessionById(sessionId);
-        return session != null && session.getSessionCode().equals(sessionCode);
-    }
-
     public Session getSessionById(Integer id) {
         return sessionDBService.findById(id);
     }

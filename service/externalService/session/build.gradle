@@ -31,8 +31,8 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter'
     implementation 'org.springframework.cloud:spring-cloud-starter-task'
     implementation 'org.springframework.cloud:spring-cloud-starter-loadbalancer'
-    implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
     implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
+    implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
     implementation 'org.springframework.cloud:spring-cloud-starter-netflix-hystrix:2.2.10.RELEASE'
     implementation 'org.springframework.boot:spring-boot-starter-web'
 
@@ -42,6 +42,7 @@ dependencies {
     implementation 'org.apache.commons:commons-csv:1.4'
 
     implementation project(':library:core')
+    implementation project(':library:security')
 
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'

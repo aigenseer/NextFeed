@@ -4,6 +4,9 @@ rootProject.name = 'nextfeed'
 include 'library:core'
 include 'library:manager'
 include 'library:socket'
+include 'library:security'
+
+
 
 //Environment
 include 'service:environment:eureka'
@@ -16,8 +19,7 @@ include 'service:externalService:user'
 
 include 'service:externalService:session'
 include 'service:externalService:survey'
-
-include 'service:externalService:obsolet'
+include 'service:externalService:authorization'
 
 //Session
 include 'service:socket:session'
@@ -31,6 +33,8 @@ include 'service:manager:question'
 include 'service:manager:mood'
 include 'service:manager:survey'
 include 'service:manager:surveyTemplate'
+include 'service:manager:user'
+include 'service:manager:system'
 
 
 

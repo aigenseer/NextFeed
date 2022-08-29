@@ -48,10 +48,14 @@ dependencies {
 
     implementation 'org.springframework.boot:spring-boot-starter-websocket'
 
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.security:spring-security-messaging:5.7.3'
+
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'junit:junit:4.13.2'
 
     implementation project(':library:core')
     implementation project(':library:socket')
+    implementation project(':library:security')
 
 }

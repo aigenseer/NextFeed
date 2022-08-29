@@ -13,7 +13,7 @@ public class QuestionService {
 
     private final SimpMessagingTemplate simpMessagingTemplate;
     private static final String WS_MESSAGE_TRANSFER_DESTINATION = "/socket/question-socket/v1/%s/session/%d/question/onupdate";
-    private static final String[] roots = {"admin","participant"};
+    private static final String[] roots = {"presenter","participant"};
 
     public void sendQuestion(int sessionId, Question question){
                     Arrays.stream(roots).

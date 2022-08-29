@@ -32,7 +32,7 @@ public class SurveyManager {
         surveyDBService.save(survey);
 
         //todo: muss noch gemacht werden
-        surveySocketServices.onCreateByAdmin(sessionId, survey);
+        surveySocketServices.onCreateByPresenter(sessionId, survey);
         surveySocketServices.onCreateByParticipant(sessionId, survey.getId(), template);
 
         //start Thread to publish survey after a given amount of time
