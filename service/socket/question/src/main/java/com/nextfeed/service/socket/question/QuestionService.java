@@ -17,7 +17,7 @@ public class QuestionService {
 
     public void sendQuestion(int sessionId, Question question){
                     Arrays.stream(roots).
-                    map(root->WS_MESSAGE_TRANSFER_DESTINATION.formatted(root,sessionId))
-                    .forEach(path->simpMessagingTemplate.convertAndSend(path,question));
+                    map(root -> WS_MESSAGE_TRANSFER_DESTINATION.formatted(root, sessionId))
+                    .forEach( path -> simpMessagingTemplate.convertAndSend(path, question));
     }
 }

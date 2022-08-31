@@ -2,22 +2,23 @@ package com.nextfeed.library.core.service.socket;
 
 import com.nextfeed.library.core.entity.survey.Survey;
 import com.nextfeed.library.core.entity.survey.SurveyTemplate;
+import com.nextfeed.library.core.service.manager.dto.survey.SurveyDTO;
 import com.nextfeed.library.core.utils.SocketServiceUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
 @Service
-public class SurveySocketServices {
+public class SurveySocketServices implements SurveySocketService{
 
     private final SocketServiceUtils serviceUtils;
     private final static String INSTANCE_NAME = "survey-socket-service";
 
-    public void onCreateByPresenter(Integer sessionId, Survey survey){
+    public void onCreateByPresenter(Integer sessionId, SurveyDTO surveyDTO){
         String path = "/api/internal/survey-socket/v1/session/%d/survey/presenter".formatted(sessionId);
         serviceUtils.getInstanceInfoByName(INSTANCE_NAME).forEach(instance -> {
             try {
-                serviceUtils.postRequest(serviceUtils.getURIByInstance(instance, path), survey, String.class);
+                serviceUtils.postRequest(serviceUtils.getURIByInstance(instance, path), surveyDTO, String.class);
             }catch (Exception e){
                 System.err.println("Can not call instance");
                 System.err.println(e);
@@ -50,11 +51,11 @@ public class SurveySocketServices {
         });
     }
 
-    public void onUpdate(Integer sessionId, Survey survey){
+    public void onUpdate(Integer sessionId, SurveyDTO surveyDTO){
         String path = "/api/internal/survey-socket/v1/session/%d/survey/update".formatted(sessionId);
         serviceUtils.getInstanceInfoByName(INSTANCE_NAME).forEach(instance -> {
             try {
-                serviceUtils.postRequest(serviceUtils.getURIByInstance(instance, path), survey, String.class);
+                serviceUtils.postRequest(serviceUtils.getURIByInstance(instance, path), surveyDTO, String.class);
             }catch (Exception e){
                 System.err.println("Can not call instance");
                 System.err.println(e);
@@ -62,11 +63,11 @@ public class SurveySocketServices {
         });
     }
 
-    public void onResult(Integer sessionId, Survey survey){
+    public void onResult(Integer sessionId, SurveyDTO surveyDTO){
         String path = "/api/internal/survey-socket/v1/session/%d/survey/result".formatted(sessionId);
         serviceUtils.getInstanceInfoByName(INSTANCE_NAME).forEach(instance -> {
             try {
-                serviceUtils.postRequest(serviceUtils.getURIByInstance(instance, path), survey, String.class);
+                serviceUtils.postRequest(serviceUtils.getURIByInstance(instance, path), surveyDTO, String.class);
             }catch (Exception e){
                 System.err.println("Can not call instance");
                 System.err.println(e);

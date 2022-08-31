@@ -1,7 +1,7 @@
 package com.nextfeed.library.core.service.socket;
 
-import com.nextfeed.library.core.entity.survey.Survey;
 import com.nextfeed.library.core.entity.survey.SurveyTemplate;
+import com.nextfeed.library.core.service.manager.dto.survey.SurveyDTO;
 import org.springframework.cloud.loadbalancer.annotation.LoadBalancerClient;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,18 +14,18 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public interface SurveySocketService {
 
     @RequestMapping(value = "/api/internal/survey-socket/v1/session/{sessionId}/survey/presenter", method = RequestMethod.POST)
-    public void onCreateByPresenter(@PathVariable("sessionId") Integer sessionId, @RequestBody Survey survey);
+    void onCreateByPresenter(@PathVariable("sessionId") Integer sessionId, @RequestBody SurveyDTO surveyDTO);
 
     @RequestMapping(value = "/api/internal/survey-socket/v1/session/{sessionId}/survey/{surveyId}", method = RequestMethod.POST)
-    public void onCreateByParticipant(@PathVariable("sessionId") Integer sessionId, @PathVariable("surveyId") Integer surveyId, @RequestBody SurveyTemplate template);
+    void onCreateByParticipant(@PathVariable("sessionId") Integer sessionId, @PathVariable("surveyId") Integer surveyId, @RequestBody SurveyTemplate template);
 
     @RequestMapping(value = "/api/internal/survey-socket/v1/session/{sessionId}/survey/{surveyId}/close", method = RequestMethod.GET)
-    public void onClose(@PathVariable("sessionId") Integer sessionId, @PathVariable("surveyId") Integer surveyId);
+    void onClose(@PathVariable("sessionId") Integer sessionId, @PathVariable("surveyId") Integer surveyId);
 
     @RequestMapping(value = "/api/internal/survey-socket/v1/session/{sessionId}/survey/update", method = RequestMethod.POST)
-    public void onUpdate(@PathVariable("sessionId") Integer sessionId, @RequestBody Survey survey);
+    void onUpdate(@PathVariable("sessionId") Integer sessionId, @RequestBody SurveyDTO surveyDTO);
 
     @RequestMapping(value = "/api/internal/survey-socket/v1/session/{sessionId}/survey/result", method = RequestMethod.POST)
-    public void onResult(@PathVariable("sessionId") Integer sessionId, @RequestBody Survey survey);
+    void onResult(@PathVariable("sessionId") Integer sessionId, @RequestBody SurveyDTO surveyDTO);
 
 }

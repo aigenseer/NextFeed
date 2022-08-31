@@ -19,12 +19,11 @@ public class Survey {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @JsonIgnore
     @Builder.Default
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "survey")
     private Set<SurveyAnswer> surveyAnswers = Set.of();
 
-//    @JsonIgnore
+    @JsonIgnore
     public List<String> getAnswers(){
         return surveyAnswers.stream().map(SurveyAnswer::getValue).toList();
     }

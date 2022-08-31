@@ -25,7 +25,7 @@ public class SurveyTimer extends Thread{
             surveyManager.updateSurvey(survey);
             //todo: muss noch gemacht werden
             surveySocketServices.onClose(sessionId, survey.getId());
-            surveySocketServices.onResult(sessionId, survey);
+            surveySocketServices.onResult(sessionId, surveyManager.surveyDTOMapping(survey));
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

@@ -1,11 +1,11 @@
 package com.nextfeed.service.external.survey;
 
-import com.nextfeed.library.core.entity.survey.Survey;
 import com.nextfeed.library.core.entity.survey.SurveyTemplate;
 import com.nextfeed.library.core.service.external.SurveyService;
 import com.nextfeed.library.core.service.external.dto.survey.MessageRequest;
 import com.nextfeed.library.core.service.external.utils.ServiceUtils;
 import com.nextfeed.library.core.service.manager.*;
+import com.nextfeed.library.core.service.manager.dto.survey.SurveyDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -49,7 +49,7 @@ public class SurveyRestController implements SurveyService {
     }
 
     @GetMapping("/presenter/v1/session/{sessionId}/surveys")
-    public Collection<Survey> getSessionSurveys(@PathVariable int sessionId){
+    public List<SurveyDTO> getSessionSurveys(@PathVariable int sessionId){
         serviceUtils.checkSessionId(sessionId);
         return surveyManagerService.getSurveys(sessionId);
     }

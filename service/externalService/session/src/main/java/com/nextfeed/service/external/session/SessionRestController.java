@@ -56,9 +56,6 @@ public class SessionRestController implements SessionService {
     private final CSVManager csvManager;
 
 
-
-
-
     @PostMapping("/v1/session/presenter/create")
     public Map<String,Object> createNewSession(@RequestBody NewSessionRequest request) {
         Session session = sessionManagerService.createSession(request);

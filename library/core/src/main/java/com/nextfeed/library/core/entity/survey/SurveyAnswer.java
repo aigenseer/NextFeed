@@ -19,12 +19,9 @@ public class SurveyAnswer {
     @Getter
     private String value;
 
-    @JsonIgnore
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="survey_id", nullable=false)
     private Survey survey;
 
-    @JsonIgnore
     private Integer participantId;
-
 }

@@ -63,11 +63,18 @@ public class JWTTokenService {
         return claimsResolver.apply(claims);
     }
 
+    public <T> Optional<T> getClaimFromToken(String token, String key) {
+        var claim = getAllClaimsFromToken(token).get(key);
+        if (claim != null) return Optional.of((T) claim);
+        System.out.printf("JWTTokenService:: Key %s not found in token%n", key);
+        return Optional.empty();
+    }
+
     private Claims getBodyOfToken(String token){
         return Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
     }
 
-    private Claims getAllClaimsFromToken(String token) {
+    public Claims getAllClaimsFromToken(String token) {
         return Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
     }
 
@@ -119,7 +126,7 @@ public class JWTTokenService {
     public UsernamePasswordAuthenticationToken getUsernamePasswordAuthenticationTokenByToken(String token){
         if(!isValidate(token)) return null;
         UserDetails userDetails = getUserDetailsByToken(token);
-        return new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+        return new UsernamePasswordAuthenticationToken(userDetails, token, userDetails.getAuthorities());
     }
 
 }

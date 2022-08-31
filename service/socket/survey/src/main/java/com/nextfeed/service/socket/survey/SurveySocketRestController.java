@@ -3,6 +3,8 @@ package com.nextfeed.service.socket.survey;
 import com.nextfeed.library.core.entity.Question;
 import com.nextfeed.library.core.entity.survey.Survey;
 import com.nextfeed.library.core.entity.survey.SurveyTemplate;
+import com.nextfeed.library.core.service.manager.SurveyManagerService;
+import com.nextfeed.library.core.service.manager.dto.survey.SurveyDTO;
 import com.nextfeed.library.core.service.socket.QuestionSocketService;
 import com.nextfeed.library.core.service.socket.SurveySocketService;
 import lombok.AllArgsConstructor;
@@ -33,10 +35,11 @@ public class SurveySocketRestController implements SurveySocketService {
     }
 
     private final SurveyService surveyService;
+    private final SurveyManagerService surveyManagerService;
 
     @RequestMapping(value = "/v1/session/{sessionId}/survey/presenter", method = RequestMethod.POST)
-    public void onCreateByPresenter(@PathVariable("sessionId") Integer sessionId, @RequestBody Survey survey){
-        surveyService.onCreateByPresenter(sessionId, survey);
+    public void onCreateByPresenter(@PathVariable("sessionId") Integer sessionId, @RequestBody SurveyDTO surveyDTO){
+        surveyService.onCreateByPresenter(sessionId, surveyDTO);
     }
 
     @RequestMapping(value = "/v1/session/{sessionId}/survey/{surveyId}", method = RequestMethod.POST)
@@ -50,13 +53,15 @@ public class SurveySocketRestController implements SurveySocketService {
     }
 
     @RequestMapping(value = "/v1/session/{sessionId}/survey/update", method = RequestMethod.POST)
-    public void onUpdate(@PathVariable("sessionId") Integer sessionId, @RequestBody Survey survey){
-        surveyService.onUpdate(sessionId, survey);
+    public void onUpdate(@PathVariable("sessionId") Integer sessionId, @RequestBody SurveyDTO surveyDTO){
+        surveyService.onUpdate(sessionId, surveyDTO);
     }
 
     @RequestMapping(value = "/v1/session/{sessionId}/survey/result", method = RequestMethod.POST)
-    public void onResult(@PathVariable("sessionId") Integer sessionId, @RequestBody Survey survey){
-        surveyService.onResult(sessionId, survey);
+    public void onResult(@PathVariable("sessionId") Integer sessionId, @RequestBody SurveyDTO surveyDTO){
+        if(surveyDTO!=null){
+            surveyService.onResult(sessionId, surveyDTO);
+        }
     }
 
 

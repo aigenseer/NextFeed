@@ -4,12 +4,12 @@ import com.nextfeed.library.core.entity.survey.Survey;
 import com.nextfeed.library.core.entity.survey.SurveyAnswer;
 import com.nextfeed.library.core.entity.survey.SurveyTemplate;
 import com.nextfeed.library.core.service.manager.SessionManagerService;
+import com.nextfeed.library.core.service.manager.dto.survey.SurveyDTO;
 import com.nextfeed.library.core.service.socket.SurveySocketServices;
 import com.nextfeed.library.manager.repository.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import javax.transaction.Transactional;
 import java.util.*;
 
 @Component
@@ -22,8 +22,17 @@ public class SurveyManager {
     private final SurveyDBService surveyDBService;
     private final SurveyAnswerDBService surveyAnswerDBService;
 
-    public Collection<Survey> getSurveysBySessionId(Integer sessionId){
-        return sessionManagerService.getSessionById(sessionId).getSurveys();
+    public SurveyDTO surveyDTOMapping(Survey survey){
+        return SurveyDTO.builder()
+                .id(survey.getId())
+                .answers(survey.getAnswers())
+                .template(survey.getTemplate())
+                .timestamp(survey.getTimestamp())
+                .build();
+    }
+
+    public List<SurveyDTO> getSurveysBySessionId(Integer sessionId){
+        return sessionManagerService.getSessionById(sessionId).getSurveys().stream().map(this::surveyDTOMapping).toList();
     }
 
     public SurveyTemplate createSurvey(Integer sessionId, SurveyTemplate template){
@@ -32,7 +41,7 @@ public class SurveyManager {
         surveyDBService.save(survey);
 
         //todo: muss noch gemacht werden
-        surveySocketServices.onCreateByPresenter(sessionId, survey);
+        surveySocketServices.onCreateByPresenter(sessionId, surveyDTOMapping(survey));
         surveySocketServices.onCreateByParticipant(sessionId, survey.getId(), template);
 
         //start Thread to publish survey after a given amount of time
@@ -51,7 +60,7 @@ public class SurveyManager {
         if(survey != null){
             this.addAnswerToSurvey(survey, participantId, answer);
             //todo: muss noch gemacht werden
-            surveySocketServices.onUpdate(sessionId, getSurveyById(surveyId));
+            surveySocketServices.onUpdate(sessionId, surveyDTOMapping(getSurveyById(surveyId)));
         }
     }
 
@@ -68,10 +77,8 @@ public class SurveyManager {
         }
     }
 
-    @Transactional
     public Survey getSurveyById(int id){
         return surveyDBService.findById(id);
     }
-
 
 }

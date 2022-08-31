@@ -1,8 +1,8 @@
 package com.nextfeed.service.manager.survey;
 
-import com.nextfeed.library.core.entity.survey.Survey;
 import com.nextfeed.library.core.entity.survey.SurveyTemplate;
 import com.nextfeed.library.core.service.manager.SurveyManagerService;
+import com.nextfeed.library.core.service.manager.dto.survey.SurveyDTO;
 import lombok.AllArgsConstructor;
 
 import org.springframework.boot.SpringApplication;
@@ -15,8 +15,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collection;
-
+import java.util.List;
 
 @EnableFeignClients(basePackages = "com.nextfeed.library.core.service")
 @EntityScan("com.nextfeed.library.core.entity")
@@ -41,13 +40,8 @@ public class SurveyManagerRestController implements SurveyManagerService {
         return surveyManager.createSurvey(sessionId, template);
     }
 
-    @RequestMapping(value = "/v1/survey/update", method = RequestMethod.PUT)
-    public void updateSurvey(@RequestBody Survey survey) {
-        surveyManager.updateSurvey(survey);
-    }
-
     @RequestMapping(value = "/v1/session/{sessionId}/surveys", method = RequestMethod.GET)
-    public Collection<Survey> getSurveys(@PathVariable("sessionId") Integer sessionId) {
+    public List<SurveyDTO> getSurveys(@PathVariable("sessionId") Integer sessionId) {
         return surveyManager.getSurveysBySessionId(sessionId);
     }
 
