@@ -3,6 +3,7 @@ package com.nextfeed.service.socket.question;
 import com.nextfeed.library.core.entity.Question;
 import com.nextfeed.library.core.service.socket.QuestionSocketService;
 import lombok.AllArgsConstructor;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.*;
 
 @AllArgsConstructor

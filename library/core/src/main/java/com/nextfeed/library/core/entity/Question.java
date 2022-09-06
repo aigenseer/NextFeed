@@ -1,5 +1,6 @@
 package com.nextfeed.library.core.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -38,5 +39,17 @@ public class Question {
             inverseJoinColumns = @JoinColumn(name = "participant_id")
     )
     private Set<Participant> voters = Set.of();
+
+    @JoinColumn(referencedColumnName = "Session")
+    @JoinColumn(name="session_id", nullable=false)
+    int session_id;
+
+//    @Column(name = "session_id", nullable=false)
+//    int session_id;
+
+//    @JsonIgnore
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "session_id", insertable=false, updatable=false)
+//    private Session session;
 
 }

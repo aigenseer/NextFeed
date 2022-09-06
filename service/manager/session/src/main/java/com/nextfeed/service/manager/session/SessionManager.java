@@ -9,6 +9,10 @@ import com.nextfeed.library.core.service.socket.SessionSocketServices;
 import com.nextfeed.library.core.utils.StringUtils;
 import com.nextfeed.library.manager.repository.service.SessionDBService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ResponseStatusException;
@@ -22,11 +26,11 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class SessionManager {
 
-    //Todo: muss noch integriert werden
     private final SessionSocketServices sessionSocketServices;
     private final SessionDBService sessionDBService;
     private static final int SESSION_CODE_LENGTH = 8;
 
+    @Cacheable(value = "isSessionClosed", key = "#sessionId")
     public boolean isSessionClosed(int sessionId){
         return getSessionById(sessionId).getClosed() != 0L;
     }
@@ -52,7 +56,6 @@ public class SessionManager {
                 .collect(Collectors.toSet());
     }
 
-
     public void closeSession(int sessionId){
         Session session = getSessionById(sessionId);
         session.setClosed(new Date().getTime());
@@ -60,9 +63,7 @@ public class SessionManager {
         sessionDBService.save(session);
     }
 
-
-
-
+    @Cacheable(value = "existsSessionId", key = "#sessionId")
     public boolean existsSessionId(int sessionId){
         return getSessionById(sessionId) != null;
     }
@@ -83,6 +84,9 @@ public class SessionManager {
         return sessionDBService.findAllClosed();
     }
 
+    @Caching(evict = {
+            @CacheEvict(value = "isSessionClosed", allEntries = true, key = "#session.id")
+    })
     public Session saveSession(Session session){
         return sessionDBService.save(session);
     }

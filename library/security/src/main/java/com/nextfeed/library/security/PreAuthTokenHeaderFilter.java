@@ -62,6 +62,7 @@ public class PreAuthTokenHeaderFilter extends AbstractPreAuthenticatedProcessing
                 UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                 usernamePasswordAuthenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
+                return usernamePasswordAuthenticationToken;
             }
         }
         return null;

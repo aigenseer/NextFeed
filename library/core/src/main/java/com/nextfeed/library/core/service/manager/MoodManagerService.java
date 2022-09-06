@@ -12,7 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 @FeignClient(name = "mood-manager-service")
-@LoadBalancerClient(name = "mood-manager-service", configuration = LoadBalancerConfiguration.class)
+//todo: wieder rein
+//@LoadBalancerClient(name = "mood-manager-service", configuration = LoadBalancerConfiguration.class)
 public interface MoodManagerService {
 
     @RequestMapping(value = "/api/mood-manager/v1/session/{sessionId}/mood/create", method = RequestMethod.POST)

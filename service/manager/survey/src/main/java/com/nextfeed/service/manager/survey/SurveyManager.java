@@ -36,8 +36,7 @@ public class SurveyManager {
     }
 
     public SurveyTemplate createSurvey(Integer sessionId, SurveyTemplate template){
-        Survey survey = Survey.builder().template(template).build();
-        sessionManagerService.getSessionById(sessionId).getSurveys().add(survey);
+        Survey survey = Survey.builder().session_id(sessionId).template(template).build();
         surveyDBService.save(survey);
 
         //todo: muss noch gemacht werden
@@ -59,7 +58,6 @@ public class SurveyManager {
         Survey survey = getSurveyById(surveyId);
         if(survey != null){
             this.addAnswerToSurvey(survey, participantId, answer);
-            //todo: muss noch gemacht werden
             surveySocketServices.onUpdate(sessionId, surveyDTOMapping(getSurveyById(surveyId)));
         }
     }

@@ -28,6 +28,8 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.annotation.PostConstruct;
+
 @EnableFeignClients(basePackages = "com.nextfeed.library.core.service")
 @EnableEurekaClient
 @EnableDiscoveryClient
@@ -50,6 +52,9 @@ public class AuthorizationRestController {
     @RequestMapping(value = "/v1/test/auth", method = RequestMethod.GET)
     public JwtResponse testPresenterAuthentication(){
         User user = userManagerService.getUserByMailAddress("ok@ok.de");
+        if(user == null){
+            user = userManagerService.createUser(NewUserRequest.builder().mailAddress("ok@ok.de").name("OK").pw("root").build());
+        }
         return new JwtResponse(tokenUserService.getTokenByPresenterUser(user));
     }
 

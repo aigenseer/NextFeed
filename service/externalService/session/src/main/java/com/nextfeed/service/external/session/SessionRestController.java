@@ -73,7 +73,7 @@ public class SessionRestController implements SessionService {
     }
 
     @GetMapping("/v1/session/{sessionId}/initial")
-    public Map<String,Object> getSessionData(@PathVariable("sessionId") Integer sessionId, @RequestHeader("Authorization") String token) {
+    public Map<String,Object> getSessionInitialData(@PathVariable("sessionId") Integer sessionId, @RequestHeader("Authorization") String token) {
         //todo: muss noch angepasst werden
 //        if(!SecurityContextHolderUtils.isCurrentUser()) tokenService.checkSessionIdByToken(token, sessionId);
         serviceUtils.checkSessionId(sessionId);
@@ -89,6 +89,7 @@ public class SessionRestController implements SessionService {
         Map<String, Object> sessionData = new HashMap<>();
         sessionData.put("questions", questions);
         sessionData.put("participants", participants);
+        sessionData.put("session", session);
         return sessionData;
     }
 

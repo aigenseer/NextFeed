@@ -34,4 +34,8 @@ public class Survey {
     //the time when the survey was started
     private long timestamp;
 
+    @JoinColumn(referencedColumnName = "Session")
+    @JoinColumn(name="session_id", nullable=false)
+    int session_id;
+
 }

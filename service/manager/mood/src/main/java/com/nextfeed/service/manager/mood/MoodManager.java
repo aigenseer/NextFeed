@@ -12,7 +12,7 @@ import com.nextfeed.library.core.service.manager.dto.mood.NewCalculatedMoodReque
 import com.nextfeed.library.core.service.manager.dto.mood.NewMoodRequest;
 import com.nextfeed.library.core.service.socket.SessionSocketServices;
 import com.nextfeed.library.manager.repository.service.MoodDBService;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
@@ -27,53 +27,71 @@ public class MoodManager {
     //todo: muss noch gemacht werden
     private final SessionSocketServices sessionSocketServices;
 
-    private final Map<Integer, Map<Integer, Integer>> sessionsParticipantMoodValueCache = new HashMap<>();
+
+
+    @Data
+    private static class ParticipantCache{
+        private Date lastUpdate = new Date();
+        private Integer lastValue = 0;
+    }
+
+    private static class SessionCache{
+        private final Map<Integer, ParticipantCache> cache = new HashMap();
+
+        public synchronized void addParticipantValue(Integer participantId, Integer value){
+            if(!cache.containsKey(participantId)) cache.put(participantId, new ParticipantCache());
+            cache.get(participantId).setLastUpdate(new Date());
+            cache.get(participantId).setLastValue(value);
+        }
+        public synchronized NewMoodRequest getNewMoodRequest(Date beforeDate){
+            var participants = cache.values().stream().filter(p -> p.getLastUpdate().getTime() >=  beforeDate.getTime()).toList();
+            var average = participants.stream().mapToDouble(ParticipantCache::getLastValue).average().orElse(0);
+            return NewMoodRequest.builder().moodValue(average).participantsCount(participants.size()).build();
+
+        }
+        public Boolean existsParticipantId(Integer participantId){
+            return cache.containsKey(participantId);
+        }
+    }
+
+    private final Map<Integer, SessionCache> sessionsParticipantMoodValueCache = new HashMap<>();
 
     public MoodEntity addMoodValueToSession(int sessionId, NewMoodRequest request){
-        MoodEntity moodEntity = MoodEntity.builder().value(request.getMoodValue()).participantsCount(request.getParticipantsCount()).timestamp(new Date().getTime()).build();
-        Session session = sessionManagerService.getSessionById(sessionId);
-        moodDBService.save(moodEntity);
-        session.getMoodEntities().add(moodEntity);
-        sessionManagerService.saveSession(session);
+        System.out.println("New NewMoodRequest");
+        MoodEntity moodEntity = MoodEntity.builder().value(request.getMoodValue()).session_id(sessionId).participantsCount(request.getParticipantsCount()).timestamp(new Date().getTime()).build();
+        moodDBService.saveAsync(moodEntity);
         sessionSocketServices.sendMood(sessionId, moodEntity.getValue());
+        System.out.println("sendMood");
         return moodEntity;
     }
 
-    private Map<Integer, Integer> getParticipantMoodValueCacheBySessionId(int sessionId){
-        if(sessionManagerService.isSessionClosed(sessionId)) return null;
-        //todo: muss noch gemacht werden
-//        List<Integer> connectedParticipantIds = participantManager.getConnectedParticipantsBySessionId(sessionId).stream().map(Participant::getId).toList();
-        List<Integer> connectedParticipantIds = participantManager.getParticipantsBySessionId(sessionId).stream().map(Participant::getId).toList();
+    private void addParticipantValue(int sessionId, NewCalculatedMoodRequest request){
         if(!sessionsParticipantMoodValueCache.containsKey(sessionId)){
-            Map<Integer, Integer> cache = new HashMap<>();
-            connectedParticipantIds.forEach(participantId -> cache.put(participantId, 0));
-            sessionsParticipantMoodValueCache.put(sessionId, cache);
-        }else{
-            Map<Integer, Integer> cache = sessionsParticipantMoodValueCache.get(sessionId);
-            Set<Integer> cachedParticipantIds = cache.keySet();
-            cachedParticipantIds.forEach(participantId -> {
-                if(!connectedParticipantIds.contains(participantId)){
-                    cache.remove(participantId);
-                }
-            });
-            connectedParticipantIds.forEach(participantId -> {
-                if(!cachedParticipantIds.contains(participantId)){
-                    cache.put(participantId, 0);
-                }
-            });
-            sessionsParticipantMoodValueCache.put(sessionId, cache);
+            sessionsParticipantMoodValueCache.put(sessionId, new SessionCache());
         }
-        return sessionsParticipantMoodValueCache.get(sessionId);
+        sessionsParticipantMoodValueCache.get(sessionId).addParticipantValue(request.getParticipantId(), request.getMoodValue());
+    }
+
+    private NewMoodRequest getSessionAverageMoodValue(int sessionId, Date beforeDate){
+        return sessionsParticipantMoodValueCache.get(sessionId).getNewMoodRequest(beforeDate);
+    }
+
+    private boolean hasParticipantPermissionToSession(int sessionId, int participantId){
+        SessionCache cache = sessionsParticipantMoodValueCache.get(sessionId);
+        if(cache != null && cache.existsParticipantId(participantId)){
+            return true;
+        }
+        return participantManager.getSessionIdByParticipantId(participantId) == sessionId;
     }
 
     public MoodEntity createCalculatedMoodValue(int sessionId, NewCalculatedMoodRequest request){
-        Map<Integer, Integer> cache = getParticipantMoodValueCacheBySessionId(sessionId);
-        if(cache == null || !cache.containsKey(request.getParticipantId())) return null;
-        cache.put(request.getParticipantId(), request.getMoodValue());
-        sessionsParticipantMoodValueCache.put(sessionId, cache);
-        if(cache.size() == 0) return addMoodValueToSession(sessionId, new NewMoodRequest(0.0, 0));
-        Double averageValue = ((double) cache.values().stream().mapToInt(Integer::intValue).sum()) / cache.size();
-        return addMoodValueToSession(sessionId, new NewMoodRequest(averageValue, cache.size()));
+        if(!hasParticipantPermissionToSession(sessionId, request.getParticipantId())) return null;
+        Calendar beforeDate = Calendar.getInstance();
+        beforeDate.add(Calendar.MINUTE, 1);
+
+        addParticipantValue(sessionId, request);
+        NewMoodRequest newMoodRequest = getSessionAverageMoodValue(sessionId, beforeDate.getTime());
+        return addMoodValueToSession(sessionId, newMoodRequest);
     }
 
 }

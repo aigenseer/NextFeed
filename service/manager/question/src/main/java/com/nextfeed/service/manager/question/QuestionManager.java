@@ -18,7 +18,6 @@ import org.springframework.stereotype.Component;
 public class QuestionManager {
 
     private final QuestionDBService questionDBService;
-    private final SessionManagerService sessionManagerService;
     //todo: muss noch gemacht werden
     private final QuestionSocketServices questionSocketServices;
     private final ParticipantManagerService participantManagerService;
@@ -34,13 +33,11 @@ public class QuestionManager {
                 .participant(participant)
                 .message(request.getMessage())
                 .rating(0)
+                .session_id(sessionId)
                 .created(request.getCreated())
                 .anonymous(request.getAnonymous())
                 .build();
         questionDBService.save(question);
-        Session session = sessionManagerService.getSessionById(sessionId);
-        session.getQuestions().add(question);
-        sessionManagerService.saveSession(session);
         questionSocketServices.sendQuestion(sessionId, question);
         return question;
     }
@@ -53,7 +50,6 @@ public class QuestionManager {
             question.getVoters().add(voter);
             question.setRating(question.getRating() + (rating? +1: -1));
             questionDBService.save(question);
-            updateQuestion(sessionId, question);
             questionSocketServices.sendQuestion(sessionId, question);
         }
     }
@@ -63,14 +59,11 @@ public class QuestionManager {
         if(question.getClosed() == null){
             question.setClosed(System.currentTimeMillis());
             questionDBService.save(question);
-            updateQuestion(sessionId, question);
             questionSocketServices.sendQuestion(sessionId, question);
         }
     }
 
-    private void updateQuestion(int sessionId, Question question){
-        sessionManagerService.getSessionById(sessionId).getQuestions().add(question);
-    }
+
 
 
 }

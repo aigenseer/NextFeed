@@ -14,8 +14,7 @@ public class ParticipantDBService extends AbstractService<Participant, Participa
         super(participantRepository);
     }
 
-
-    public List<Participant> findBySession(Session s){
-        return repo.findBySession(s);
+    public List<Participant> findBySessionId(Integer sessionId){
+        return repo.findBySessionId(sessionId);
     }
 }

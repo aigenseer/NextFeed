@@ -35,6 +35,10 @@ public abstract class AbstractService <TYPE,REPO extends CrudRepository<TYPE,Int
         return repo.save(toAdd);
     }
 
+    public Thread saveAsync(TYPE toAdd){
+        return new Thread(() -> repo.save(toAdd));
+    }
+
     public List<TYPE> saveAll(Iterable<TYPE> toSave){
         return (List<TYPE>) repo.saveAll(toSave);
     }

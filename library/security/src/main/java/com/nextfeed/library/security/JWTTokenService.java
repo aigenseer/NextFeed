@@ -8,6 +8,7 @@ import com.nextfeed.library.core.entity.SystemConfiguration;
 import com.nextfeed.library.core.service.manager.SystemManagerService;
 import com.nextfeed.library.core.service.manager.dto.system.GetConfigurationRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -50,10 +51,12 @@ public class JWTTokenService {
         }
     }
 
+    @Cacheable(value = "getUsernameFromToken", key = "#token")
     public String getUsernameFromToken(String token) {
         return getClaimFromToken(token, Claims::getSubject);
     }
 
+    @Cacheable(value = "getExpirationDateFromToken", key = "#token")
     public Date getExpirationDateFromToken(String token) {
         return getClaimFromToken(token, Claims::getExpiration);
     }
@@ -74,13 +77,13 @@ public class JWTTokenService {
         return Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
     }
 
+    @Cacheable(value = "getAllClaimsFromToken", key = "#token")
     public Claims getAllClaimsFromToken(String token) {
         return Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
     }
 
     private boolean isValidate(String token){
         try{
-            Jwts.parser().setSigningKey(secret).parseClaimsJws(token);
             return !isTokenExpired(token);
         }catch (Exception e){
             return false;

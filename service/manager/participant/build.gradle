@@ -39,6 +39,8 @@ dependencies {
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
 
+    implementation 'org.springframework.boot:spring-boot-starter-cache'
+
     runtimeOnly 'org.postgresql:postgresql'
 
     implementation project(':library:core')

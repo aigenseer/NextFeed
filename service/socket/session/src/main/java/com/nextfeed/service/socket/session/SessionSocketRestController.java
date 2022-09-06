@@ -21,7 +21,7 @@ public class SessionSocketRestController implements SessionSocketService {
 
     @RequestMapping(value = "/v1/session/{sessionId}/notify/mood", method = RequestMethod.POST)
     public void sendMood(@PathVariable("sessionId") Integer sessionId, @RequestBody Double value){
-        sessionDataService.sendMood(sessionId, value);
+        new Thread(() -> sessionDataService.sendMood(sessionId, value)).start();
     }
 
     @RequestMapping(value = "/v1/session/{sessionId}/notify/session/close", method = RequestMethod.GET)

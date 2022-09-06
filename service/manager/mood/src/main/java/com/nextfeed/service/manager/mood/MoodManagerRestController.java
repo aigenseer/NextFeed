@@ -7,6 +7,7 @@ import com.nextfeed.library.core.service.manager.dto.mood.NewCalculatedMoodReque
 import com.nextfeed.library.core.service.manager.dto.mood.NewMoodRequest;
 import lombok.AllArgsConstructor;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
@@ -15,7 +16,11 @@ import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Date;
 
 
 @EnableFeignClients(basePackages = "com.nextfeed.library.core.service")
@@ -25,7 +30,7 @@ import org.springframework.web.bind.annotation.*;
 @EnableDiscoveryClient
 @SpringBootApplication(scanBasePackages = "com.nextfeed")
 @RefreshScope
-@AllArgsConstructor
+@RequiredArgsConstructor
 @RestController
 @RequestMapping(value = "/api/mood-manager")
 public class MoodManagerRestController implements MoodManagerService {
@@ -45,7 +50,5 @@ public class MoodManagerRestController implements MoodManagerService {
     public MoodEntity createCalculatedMoodValue(@PathVariable("sessionId") Integer sessionId, @RequestBody NewCalculatedMoodRequest request) {
         return moodManager.createCalculatedMoodValue(sessionId, request);
     }
-
-
 
 }

@@ -32,7 +32,7 @@ public interface SessionService {
     public void closeSession(@PathVariable("sessionId") Integer sessionId);
 
     @GetMapping("/api/session-service/v1/{sessionId}/initial")
-    public Map<String,Object> getSessionData(@PathVariable("sessionId") Integer sessionId, @RequestHeader("Authorization") String token);
+    public Map<String,Object> getSessionInitialData(@PathVariable("sessionId") Integer sessionId, @RequestHeader("Authorization") String token);
 
     @DeleteMapping("/api/session-service/v1/presenter/{sessionId}")
     public void deleteSession(@PathVariable("sessionId") Integer sessionId);
