@@ -19,11 +19,6 @@ public class SessionSocketRestController implements SessionSocketService {
         sessionDataService.sendNewParticipantToAll(sessionId, participant);
     }
 
-    @RequestMapping(value = "/v1/session/{sessionId}/notify/mood", method = RequestMethod.POST)
-    public void sendMood(@PathVariable("sessionId") Integer sessionId, @RequestBody Double value){
-        sessionDataService.sendMood(sessionId, value);
-    }
-
     @RequestMapping(value = "/v1/session/{sessionId}/notify/session/close", method = RequestMethod.GET)
     public void sendClose(@PathVariable("sessionId") Integer sessionId){
         sessionDataService.sendClose(sessionId);

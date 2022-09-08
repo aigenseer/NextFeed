@@ -18,9 +18,8 @@ public class Participant {
     private String nickname;
     private boolean connected = false;
 
-    @JsonIgnore
-    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(referencedColumnName = "Session")
     @JoinColumn(name="session_id", nullable=false)
-    private Session session;
+    Integer session_id;
 
 }

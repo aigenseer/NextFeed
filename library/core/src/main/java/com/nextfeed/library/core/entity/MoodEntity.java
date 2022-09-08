@@ -1,11 +1,9 @@
 package com.nextfeed.library.core.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Getter
 @Setter
@@ -21,4 +19,9 @@ public class MoodEntity {
     double value;
     long timestamp;
     int participantsCount;
+
+    @JoinColumn(referencedColumnName = "Session")
+    @JoinColumn(name="session_id", nullable=false)
+    int session_id;
+
 }

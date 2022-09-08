@@ -29,6 +29,10 @@ spring:
           uri: lb://authorization-service
           predicates:
             - Path=/api/authorization-service/**
+        - id: question-service
+          uri: lb://question-service
+          predicates:
+            - Path=/api/question-service/**
         - id: session-service
           uri: lb://session-service
           predicates:
@@ -39,7 +43,10 @@ spring:
             - Path=/api/survey-service/**
 
 
-
+        - id: mood-socket-service
+          uri: lb://mood-socket-service
+          predicates:
+            - Path=/socket/mood-socket/**
         - id: session-socket-service
           uri: lb://session-socket-service
           predicates:

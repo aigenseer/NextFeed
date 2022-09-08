@@ -26,7 +26,7 @@ public class ParticipantManager {
     public Participant createParticipantBySessionId(Integer sessionId, String nickname){
         Session session = sessionManagerService.getSessionById(sessionId);
         if(session != null){
-            Participant participant = Participant.builder().nickname(nickname).session(session).build();
+            Participant participant = Participant.builder().nickname(nickname).session_id(sessionId).build();
             participantDBService.save(participant);
             session.getParticipants().add(participant);
             sessionManagerService.saveSession(session);
@@ -39,7 +39,7 @@ public class ParticipantManager {
     public Session getSessionByParticipantId(int participantId){
         Participant participant = participantDBService.findById(participantId);
         if(participant != null){
-            return participant.getSession();
+            return sessionManagerService.getSessionById(participant.getSession_id());
         }
         return null;
     }
@@ -51,7 +51,7 @@ public class ParticipantManager {
     }
 
     public List<Participant> getParticipantsBySessionId(Integer sessionId){
-        return participantDBService.findBySession(sessionManagerService.getSessionById(sessionId));
+        return participantDBService.findBySessionId(sessionId);
     }
 
     public List<Participant> getConnectedParticipantsBySessionId(Integer sessionId){

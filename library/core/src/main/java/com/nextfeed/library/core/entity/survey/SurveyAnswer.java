@@ -19,9 +19,9 @@ public class SurveyAnswer {
     @Getter
     private String value;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(referencedColumnName = "Session")
     @JoinColumn(name="survey_id", nullable=false)
-    private Survey survey;
+    private Integer survey_id;
 
     private Integer participantId;
 }

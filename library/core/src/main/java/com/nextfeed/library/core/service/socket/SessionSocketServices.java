@@ -9,7 +9,7 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @Service
-public class SessionSocketServices {
+public class SessionSocketServices implements SessionSocketService {
 
     private final SocketServiceUtils serviceUtils;
     private final static String INSTANCE_NAME = "session-socket-service";
@@ -19,19 +19,6 @@ public class SessionSocketServices {
         serviceUtils.getInstanceInfoByName(INSTANCE_NAME).forEach(instance -> {
             try {
                 serviceUtils.postRequest(serviceUtils.getURIByInstance(instance, path), participant, String.class);
-            }catch (Exception e){
-                System.err.println("Can not call instance");
-                System.err.println(e);
-            }
-        });
-    }
-
-
-    public void sendMood(Integer sessionId, Double value){
-        String path = "/api/internal/session-socket/v1/session/%d/notify/mood".formatted(sessionId);
-        serviceUtils.getInstanceInfoByName(INSTANCE_NAME).forEach(instance -> {
-            try {
-                serviceUtils.postRequest(serviceUtils.getURIByInstance(instance, path), value, String.class);
             }catch (Exception e){
                 System.err.println("Can not call instance");
                 System.err.println(e);

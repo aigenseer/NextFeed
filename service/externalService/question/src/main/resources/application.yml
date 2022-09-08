@@ -1,0 +1,12 @@
+server:
+  port: 8020
+
+spring:
+  config:
+    import:
+      - classpath:security.config.yml
+      - classpath:eureka.client.config.yml
+  application:
+    name: question-service
+  main:
+    allow-bean-definition-overriding: true

@@ -2,6 +2,7 @@ package com.nextfeed.library.core.entity.survey;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.*;
 import java.util.List;
@@ -20,18 +21,23 @@ public class Survey {
     private int id;
 
     @Builder.Default
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "survey")
+    @OneToMany(fetch = FetchType.EAGER)
+    @JoinColumn(name = "survey_id")
     private Set<SurveyAnswer> surveyAnswers = Set.of();
 
+    @Transactional
     @JsonIgnore
     public List<String> getAnswers(){
-        return surveyAnswers.stream().map(SurveyAnswer::getValue).toList();
+        return getSurveyAnswers().stream().map(SurveyAnswer::getValue).toList();
     }
 
     @ManyToOne
     @JoinColumn(name = "template_id")
     private SurveyTemplate template;
-    //the time when the survey was started
     private long timestamp;
+
+    @JoinColumn(referencedColumnName = "Session")
+    @JoinColumn(name="session_id", nullable=false)
+    int session_id;
 
 }

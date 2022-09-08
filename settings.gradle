@@ -17,11 +17,13 @@ include 'service:environment:config'
 include 'service:externalService:webclient'
 include 'service:externalService:user'
 
+include 'service:externalService:question'
 include 'service:externalService:session'
 include 'service:externalService:survey'
 include 'service:externalService:authorization'
 
 //Session
+include 'service:socket:mood'
 include 'service:socket:session'
 include 'service:socket:question'
 include 'service:socket:survey'

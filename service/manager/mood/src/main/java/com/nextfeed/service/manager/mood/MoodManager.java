@@ -10,6 +10,7 @@ import com.nextfeed.library.core.service.manager.ParticipantManagerService;
 import com.nextfeed.library.core.service.manager.SessionManagerService;
 import com.nextfeed.library.core.service.manager.dto.mood.NewCalculatedMoodRequest;
 import com.nextfeed.library.core.service.manager.dto.mood.NewMoodRequest;
+import com.nextfeed.library.core.service.socket.MoodSocketServices;
 import com.nextfeed.library.core.service.socket.SessionSocketServices;
 import com.nextfeed.library.manager.repository.service.MoodDBService;
 import lombok.RequiredArgsConstructor;
@@ -24,18 +25,14 @@ public class MoodManager {
     private final MoodDBService moodDBService;
     private final SessionManagerService sessionManagerService;
     private final ParticipantManagerService participantManager;
-    //todo: muss noch gemacht werden
-    private final SessionSocketServices sessionSocketServices;
+    private final MoodSocketServices moodSocketServices;
 
     private final Map<Integer, Map<Integer, Integer>> sessionsParticipantMoodValueCache = new HashMap<>();
 
     public MoodEntity addMoodValueToSession(int sessionId, NewMoodRequest request){
-        MoodEntity moodEntity = MoodEntity.builder().value(request.getMoodValue()).participantsCount(request.getParticipantsCount()).timestamp(new Date().getTime()).build();
-        Session session = sessionManagerService.getSessionById(sessionId);
+        MoodEntity moodEntity = MoodEntity.builder().value(request.getMoodValue()).session_id(sessionId).participantsCount(request.getParticipantsCount()).timestamp(new Date().getTime()).build();
         moodDBService.save(moodEntity);
-        session.getMoodEntities().add(moodEntity);
-        sessionManagerService.saveSession(session);
-        sessionSocketServices.sendMood(sessionId, moodEntity.getValue());
+        moodSocketServices.sendMood(sessionId, moodEntity.getValue());
         return moodEntity;
     }
 

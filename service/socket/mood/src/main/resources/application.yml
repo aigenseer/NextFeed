@@ -1,0 +1,18 @@
+server:
+  port: 8210
+#  port: 0
+
+spring:
+  config:
+    import:
+      - classpath:eureka.client.config.yml
+  application:
+    name: mood-socket-service
+  main:
+    allow-bean-definition-overriding: true
+
+nextfeed:
+  socket:
+    endpoint:
+      prefix: "/socket/mood-socket"
+

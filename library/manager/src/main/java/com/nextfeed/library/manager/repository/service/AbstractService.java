@@ -19,6 +19,10 @@ public abstract class AbstractService <TYPE,REPO extends CrudRepository<TYPE,Int
         return repo.findById(id).orElse(null);
     }
 
+    public boolean existsById(int id){
+        return repo.existsById(id);
+    }
+
     public void delete(TYPE toDelete){
         repo.delete(toDelete);
     }

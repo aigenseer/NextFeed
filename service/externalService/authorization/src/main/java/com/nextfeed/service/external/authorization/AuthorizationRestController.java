@@ -50,8 +50,12 @@ public class AuthorizationRestController {
     @RequestMapping(value = "/v1/test/auth", method = RequestMethod.GET)
     public JwtResponse testPresenterAuthentication(){
         User user = userManagerService.getUserByMailAddress("ok@ok.de");
+        if(user == null){
+            user = userManagerService.createUser(NewUserRequest.builder().mailAddress("ok@ok.de").name("OK").pw("root").build());
+        }
         return new JwtResponse(tokenUserService.getTokenByPresenterUser(user));
     }
+
 
     @RequestMapping(value = "/v1/presenter/auth", method = RequestMethod.POST)
     public JwtResponse presenterAuthentication(@RequestBody ValidateUserRequest request){

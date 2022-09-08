@@ -9,7 +9,6 @@ import java.util.List;
 
 enum SessionDataServicePresenterPath {
     sendNewParticipantToAll("/socket/session-socket/v1/presenter/session/%d/user/onjoin"),
-    sendMood("/socket/session-socket/v1/presenter/session/%d/mood/onupdate"),
     sendParticipantConnectionStatus("/socket/session-socket/v1/presenter/session/%d/participant/connections/status");
 
     private final String path;
@@ -24,8 +23,7 @@ enum SessionDataServicePresenterPath {
 }
 
 enum SessionDataServiceParticipantPath {
-    sendNewParticipantToAll("/socket/session-socket/v1/participant/session/%d/user/onjoin"),
-    sendMood("/socket/session-socket/v1/participant/session/%d/mood/onupdate");
+    sendNewParticipantToAll("/socket/session-socket/v1/participant/session/%d/user/onjoin");
 
     private final String path;
     SessionDataServiceParticipantPath(String path) {
@@ -63,14 +61,6 @@ public class SessionDataService {
 
         simpMessagingTemplate.convertAndSend(presenterPath, participant);
         simpMessagingTemplate.convertAndSend(participantPath,participant);
-    }
-
-    public void sendMood(int sessionId, double value){
-        String presenterPath = String.format(SessionDataServicePresenterPath.sendMood.toString(),sessionId);
-        String participantPath = String.format(SessionDataServiceParticipantPath.sendMood.toString(),sessionId);
-
-        simpMessagingTemplate.convertAndSend(presenterPath, value);
-        simpMessagingTemplate.convertAndSend(participantPath, value);
     }
 
     public void sendClose(int sessionId){
