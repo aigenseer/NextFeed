@@ -7,7 +7,6 @@ plugins {
 
 group = 'com.nextfeed.library.socket'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = "17"
 
 bootJar {
     enabled = false
@@ -45,4 +44,3 @@ dependencies {
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
 }
-targetCompatibility = JavaVersion.VERSION_16

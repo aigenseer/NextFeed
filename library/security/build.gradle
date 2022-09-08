@@ -5,7 +5,7 @@ plugins {
     id 'java-library'
 }
 
-group = 'com.nextfeed.library.core'
+group = 'com.nextfeed.library.security'
 version = '0.0.1-SNAPSHOT'
 
 bootJar {
@@ -28,14 +28,8 @@ dependencies {
     implementation 'io.jsonwebtoken:jjwt:0.9.1'
 
     implementation 'org.springframework.boot:spring-boot-starter-security'
-//    implementation 'org.springframework.security:spring-security-messaging:5.7.3'
     implementation 'org.springframework.boot:spring-boot-starter-websocket'
-    implementation project(':library:core')
-
-//    implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
-//    implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
-//    implementation 'org.springframework:spring-webflux:5.3.22'
-//    implementation 'io.projectreactor.netty:reactor-netty:1.0.22'
+    compileOnly project(':library:core')
 
     implementation 'org.projectlombok:lombok:1.18.20'
     compileOnly 'org.projectlombok:lombok'
