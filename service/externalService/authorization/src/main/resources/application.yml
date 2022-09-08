@@ -1,5 +1,5 @@
 server:
-  port: 8010
+  port: 8040
 
 spring:
   config:
@@ -10,11 +10,4 @@ spring:
     name: authorization-service
   main:
     allow-bean-definition-overriding: true
-
-#logging:
-#  level:
-#    root: INFO
-#    org.springframework.web: INFO
-#    org.springframework.security: INFO
-#    org.springframework.security.oauth2: INFO
 
