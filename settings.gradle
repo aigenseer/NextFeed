@@ -34,7 +34,7 @@ include 'service:manager:participant'
 include 'service:manager:question'
 include 'service:manager:mood'
 include 'service:manager:survey'
-include 'service:manager:surveyTemplate'
+include 'service:manager:surveytemplate'
 include 'service:manager:user'
 include 'service:manager:system'
 
