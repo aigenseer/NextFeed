@@ -1,0 +1,18 @@
+task copyDockerFile() {
+    copy {
+        from new File(project.rootDir.getAbsolutePath() + "/gradleSettings/docker/"+(project.hasProperty("dockerType")? "$dockerType": "default")+"/Dockerfile").getCanonicalPath()
+        filter { it.replaceAll('<%=port%>', project.hasProperty("serverPort")? "$serverPort": "8080") }
+        filter { it.replaceAll('<%=name%>', project.name) }
+        filter { it.replaceAll('<%=version%>', project.version) }
+        into "$buildDir"
+    }
+}
+tasks.named("docker") { dependsOn("copyDockerFile") }
+
+docker {
+    name "nextfeed/${project.name}:${project.version}"
+    files "$buildDir/libs/${project.name}-${project.version}.jar"
+    dockerfile file("$buildDir/Dockerfile")
+    pull true
+    noCache true
+}
