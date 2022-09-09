@@ -7,7 +7,7 @@ plugins {
 
 group = 'com.nextfeed'
 version = '0.0.1-SNAPSHOT'
-
+ext.serviceType = "socket-service"
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter'
