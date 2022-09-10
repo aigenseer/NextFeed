@@ -1,3 +1,9 @@
+nextfeed:
+  config:
+    eureka:
+      hostname: localhost
+      port: 8000
+
 management:
   endpoints:
     jmx:
@@ -14,7 +20,7 @@ eureka:
   client:
     registry-fetch-interval-seconds: 10
     serviceUrl:
-      defaultZone: ${EUREKA_URI:http://localhost:8000/eureka}
+      defaultZone: ${EUREKA_URI:http://${nextfeed.config.eureka.hostname}:${nextfeed.config.eureka.port}/eureka}
   instance:
     instanceId: ${spring.application.name}:${random.value}
     hostname: localhost
@@ -22,7 +28,7 @@ eureka:
 
 #info:
 #  app:
-#    name: order-service
+#    name: my-service
 #    version: 1.0.0
-#    description: you can insert any kind of data in the property file like this
-#  author: mafei
+#    description: service description
+#  author: lecturefeed

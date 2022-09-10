@@ -1,0 +1,238 @@
+version: '3'
+services:
+
+  #enviorment
+  eureka:
+    image: nextfeed/eureka:0.0.1-SNAPSHOT
+    container_name: eureka
+    ports:
+      - "8000:8000"
+
+  gateway:
+    image: nextfeed/gateway:0.0.1-SNAPSHOT
+    container_name: gateway
+    env_file: default_conf.env
+    links:
+      - eureka
+    depends_on:
+      - eureka
+    ports:
+      - "8001:8001"
+
+  #external-service
+  authorization-external-service:
+    image: nextfeed/authorization-external-service:0.0.1-SNAPSHOT
+    container_name: authorization-external-service
+    env_file: default_conf.env
+    links:
+      - eureka
+    depends_on:
+      eureka:
+        condition: service_started
+      system-manager-service:
+        condition: service_healthy
+
+
+  question-external-service:
+    image: nextfeed/question-external-service:0.0.1-SNAPSHOT
+    container_name: question-external-service
+    env_file: default_conf.env
+    links:
+      - eureka
+    depends_on:
+      - eureka
+      - system-manager-service
+
+  session-external-service:
+    image: nextfeed/session-external-service:0.0.1-SNAPSHOT
+    container_name: session-external-service
+    env_file: default_conf.env
+    links:
+      - eureka
+    depends_on:
+      - eureka
+      - system-manager-service
+
+  survey-external-service:
+    image: nextfeed/survey-external-service:0.0.1-SNAPSHOT
+    container_name: survey-external-service
+    env_file: default_conf.env
+    links:
+      - eureka
+    depends_on:
+      - eureka
+      - system-manager-service
+
+  #manager-service
+  mood-manager-service:
+    image: nextfeed/mood-manager-service:0.0.1-SNAPSHOT
+    container_name: mood-manager-service
+    env_file: manager_conf.env
+    links:
+      - eureka
+      - db
+    depends_on:
+      eureka:
+        condition: service_started
+      db:
+        condition: service_started
+      system-manager-service:
+        condition: service_healthy
+
+  participant-manager-service:
+    image: nextfeed/participant-manager-service:0.0.1-SNAPSHOT
+    container_name: participant-manager-service
+    env_file: manager_conf.env
+    links:
+      - eureka
+      - db
+    depends_on:
+      eureka:
+        condition: service_started
+      db:
+        condition: service_started
+      system-manager-service:
+        condition: service_healthy
+
+  question-manager-service:
+    image: nextfeed/question-manager-service:0.0.1-SNAPSHOT
+    container_name: question-manager-service
+    env_file: manager_conf.env
+    links:
+      - eureka
+      - db
+    depends_on:
+      eureka:
+        condition: service_started
+      db:
+        condition: service_started
+      system-manager-service:
+        condition: service_healthy
+
+  session-manager-service:
+    image: nextfeed/session-manager-service:0.0.1-SNAPSHOT
+    container_name: session-manager-service
+    env_file: manager_conf.env
+    links:
+      - eureka
+      - db
+    depends_on:
+      eureka:
+        condition: service_started
+      db:
+        condition: service_started
+      system-manager-service:
+        condition: service_healthy
+
+  survey-manager-service:
+    image: nextfeed/survey-manager-service:0.0.1-SNAPSHOT
+    container_name: survey-manager-service
+    env_file: manager_conf.env
+    links:
+      - eureka
+      - db
+    depends_on:
+      eureka:
+        condition: service_started
+      db:
+        condition: service_started
+      system-manager-service:
+        condition: service_healthy
+
+  surveytemplate-manager-service:
+    image: nextfeed/surveytemplate-manager-service:0.0.1-SNAPSHOT
+    container_name: surveytemplate-manager-service
+    env_file: manager_conf.env
+    links:
+      - eureka
+      - db
+    depends_on:
+      eureka:
+        condition: service_started
+      db:
+        condition: service_started
+      system-manager-service:
+        condition: service_healthy
+
+  system-manager-service:
+    image: nextfeed/system-manager-service:0.0.1-SNAPSHOT
+    container_name: system-manager-service
+    env_file: manager_conf.env
+    links:
+      - eureka
+      - db
+    depends_on:
+      - eureka
+      - db
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8080/actuator/info" ]
+      interval: 10s
+      timeout: 5s
+      retries: 20
+
+  user-manager-service:
+    image: nextfeed/user-manager-service:0.0.1-SNAPSHOT
+    container_name: user-manager-service
+    env_file: manager_conf.env
+    links:
+      - eureka
+      - db
+    depends_on:
+      eureka:
+        condition: service_started
+      db:
+        condition: service_started
+      system-manager-service:
+        condition: service_healthy
+
+  #socket-service
+  mood-socket-service:
+    image: nextfeed/mood-socket-service:0.0.1-SNAPSHOT
+    container_name: mood-socket-service
+    env_file: default_conf.env
+    links:
+      - eureka
+    depends_on:
+      - eureka
+      - system-manager-service
+
+  question-socket-service:
+    image: nextfeed/question-socket-service:0.0.1-SNAPSHOT
+    container_name: question-socket-service
+    env_file: default_conf.env
+    links:
+      - eureka
+    depends_on:
+      - eureka
+      - system-manager-service
+
+  session-socket-service:
+    image: nextfeed/session-socket-service:0.0.1-SNAPSHOT
+    container_name: session-socket-service
+    env_file: default_conf.env
+    links:
+      - eureka
+    depends_on:
+      - eureka
+      - system-manager-service
+
+  survey-socket-service:
+    image: nextfeed/survey-socket-service:0.0.1-SNAPSHOT
+    container_name: survey-socket-service
+    env_file: default_conf.env
+    links:
+      - eureka
+    depends_on:
+      - eureka
+      - system-manager-service
+
+  #db-service
+  db:
+    image: postgres
+    container_name: nextfeed-postgres
+    environment:
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=pw
+      - POSTGRES_DB=nextfeed
+    ports:
+      - "5432:5432"
