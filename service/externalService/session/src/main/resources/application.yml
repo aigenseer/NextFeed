@@ -1,12 +1,12 @@
-server:
-  port: 8030
-
 spring:
   config:
     import:
+      - classpath:nextfeed.config.yml
       - classpath:security.config.yml
-      - classpath:eureka.client.config.yml
   application:
     name: session-service
   main:
     allow-bean-definition-overriding: true
+
+server:
+  port: ${nextfeed.service.session-service.port}

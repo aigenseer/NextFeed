@@ -9,10 +9,10 @@ group = 'com.nextfeed'
 version = '0.0.1-SNAPSHOT'
 ext.dockerType = "manager"
 ext.serviceType = "manager-service"
+ext.serverPort = 8120
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter'
-    implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'com.sun.jersey.contribs:jersey-apache-client4:1.19.4'
     implementation 'org.springframework.boot:spring-boot-starter-web'

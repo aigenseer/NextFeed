@@ -2,10 +2,9 @@ package com.nextfeed.library.core.utils;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.netflix.appinfo.InstanceInfo;
-import com.netflix.discovery.EurekaClient;
-import com.netflix.discovery.shared.Application;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -15,22 +14,33 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
-import java.util.ArrayList;
 import java.util.List;
 
 @RequiredArgsConstructor
 @Service
 public class SocketServiceUtils {
 
-    private final EurekaClient eurekaClient;
+    private final KubernetesServiceUtils serviceUtils;
 
-    public List<InstanceInfo> getInstanceInfoByName(String instanceName){
-        Application application = eurekaClient.getApplication(instanceName);
-        if(application != null){
-            return application.getInstances();
+    @Value("#{new Boolean('${nextfeed.debug}')}")
+    private Boolean debug;
+
+    @Getter
+    @RequiredArgsConstructor
+    public static class Instance{
+        private final String iPAddr;
+    }
+
+    public List<Instance> getInstanceInfoByName(String instanceName){
+        if(debug){
+            System.out.println("Debug service active");
+            return List.of(new Instance("localhost"));
         }
-        System.out.println("No instance of %s found".formatted(instanceName));
-        return new ArrayList<>();
+        List<Instance> list = serviceUtils.getPodIpsByServiceName(instanceName).stream().map(Instance::new).toList();
+        if(list.size() == 0){
+            System.out.printf("No instance of %s found%n", instanceName);
+        }
+        return list;
     }
 
     public String objectToJson(Object o){
@@ -57,10 +67,10 @@ public class SocketServiceUtils {
         return responseEntity.getBody();
     }
 
-    public URI getURIByInstance(InstanceInfo instance, String path){
+    public URI getURIByInstance(Instance instance, Integer port, String path){
         return UriComponentsBuilder.newInstance()
                 .scheme("http")
-                .port(instance.getPort())
+                .port(port)
                 .host(instance.getIPAddr())
                 .path(path)
                 .build().toUri();

@@ -1,12 +1,12 @@
-server:
-  port: 8180
-
 spring:
   config:
     import:
+      - classpath:nextfeed.config.yml
       - classpath:db.config.yml
-      - classpath:eureka.client.config.yml
   application:
     name: user-manager-service
   main:
     allow-bean-definition-overriding: true
+
+server:
+  port: ${nextfeed.service.user-manager-service.port}

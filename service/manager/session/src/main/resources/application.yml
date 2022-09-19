@@ -1,15 +1,14 @@
-server:
-  port: 8140
-
 spring:
   config:
     import:
+      - classpath:nextfeed.config.yml
       - classpath:db.config.yml
-      - eureka.client.config.yml
   application:
     name: session-manager-service
   main:
     allow-bean-definition-overriding: true
 
+server:
+  port: ${nextfeed.service.session-manager-service.port}
 
 

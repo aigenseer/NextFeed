@@ -1,11 +1,12 @@
-server:
-  port: 8040
-
 spring:
   config:
     import:
-      - classpath:eureka.client.config.yml
+      - classpath:nextfeed.config.yml
+      - classpath:security.config.yml
   application:
     name: survey-service
   main:
     allow-bean-definition-overriding: true
+
+server:
+  port: ${nextfeed.service.survey-service.port}

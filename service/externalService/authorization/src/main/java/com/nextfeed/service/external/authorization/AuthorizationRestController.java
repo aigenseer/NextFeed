@@ -10,8 +10,6 @@ import com.nextfeed.library.core.service.manager.SessionManagerService;
 import com.nextfeed.library.core.service.manager.UserManagerService;
 import com.nextfeed.library.core.service.manager.dto.user.NewUserRequest;
 import com.nextfeed.library.core.service.manager.dto.user.ValidateUserRequest;
-import com.nextfeed.library.security.JWTTokenService;
-import com.nextfeed.library.security.JwtUserDetailsService;
 import com.nextfeed.library.security.TokenUserService;
 import com.nextfeed.service.external.authorization.dto.LoginParticipantRequest;
 import com.nextfeed.service.external.authorization.dto.RegistrationRequest;
@@ -19,8 +17,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
-import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
-import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -29,8 +25,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 @EnableFeignClients(basePackages = "com.nextfeed.library.core.service")
-@EnableEurekaClient
-@EnableDiscoveryClient
 @SpringBootApplication(scanBasePackages = "com.nextfeed", exclude={DataSourceAutoConfiguration.class})
 @RestController
 @RequiredArgsConstructor

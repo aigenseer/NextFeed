@@ -1,13 +1,13 @@
-server:
-  port: 8040
-
 spring:
   config:
     import:
+      - classpath:nextfeed.config.yml
       - classpath:security.config.yml
-      - classpath:eureka.client.config.yml
   application:
     name: authorization-service
   main:
     allow-bean-definition-overriding: true
+
+server:
+  port: ${nextfeed.service.authorization-service.port}
 

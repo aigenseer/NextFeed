@@ -5,7 +5,6 @@ import com.nextfeed.library.core.entity.Participant;
 import com.nextfeed.library.core.entity.Question;
 import com.nextfeed.library.core.entity.Session;
 import com.nextfeed.library.core.entity.SessionMetadata;
-import com.nextfeed.library.core.service.external.SessionService;
 import com.nextfeed.library.core.service.external.utils.ServiceUtils;
 import com.nextfeed.library.core.service.manager.QuestionManagerService;
 import com.nextfeed.library.core.service.manager.SessionManagerService;
@@ -15,9 +14,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
-import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
-import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
-import org.springframework.cloud.netflix.hystrix.EnableHystrix;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.HttpStatus;
@@ -35,14 +31,11 @@ import java.util.stream.Collectors;
 
 
 @EnableFeignClients(basePackages = "com.nextfeed.library.core.service")
-@EnableEurekaClient
-@EnableDiscoveryClient
 @SpringBootApplication(scanBasePackages = "com.nextfeed", exclude={DataSourceAutoConfiguration.class})
-@EnableHystrix
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(value = "/api/session-service", produces = MediaType.APPLICATION_JSON_VALUE)
-public class SessionRestController implements SessionService {
+public class SessionRestController{
 
     public static void main(String[] args) {
         SpringApplication.run(SessionRestController.class, args);

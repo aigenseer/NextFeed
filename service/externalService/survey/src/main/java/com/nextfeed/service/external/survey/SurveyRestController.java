@@ -1,7 +1,6 @@
 package com.nextfeed.service.external.survey;
 
 import com.nextfeed.library.core.entity.survey.SurveyTemplate;
-import com.nextfeed.library.core.service.external.SurveyService;
 import com.nextfeed.library.core.service.external.dto.survey.MessageRequest;
 import com.nextfeed.library.core.service.external.utils.ServiceUtils;
 import com.nextfeed.library.core.service.manager.*;
@@ -10,9 +9,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
-import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
-import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
-import org.springframework.cloud.netflix.hystrix.EnableHystrix;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -22,14 +18,11 @@ import java.util.*;
 
 
 @EnableFeignClients(basePackages = "com.nextfeed.library.core.service")
-@EnableEurekaClient
-@EnableDiscoveryClient
 @SpringBootApplication(scanBasePackages = "com.nextfeed", exclude={DataSourceAutoConfiguration.class})
-@EnableHystrix
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(value = "/api/survey-service", produces = MediaType.APPLICATION_JSON_VALUE)
-public class SurveyRestController implements SurveyService {
+public class SurveyRestController {
 
     public static void main(String[] args) {
         SpringApplication.run(SurveyRestController.class, args);

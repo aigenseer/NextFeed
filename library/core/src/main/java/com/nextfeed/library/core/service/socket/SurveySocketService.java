@@ -2,7 +2,6 @@ package com.nextfeed.library.core.service.socket;
 
 import com.nextfeed.library.core.entity.survey.SurveyTemplate;
 import com.nextfeed.library.core.service.manager.dto.survey.SurveyDTO;
-import org.springframework.cloud.loadbalancer.annotation.LoadBalancerClient;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -10,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 @FeignClient(name = "survey-socket-service")
-@LoadBalancerClient(name = "survey-socket-service")
 public interface SurveySocketService {
 
     @RequestMapping(value = "/api/internal/survey-socket/v1/session/{sessionId}/survey/presenter", method = RequestMethod.POST)

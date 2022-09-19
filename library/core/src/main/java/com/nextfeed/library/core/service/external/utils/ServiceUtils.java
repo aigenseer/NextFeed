@@ -1,9 +1,8 @@
 package com.nextfeed.library.core.service.external.utils;
 
-import com.netflix.discovery.EurekaClient;
+
 import com.nextfeed.library.core.entity.Session;
 import com.nextfeed.library.core.service.manager.ParticipantManagerService;
-import com.nextfeed.library.core.service.manager.QuestionManagerService;
 import com.nextfeed.library.core.service.manager.SessionManagerService;
 import com.nextfeed.library.core.service.manager.SurveyTemplateManagerService;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +13,6 @@ import org.springframework.web.server.ResponseStatusException;
 @RequiredArgsConstructor
 @Service
 public class ServiceUtils {
-
 
     private final SessionManagerService sessionManagerService;
     private final ParticipantManagerService participantManagerService;

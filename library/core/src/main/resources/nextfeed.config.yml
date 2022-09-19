@@ -1,0 +1,65 @@
+nextfeed:
+  debug: true
+  kubernetes:
+    namespace: "nextfeed"
+    podLabelKey: "io.kompose.service"
+  service:
+    authorization-service:
+      domain: "authorization-service.${nextfeed.kubernetes.namespace}"
+      port: 8010
+    question-service:
+      domain: "question-service.${nextfeed.kubernetes.namespace}"
+      port: 8020
+    session-service:
+      domain: "session-service.${nextfeed.kubernetes.namespace}"
+      port: 8030
+    survey-service:
+      domain: "survey-service.${nextfeed.kubernetes.namespace}"
+      port: 8040
+
+    mood-manager-service:
+      domain: "mood-manager-service.${nextfeed.kubernetes.namespace}"
+      port: 8110
+    participant-manager-service:
+      domain: "participant-manager-service.${nextfeed.kubernetes.namespace}"
+      port: 8120
+    question-manager-service:
+      domain: "question-manager-service.${nextfeed.kubernetes.namespace}"
+      port: 8130
+    session-manager-service:
+      domain: "session-manager-service.${nextfeed.kubernetes.namespace}"
+      port: 8140
+    survey-manager-service:
+      domain: "survey-manager-service.${nextfeed.kubernetes.namespace}"
+      port: 8150
+    survey-template-manager-service:
+      domain: "survey-template-manager-service.${nextfeed.kubernetes.namespace}"
+      port: 8160
+    system-manager-service:
+      domain: "system-manager-service.${nextfeed.kubernetes.namespace}"
+      port: 8170
+    user-manager-service:
+      domain: "user-manager-service.${nextfeed.kubernetes.namespace}"
+      port: 8180
+
+    mood-socket-service:
+      domain: "mood-socket-service.${nextfeed.kubernetes.namespace}"
+      port: 8210
+    question-socket-service:
+      domain: "question-socket-service.${nextfeed.kubernetes.namespace}"
+      port: 8220
+    session-socket-service:
+      domain: "session-socket-service.${nextfeed.kubernetes.namespace}"
+      port: 8230
+    survey-socket-service:
+      domain: "survey-socket-service.${nextfeed.kubernetes.namespace}"
+      port: 8240
+
+management:
+  endpoints:
+    jmx:
+      exposure:
+        include: health,info,env,beans
+    web:
+      exposure:
+        include: health,info,env,beans,refresh

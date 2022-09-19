@@ -1,0 +1,12 @@
+spring:
+  config:
+    import:
+      - classpath:nextfeed.config.yml
+      - classpath:db.config.yml
+  application:
+    name: survey-template-manager-service
+  main:
+    allow-bean-definition-overriding: true
+
+server:
+  port: ${nextfeed.service.survey-template-manager-service.port}

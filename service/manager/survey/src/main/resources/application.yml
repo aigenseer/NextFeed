@@ -1,12 +1,12 @@
-server:
-  port: 8150
-
 spring:
   config:
     import:
+      - classpath:nextfeed.config.yml
       - classpath:db.config.yml
-      - classpath:eureka.client.config.yml
   application:
     name: survey-manager-service
   main:
     allow-bean-definition-overriding: true
+
+server:
+  port: ${nextfeed.service.survey-manager-service.port}
