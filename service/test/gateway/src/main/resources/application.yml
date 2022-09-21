@@ -1,0 +1,66 @@
+server:
+  port: 8001
+
+spring:
+  main:
+    allow-bean-definition-overriding: true
+
+  application:
+    name: gateway-service
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: false
+      default-filters:
+        - DedupeResponseHeader=Access-Control-Allow-Credentials Access-Control-Allow-Origin
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowCredentials: true
+            allowedOriginPatterns: "*"
+            allowedMethods: "*"
+            allowedHeaders: "*"
+
+
+
+      routes:
+        - id: authorization-service
+          uri: http://localhost:8010
+          predicates:
+            - Path=/api/authorization-service/**
+        - id: question-service
+          uri: http://localhost:8020
+          predicates:
+            - Path=/api/question-service/**
+        - id: session-service
+          uri: http://localhost:8030
+          predicates:
+            - Path=/api/session-service/**
+        - id: survey-service
+          uri: http://localhost:8040
+          predicates:
+            - Path=/api/survey-service/**
+
+
+        - id: mood-socket-service
+          uri: http://localhost:8210
+          predicates:
+            - Path=/socket/mood-socket/**
+        - id: session-socket-service
+          uri: http://localhost:8230
+          predicates:
+            - Path=/socket/session-socket/**
+        - id: survey-socket-service
+          uri: http://localhost:8240
+          predicates:
+            - Path=/socket/survey-socket/**
+        - id: question-socket-service
+          uri: http://localhost:8220
+          predicates:
+            - Path=/socket/question-socket/**
+
+
+
+
+

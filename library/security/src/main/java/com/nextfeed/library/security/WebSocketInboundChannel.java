@@ -1,6 +1,10 @@
 package com.nextfeed.library.security;
 
+import io.micrometer.core.instrument.Counter;
+import io.micrometer.core.instrument.MeterRegistry;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
@@ -14,31 +18,32 @@ import org.springframework.messaging.support.MessageHeaderAccessor;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
 
+import javax.annotation.PostConstruct;
 import java.security.Principal;
 
 @RequiredArgsConstructor
 @Configuration
-@Order(Ordered.HIGHEST_PRECEDENCE + 99)
-public class WebSocketAuthenticationSecurityConfig implements WebSocketMessageBrokerConfigurer {
+@Order(Ordered.HIGHEST_PRECEDENCE + 98)
+@ConditionalOnProperty({"nextfeed.metrics.enabled"})
+public class WebSocketInboundChannel implements WebSocketMessageBrokerConfigurer {
 
-    private static final String TOKEN_HEADER = "Authorization";
-    private final JWTTokenService tokenService;
+    private Counter reqCounter;
+    private final MeterRegistry registry;
+
+    @Value("${nextfeed.kubernetes.namespace}")
+    private String NAMESPACE;
+
+    @PostConstruct
+    public void init(){
+        reqCounter = registry.counter("%s_service_metrics".formatted(NAMESPACE), "usecase", "websocket-request");
+    }
 
     @Override
     public void configureClientInboundChannel(ChannelRegistration registration) {
         registration.interceptors(new ChannelInterceptor() {
             @Override
             public Message<?> preSend(Message<?> message, MessageChannel channel) {
-                final StompHeaderAccessor accessor = MessageHeaderAccessor.getAccessor(message, StompHeaderAccessor.class);
-
-                if (accessor != null && StompCommand.CONNECT == accessor.getCommand()) {
-                    final String token = accessor.getFirstNativeHeader(TOKEN_HEADER);
-                    Principal principal = tokenService.getUsernamePasswordAuthenticationTokenByToken(token);
-                    if(principal == null){
-                        throw new AuthenticationCredentialsNotFoundException("token was null or empty.");
-                    }
-                    accessor.setUser(principal);
-                }
+                reqCounter.increment();
                 return message;
             }
         });

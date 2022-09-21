@@ -3,6 +3,8 @@ nextfeed:
   kubernetes:
     namespace: "nextfeed"
     podLabelKey: "io.kompose.service"
+  metrics:
+    enabled: false
   service:
     authorization-service:
       domain: "authorization-service.${nextfeed.kubernetes.namespace}"
@@ -62,4 +64,7 @@ management:
         include: health,info,env,beans
     web:
       exposure:
-        include: health,info,env,beans,refresh
+        include: health,info,env,beans,prometheus
+    metrics:
+      enabled: true
+
