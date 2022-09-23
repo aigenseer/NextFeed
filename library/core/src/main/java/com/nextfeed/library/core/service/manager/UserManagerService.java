@@ -1,6 +1,6 @@
 package com.nextfeed.library.core.service.manager;
 
-import com.nextfeed.library.core.entity.User;
+import com.nextfeed.library.core.entity.user.User;
 import com.nextfeed.library.core.service.manager.dto.user.NewUserRequest;
 import com.nextfeed.library.core.service.manager.dto.user.ValidateUserRequest;
 import org.springframework.cloud.openfeign.FeignClient;

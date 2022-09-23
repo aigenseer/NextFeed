@@ -3,8 +3,8 @@ package com.nextfeed.service.manager.participant;
 
 
 
-import com.nextfeed.library.core.entity.Participant;
-import com.nextfeed.library.core.entity.Session;
+import com.nextfeed.library.core.entity.participant.Participant;
+import com.nextfeed.library.core.entity.session.Session;
 import com.nextfeed.library.core.service.manager.SessionManagerService;
 import com.nextfeed.library.core.service.repository.ParticipantRepositoryService;
 import com.nextfeed.library.core.service.socket.SessionSocketServices;
@@ -26,8 +26,6 @@ public class ParticipantManager {
         if(session != null){
             Participant participant = Participant.builder().nickname(nickname).session_id(sessionId).build();
             participantRepositoryService.save(participant);
-            session.getParticipants().add(participant);
-            sessionManagerService.saveSession(session);
             sessionSocketServices.sendNewParticipantToAll(sessionId, participant);
             return participant;
         }

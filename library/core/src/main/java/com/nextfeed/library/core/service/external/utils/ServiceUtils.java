@@ -1,7 +1,7 @@
 package com.nextfeed.library.core.service.external.utils;
 
 
-import com.nextfeed.library.core.entity.Session;
+import com.nextfeed.library.core.entity.session.Session;
 import com.nextfeed.library.core.service.manager.ParticipantManagerService;
 import com.nextfeed.library.core.service.manager.SessionManagerService;
 import com.nextfeed.library.core.service.manager.SurveyTemplateManagerService;

@@ -1,6 +1,6 @@
 package com.nextfeed.library.core.service.manager;
 
-import com.nextfeed.library.core.entity.Question;
+import com.nextfeed.library.core.entity.question.Question;
 import com.nextfeed.library.core.service.manager.dto.question.NewQuestionRequest;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PathVariable;

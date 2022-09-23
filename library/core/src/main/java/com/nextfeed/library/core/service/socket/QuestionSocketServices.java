@@ -1,6 +1,6 @@
 package com.nextfeed.library.core.service.socket;
 
-import com.nextfeed.library.core.entity.Question;
+import com.nextfeed.library.core.entity.question.Question;
 import com.nextfeed.library.core.utils.SocketServiceUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;

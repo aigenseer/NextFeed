@@ -1,6 +1,5 @@
 package com.nextfeed.library.core.service.repository;
 
-import com.nextfeed.library.core.entity.Question;
 import com.nextfeed.library.core.entity.survey.Survey;
 import com.nextfeed.library.core.entity.survey.SurveyAnswer;
 import com.nextfeed.library.core.entity.survey.SurveyTemplate;
@@ -37,6 +36,9 @@ public interface SurveyRepositoryService {
     public SurveyTemplate findTemplateById(@PathVariable("templateId") Integer templateId);
 
     @RequestMapping(value = "/v1/survey/all/{sessionId}", method = RequestMethod.GET)
-    public List<Survey> findAllBySessionId(@PathVariable("sessionId") Integer sessionId);
+    public List<Survey> findBySessionId(@PathVariable("sessionId") Integer sessionId);
+
+    @RequestMapping(value = "/v1/survey/delete/all/{sessionId}", method = RequestMethod.GET)
+    public void deleteAllBySessionId(@PathVariable("sessionId") Integer sessionId);
 
 }

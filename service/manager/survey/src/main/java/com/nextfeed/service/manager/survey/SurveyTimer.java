@@ -22,7 +22,7 @@ public class SurveyTimer extends Thread{
             sleep(survey.getTemplate().getDuration() * 1000L);
             survey = surveyManager.getSurveyById(surveyId);
             survey.setTimestamp(new Date().getTime());
-            surveyManager.updateSurvey(survey);
+            surveyManager.getSurveyRepositoryService().save(survey);
             //todo: muss noch gemacht werden
             surveySocketServices.onClose(sessionId, survey.getId());
             surveySocketServices.onResult(sessionId, surveyManager.surveyDTOMapping(survey));

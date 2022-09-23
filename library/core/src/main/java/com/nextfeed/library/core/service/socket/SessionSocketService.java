@@ -1,6 +1,6 @@
 package com.nextfeed.library.core.service.socket;
 
-import com.nextfeed.library.core.entity.Participant;
+import com.nextfeed.library.core.entity.participant.Participant;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 

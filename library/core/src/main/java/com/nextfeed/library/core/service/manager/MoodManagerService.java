@@ -1,6 +1,6 @@
 package com.nextfeed.library.core.service.manager;
 
-import com.nextfeed.library.core.entity.MoodEntity;
+import com.nextfeed.library.core.entity.mood.MoodEntity;
 import com.nextfeed.library.core.service.manager.dto.mood.NewCalculatedMoodRequest;
 import com.nextfeed.library.core.service.manager.dto.mood.NewMoodRequest;
 import org.springframework.cloud.openfeign.FeignClient;

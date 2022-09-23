@@ -1,7 +1,7 @@
 package com.nextfeed.library.core.service.manager;
 
-import com.nextfeed.library.core.entity.Participant;
-import com.nextfeed.library.core.entity.Session;
+import com.nextfeed.library.core.entity.participant.Participant;
+import com.nextfeed.library.core.entity.session.Session;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 

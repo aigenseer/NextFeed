@@ -1,7 +1,7 @@
 package com.nextfeed.service.repository.system;
 
 
-import com.nextfeed.library.core.entity.SystemConfiguration;
+import com.nextfeed.library.core.entity.system.SystemConfiguration;
 
 import com.nextfeed.library.core.service.repository.SystemRepositoryService;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +16,7 @@ import java.util.Optional;
 
 
 @EnableFeignClients(basePackages = "com.nextfeed.library.core.service")
-@EntityScan("com.nextfeed.library.core.entity")
+@EntityScan("com.nextfeed.library.core.entity.system")
 @EnableJpaRepositories
 @SpringBootApplication(scanBasePackages = "com.nextfeed")
 @RequiredArgsConstructor

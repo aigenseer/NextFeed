@@ -1,6 +1,5 @@
-package com.nextfeed.library.core.entity;
+package com.nextfeed.library.core.entity.participant;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -18,8 +17,6 @@ public class Participant {
     private String nickname;
     private boolean connected = false;
 
-    @JoinColumn(referencedColumnName = "Session")
-    @JoinColumn(name="session_id", nullable=false)
     Integer session_id;
 
 }

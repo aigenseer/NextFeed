@@ -1,6 +1,6 @@
 package com.nextfeed.service.socket.question;
 
-import com.nextfeed.library.core.entity.Question;
+import com.nextfeed.library.core.entity.question.Question;
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;

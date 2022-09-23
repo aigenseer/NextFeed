@@ -35,9 +35,7 @@ public class Survey {
     @JoinColumn(name = "template_id")
     private SurveyTemplate template;
     private long timestamp;
-
-    @JoinColumn(referencedColumnName = "Session")
-    @JoinColumn(name="session_id", nullable=false)
+    
     int session_id;
 
 }

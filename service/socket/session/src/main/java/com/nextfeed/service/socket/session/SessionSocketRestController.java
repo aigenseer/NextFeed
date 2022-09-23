@@ -1,6 +1,6 @@
 package com.nextfeed.service.socket.session;
 
-import com.nextfeed.library.core.entity.Participant;
+import com.nextfeed.library.core.entity.participant.Participant;
 import com.nextfeed.library.core.service.socket.SessionSocketService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;

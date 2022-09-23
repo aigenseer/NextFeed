@@ -1,9 +1,9 @@
 package com.nextfeed.service.external.session;
 
-import com.nextfeed.library.core.entity.MoodEntity;
-import com.nextfeed.library.core.entity.Participant;
-import com.nextfeed.library.core.entity.Question;
-import com.nextfeed.library.core.entity.Session;
+import com.nextfeed.library.core.entity.mood.MoodEntity;
+import com.nextfeed.library.core.entity.participant.Participant;
+import com.nextfeed.library.core.entity.question.Question;
+import com.nextfeed.library.core.entity.session.Session;
 import com.nextfeed.library.core.entity.survey.Survey;
 import com.nextfeed.library.core.service.manager.SessionManagerService;
 import lombok.RequiredArgsConstructor;

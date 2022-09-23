@@ -1,22 +1,21 @@
 package com.nextfeed.service.manager.question;
 
 
-import com.nextfeed.library.core.entity.Question;
+import com.nextfeed.library.core.entity.question.Question;
 import com.nextfeed.library.core.service.manager.QuestionManagerService;
 import com.nextfeed.library.core.service.manager.dto.question.NewQuestionRequest;
 import lombok.AllArgsConstructor;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.cloud.openfeign.EnableFeignClients;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.web.bind.annotation.*;
 
 
 
 @EnableFeignClients(basePackages = "com.nextfeed.library.core.service")
-@SpringBootApplication(scanBasePackages = "com.nextfeed")
+@SpringBootApplication(scanBasePackages = "com.nextfeed", exclude={DataSourceAutoConfiguration.class})
 @AllArgsConstructor
 @RestController
 @RequestMapping(value = "/api/question-manager")

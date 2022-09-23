@@ -1,6 +1,6 @@
 package com.nextfeed.service.manager.user;
 
-import com.nextfeed.library.core.entity.User;
+import com.nextfeed.library.core.entity.user.User;
 import com.nextfeed.library.core.service.repository.UserRepositoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;

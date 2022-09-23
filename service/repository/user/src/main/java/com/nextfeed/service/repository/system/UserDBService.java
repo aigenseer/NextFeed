@@ -1,8 +1,7 @@
 package com.nextfeed.service.repository.system;
 
 
-import com.nextfeed.library.core.entity.User;
-import com.nextfeed.library.manager.repository.UserRepository;
+import com.nextfeed.library.core.entity.user.User;
 import com.nextfeed.library.manager.repository.service.AbstractService;
 import org.springframework.stereotype.Service;
 

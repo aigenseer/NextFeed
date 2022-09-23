@@ -2,7 +2,6 @@ spring:
   config:
     import:
       - classpath:nextfeed.config.yml
-      - classpath:db.config.yml
   application:
     name: survey-manager-service
   main:

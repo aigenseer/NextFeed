@@ -1,6 +1,6 @@
 package com.nextfeed.library.core.service.repository;
 
-import com.nextfeed.library.core.entity.SystemConfiguration;
+import com.nextfeed.library.core.entity.system.SystemConfiguration;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;

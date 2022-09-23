@@ -1,6 +1,6 @@
 package com.nextfeed.service.manager.system;
 
-import com.nextfeed.library.core.entity.SystemConfiguration;
+import com.nextfeed.library.core.entity.system.SystemConfiguration;
 import com.nextfeed.library.core.service.repository.SystemRepositoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

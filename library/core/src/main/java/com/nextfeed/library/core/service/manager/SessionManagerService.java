@@ -1,6 +1,6 @@
 package com.nextfeed.library.core.service.manager;
 
-import com.nextfeed.library.core.entity.Session;
+import com.nextfeed.library.core.entity.session.Session;
 import com.nextfeed.library.core.service.manager.dto.session.NewSessionRequest;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
@@ -15,9 +15,6 @@ public interface SessionManagerService {
 
     @RequestMapping(value = "/v1/session/{sessionId}", method = RequestMethod.DELETE)
     public void deleteSession(@PathVariable("sessionId") Integer sessionId);
-
-    @RequestMapping(value = "/v1/session", method = RequestMethod.PUT)
-    public Session saveSession(@RequestBody Session session);
 
     @RequestMapping(value = "/v1/session/{sessionId}", method = RequestMethod.GET)
     public Session getSessionById(@PathVariable("sessionId") Integer sessionId);

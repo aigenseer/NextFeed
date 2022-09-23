@@ -1,6 +1,6 @@
 package com.nextfeed.service.repository.system;
 
-import com.nextfeed.library.core.entity.User;
+import com.nextfeed.library.core.entity.user.User;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;

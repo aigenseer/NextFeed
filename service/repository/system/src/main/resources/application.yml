@@ -1,3 +1,12 @@
+nextfeed:
+  datasource:
+    host: localhost
+    port: 5417
+    db: nextfeed
+    username: root
+    pw: pw
+    show-sql: true
+
 spring:
   config:
     import:
@@ -7,8 +16,13 @@ spring:
     name: system-repository-service
   main:
     allow-bean-definition-overriding: true
+
   datasource:
-    url: jdbc:postgresql://localhost:5417/nextfeed
+    url: jdbc:postgresql://${nextfeed.datasource.host}:${nextfeed.datasource.port}/${nextfeed.datasource.db}
+    username: ${nextfeed.datasource.username}
+    password: ${nextfeed.datasource.pw}
+  jpa:
+    show-sql: ${nextfeed.datasource.show-sql}
 
 server:
   port: ${nextfeed.service.system-repository-service.port}

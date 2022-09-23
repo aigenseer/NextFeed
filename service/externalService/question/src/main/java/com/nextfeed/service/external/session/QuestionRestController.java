@@ -1,7 +1,7 @@
 package com.nextfeed.service.external.session;
 
 
-import com.nextfeed.library.core.entity.Question;
+import com.nextfeed.library.core.entity.question.Question;
 import com.nextfeed.library.core.service.external.utils.ServiceUtils;
 import com.nextfeed.library.core.service.manager.QuestionManagerService;
 import com.nextfeed.library.core.service.manager.dto.question.NewQuestionRequest;

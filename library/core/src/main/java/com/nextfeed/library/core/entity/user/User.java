@@ -1,4 +1,4 @@
-package com.nextfeed.library.core.entity;
+package com.nextfeed.library.core.entity.user;
 
 import com.nextfeed.library.core.entity.survey.Survey;
 import lombok.*;

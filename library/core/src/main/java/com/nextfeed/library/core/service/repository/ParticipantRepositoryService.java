@@ -1,7 +1,6 @@
 package com.nextfeed.library.core.service.repository;
 
-import com.nextfeed.library.core.entity.MoodEntity;
-import com.nextfeed.library.core.entity.Participant;
+import com.nextfeed.library.core.entity.participant.Participant;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,5 +20,8 @@ public interface ParticipantRepositoryService {
 
     @RequestMapping(value = "/v1/get/all/{sessionId}", method = RequestMethod.GET)
     public List<Participant> findBySessionId(@PathVariable("sessionId") Integer sessionId);
+
+    @RequestMapping(value = "/v1/delete/all/{sessionId}", method = RequestMethod.GET)
+    public void deleteAllBySessionId(@PathVariable("sessionId") Integer sessionId);
 
 }

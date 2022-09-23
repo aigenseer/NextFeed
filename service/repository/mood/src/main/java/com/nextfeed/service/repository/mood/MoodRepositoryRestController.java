@@ -1,6 +1,6 @@
 package com.nextfeed.service.repository.mood;
 
-import com.nextfeed.library.core.entity.MoodEntity;
+import com.nextfeed.library.core.entity.mood.MoodEntity;
 import com.nextfeed.library.core.service.repository.MoodRepositoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.SpringApplication;
@@ -14,8 +14,7 @@ import java.util.List;
 
 
 @EnableFeignClients(basePackages = "com.nextfeed.library.core.service")
-@EntityScan("com.nextfeed.library.core.entity")
-@EnableJpaRepositories
+@EntityScan("com.nextfeed.library.core.entity.mood")
 @SpringBootApplication(scanBasePackages = "com.nextfeed")
 @RequiredArgsConstructor
 @RestController
@@ -34,8 +33,16 @@ public class MoodRepositoryRestController implements MoodRepositoryService {
     }
 
     @RequestMapping(value = "/v1/get/all/{sessionId}", method = RequestMethod.GET)
-    public List<MoodEntity> get(@PathVariable("sessionId") Integer sessionId) {
-        return List.of();
+    public List<MoodEntity> findBySessionId(@PathVariable("sessionId") Integer sessionId) {
+        return moodDBService.getRepo().findBySessionId(sessionId);
     }
+
+    @RequestMapping(value = "/v1/delete/all/{sessionId}", method = RequestMethod.GET)
+    public void deleteAllBySessionId(@PathVariable("sessionId") Integer sessionId) {
+        moodDBService.getRepo().deleteAllBySessionId(sessionId);
+    }
+
+
+
 
 }

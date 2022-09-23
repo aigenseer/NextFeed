@@ -1,6 +1,7 @@
 package com.nextfeed.service.manager.session;
 
-import com.nextfeed.library.core.entity.Session;
+import com.nextfeed.library.core.entity.session.Session;
+import com.nextfeed.library.core.entity.session.SessionEntity;
 import com.nextfeed.library.core.service.repository.SessionRepositoryService;
 import com.nextfeed.library.core.service.socket.SessionSocketServices;
 import com.nextfeed.library.core.utils.StringUtils;
@@ -24,18 +25,22 @@ public class SessionManager {
         return getSessionById(sessionId).getClosed() != 0L;
     }
 
-    public Session createSessionEntity(String name){
-        return Session.builder().name(name).sessionCode(StringUtils.randomString(SESSION_CODE_LENGTH)).build();
+    public SessionEntity createSessionEntity(String name){
+        return SessionEntity.builder().name(name).sessionCode(StringUtils.randomString(SESSION_CODE_LENGTH)).build();
     }
 
     public Session createSession(String name){
-        Session session = createSessionEntity(name);
-        sessionRepositoryService.save(session);
-        return session;
+        SessionEntity session = createSessionEntity(name);
+        var dto = sessionRepositoryService.save(session);
+        return dto;
     }
 
-    public Session getSessionById(Integer id) {
+    public SessionEntity getSessionById(Integer id) {
         return sessionRepositoryService.findById(id);
+    }
+
+    public Session getDTOById(Integer id) {
+        return sessionRepositoryService.getById(id);
     }
 
     public Set<Integer> getAllSessionIds(){
@@ -46,7 +51,7 @@ public class SessionManager {
     }
 
     public void closeSession(int sessionId){
-        Session session = getSessionById(sessionId);
+        SessionEntity session = getSessionById(sessionId);
         session.setClosed(new Date().getTime());
         sessionSocketServices.sendClose(sessionId);
         sessionRepositoryService.save(session);
@@ -72,7 +77,7 @@ public class SessionManager {
         return sessionRepositoryService.findAllClosed();
     }
 
-    public Session saveSession(Session session){
+    public Session saveSession(SessionEntity session){
         return sessionRepositoryService.save(session);
     }
 

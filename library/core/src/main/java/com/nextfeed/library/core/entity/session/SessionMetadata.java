@@ -1,4 +1,4 @@
-package com.nextfeed.library.core.entity;
+package com.nextfeed.library.core.entity.session;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

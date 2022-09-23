@@ -7,11 +7,8 @@ import com.nextfeed.library.core.service.manager.SessionManagerService;
 import com.nextfeed.library.core.service.manager.dto.survey.SurveyDTO;
 import com.nextfeed.library.core.service.repository.SurveyRepositoryService;
 import com.nextfeed.library.core.service.socket.SurveySocketServices;
-import com.nextfeed.library.manager.repository.service.*;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
-import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
@@ -21,7 +18,7 @@ import java.util.*;
 public class SurveyManager {
 
     private final SurveySocketServices surveySocketServices;
-    private final SessionManagerService sessionManagerService;
+    @Getter
     private final SurveyRepositoryService surveyRepositoryService;
 
     public SurveyDTO surveyDTOMapping(Survey survey){
@@ -34,7 +31,7 @@ public class SurveyManager {
     }
 
     public List<SurveyDTO> getSurveysBySessionId(Integer sessionId){
-        return sessionManagerService.getSessionById(sessionId).getSurveys().stream().map(this::surveyDTOMapping).toList();
+        return surveyRepositoryService.findBySessionId(sessionId).stream().map(this::surveyDTOMapping).toList();
     }
 
     public SurveyTemplate createSurvey(Integer sessionId, SurveyTemplate template){

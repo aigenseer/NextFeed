@@ -1,6 +1,6 @@
 package com.nextfeed.service.socket.session;
 
-import com.nextfeed.library.core.entity.Participant;
+import com.nextfeed.library.core.entity.participant.Participant;
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;

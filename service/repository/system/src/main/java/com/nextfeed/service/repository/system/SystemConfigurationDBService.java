@@ -1,8 +1,7 @@
 package com.nextfeed.service.repository.system;
 
 
-import com.nextfeed.library.core.entity.SystemConfiguration;
-import com.nextfeed.library.manager.repository.SystemConfigurationRepository;
+import com.nextfeed.library.core.entity.system.SystemConfiguration;
 import com.nextfeed.library.manager.repository.service.AbstractService;
 import org.springframework.stereotype.Service;
 

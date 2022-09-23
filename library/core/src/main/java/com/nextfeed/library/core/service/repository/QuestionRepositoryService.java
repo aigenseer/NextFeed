@@ -1,7 +1,7 @@
 package com.nextfeed.library.core.service.repository;
 
-import com.nextfeed.library.core.entity.Participant;
-import com.nextfeed.library.core.entity.Question;
+import com.nextfeed.library.core.entity.question.Question;
+import com.nextfeed.library.core.entity.question.QuestionEntity;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,12 +14,15 @@ import java.util.List;
 public interface QuestionRepositoryService {
 
     @RequestMapping(value = "/v1/save", method = RequestMethod.POST)
-    public Question save(@RequestBody Question question);
+    public Question save(@RequestBody QuestionEntity question);
 
     @RequestMapping(value = "/v1/get/id/{questionId}", method = RequestMethod.GET)
-    public Question findById(@PathVariable("questionId") Integer questionId);
+    public QuestionEntity findById(@PathVariable("questionId") Integer questionId);
 
     @RequestMapping(value = "/v1/get/all/{sessionId}", method = RequestMethod.GET)
-    public List<Question> get(@PathVariable("sessionId") Integer sessionId);
+    public List<Question> findBySessionId(@PathVariable("sessionId") Integer sessionId);
+
+    @RequestMapping(value = "/v1/delete/all/{sessionId}", method = RequestMethod.GET)
+    public void deleteAllBySessionId(@PathVariable("sessionId") Integer sessionId);
 
 }

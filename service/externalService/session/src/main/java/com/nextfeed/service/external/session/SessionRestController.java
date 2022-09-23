@@ -1,10 +1,10 @@
 package com.nextfeed.service.external.session;
 
 
-import com.nextfeed.library.core.entity.Participant;
-import com.nextfeed.library.core.entity.Question;
-import com.nextfeed.library.core.entity.Session;
-import com.nextfeed.library.core.entity.SessionMetadata;
+import com.nextfeed.library.core.entity.participant.Participant;
+import com.nextfeed.library.core.entity.question.Question;
+import com.nextfeed.library.core.entity.session.Session;
+import com.nextfeed.library.core.entity.session.SessionMetadata;
 import com.nextfeed.library.core.service.external.utils.ServiceUtils;
 import com.nextfeed.library.core.service.manager.QuestionManagerService;
 import com.nextfeed.library.core.service.manager.SessionManagerService;
@@ -76,8 +76,8 @@ public class SessionRestController{
         }
 
         Session session = sessionManagerService.getSessionById(sessionId);
-        Set<Participant> participants = session.getParticipants();
-        Set<Question> questions = session.getQuestions();
+        List<Participant> participants = session.getParticipants();
+        List<Question> questions = session.getQuestions();
 
         Map<String, Object> sessionData = new HashMap<>();
         sessionData.put("questions", questions);

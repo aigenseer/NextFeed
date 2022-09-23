@@ -1,6 +1,8 @@
 package com.nextfeed.service.repository.question;
 
-import com.nextfeed.library.core.entity.Question;
+import com.nextfeed.library.core.entity.question.Question;
+import com.nextfeed.library.core.entity.question.QuestionEntity;
+import com.nextfeed.library.core.service.repository.ParticipantRepositoryService;
 import com.nextfeed.library.core.service.repository.QuestionRepositoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.SpringApplication;
@@ -14,7 +16,7 @@ import java.util.List;
 
 
 @EnableFeignClients(basePackages = "com.nextfeed.library.core.service")
-@EntityScan("com.nextfeed.library.core.entity")
+@EntityScan("com.nextfeed.library.core.entity.question")
 @EnableJpaRepositories
 @SpringBootApplication(scanBasePackages = "com.nextfeed")
 @RequiredArgsConstructor
@@ -27,20 +29,39 @@ public class QuestionRepositoryRestController implements QuestionRepositoryServi
     }
 
     private final QuestionDBService questionDBService;
+    private final ParticipantRepositoryService participantRepositoryService;
+
+    private Question mapEntityToDTO(QuestionEntity q){
+        return Question.builder()
+                .id(q.getId())
+                .participant(participantRepositoryService.findById(q.getParticipant_id()))
+                .message(q.getMessage())
+                .rating(q.getRating())
+                .created(q.getCreated())
+                .closed(q.getClosed())
+                .voters(q.getVoters())
+                .session_id(q.getSession_id())
+                .build();
+    }
 
     @RequestMapping(value = "/v1/save", method = RequestMethod.POST)
-    public Question save(@RequestBody Question question) {
-        return questionDBService.save(question);
+    public Question save(@RequestBody QuestionEntity question) {
+        return mapEntityToDTO(questionDBService.save(question));
     }
 
     @RequestMapping(value = "/v1/get/id/{questionId}", method = RequestMethod.GET)
-    public Question findById(@PathVariable("questionId") Integer questionId) {
+    public QuestionEntity findById(@PathVariable("questionId") Integer questionId) {
         return questionDBService.findById(questionId);
     }
 
     @RequestMapping(value = "/v1/get/all/{sessionId}", method = RequestMethod.GET)
-    public List<Question> get(@PathVariable("sessionId") Integer sessionId) {
-        return List.of();
+    public List<Question> findBySessionId(@PathVariable("sessionId") Integer sessionId) {
+        return questionDBService.getRepo().findBySessionId(sessionId).stream().map(this::mapEntityToDTO).toList();
+    }
+
+    @RequestMapping(value = "/v1/delete/all/{sessionId}", method = RequestMethod.GET)
+    public void deleteAllBySessionId(@PathVariable("sessionId") Integer sessionId) {
+        questionDBService.getRepo().deleteAllBySessionId(sessionId);
     }
 
 }

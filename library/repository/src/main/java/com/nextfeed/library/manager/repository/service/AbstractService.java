@@ -1,12 +1,14 @@
 package com.nextfeed.library.manager.repository.service;
 
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
 
 @AllArgsConstructor
 public abstract class AbstractService <TYPE,REPO extends CrudRepository<TYPE,Integer>>{
+    @Getter
     protected final REPO repo;
 
     public List<TYPE> findAll(){

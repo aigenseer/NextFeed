@@ -1,6 +1,6 @@
 package com.nextfeed.service.repository.system;
 
-import com.nextfeed.library.core.entity.User;
+import com.nextfeed.library.core.entity.user.User;
 import com.nextfeed.library.core.service.repository.UserRepositoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.SpringApplication;
@@ -10,11 +10,9 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Optional;
-
 
 @EnableFeignClients(basePackages = "com.nextfeed.library.core.service")
-@EntityScan("com.nextfeed.library.core.entity")
+@EntityScan("com.nextfeed.library.core.entity.user")
 @EnableJpaRepositories
 @SpringBootApplication(scanBasePackages = "com.nextfeed")
 @RequiredArgsConstructor

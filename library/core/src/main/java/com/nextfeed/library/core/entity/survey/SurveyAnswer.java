@@ -19,7 +19,7 @@ public class SurveyAnswer {
     @Getter
     private String value;
 
-    @JoinColumn(referencedColumnName = "Session")
+    @JoinColumn(referencedColumnName = "Survey")
     @JoinColumn(name="survey_id", nullable=false)
     private Integer survey_id;
 

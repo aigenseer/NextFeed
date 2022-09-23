@@ -1,9 +1,9 @@
 package com.nextfeed.service.external.authorization;
 
 
-import com.nextfeed.library.core.entity.Participant;
-import com.nextfeed.library.core.entity.Session;
-import com.nextfeed.library.core.entity.User;
+import com.nextfeed.library.core.entity.participant.Participant;
+import com.nextfeed.library.core.entity.session.Session;
+import com.nextfeed.library.core.entity.user.User;
 import com.nextfeed.library.core.service.external.utils.ServiceUtils;
 import com.nextfeed.library.core.service.manager.ParticipantManagerService;
 import com.nextfeed.library.core.service.manager.SessionManagerService;

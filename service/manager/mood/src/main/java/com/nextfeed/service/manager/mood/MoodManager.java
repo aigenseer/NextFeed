@@ -3,8 +3,8 @@ package com.nextfeed.service.manager.mood;
 
 
 
-import com.nextfeed.library.core.entity.MoodEntity;
-import com.nextfeed.library.core.entity.Participant;
+import com.nextfeed.library.core.entity.mood.MoodEntity;
+import com.nextfeed.library.core.entity.participant.Participant;
 import com.nextfeed.library.core.service.manager.ParticipantManagerService;
 import com.nextfeed.library.core.service.manager.SessionManagerService;
 import com.nextfeed.library.core.service.manager.dto.mood.NewCalculatedMoodRequest;

@@ -1,6 +1,6 @@
 package com.nextfeed.service.repository.participant;
 
-import com.nextfeed.library.core.entity.Participant;
+import com.nextfeed.library.core.entity.participant.Participant;
 import com.nextfeed.library.core.service.repository.ParticipantRepositoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.SpringApplication;
@@ -14,7 +14,7 @@ import java.util.List;
 
 
 @EnableFeignClients(basePackages = "com.nextfeed.library.core.service")
-@EntityScan("com.nextfeed.library.core.entity")
+@EntityScan("com.nextfeed.library.core.entity.participant")
 @EnableJpaRepositories
 @SpringBootApplication(scanBasePackages = "com.nextfeed")
 @RequiredArgsConstructor
@@ -40,7 +40,11 @@ public class ParticipantRepositoryRestController implements ParticipantRepositor
 
     @RequestMapping(value = "/v1/get/all/{sessionId}", method = RequestMethod.GET)
     public List<Participant> findBySessionId(@PathVariable("sessionId") Integer sessionId) {
-        return List.of();
+        return participantDBService.getRepo().findBySessionId(sessionId);
     }
 
+    @RequestMapping(value = "/v1/delete/all/{sessionId}", method = RequestMethod.GET)
+    public void deleteAllBySessionId(@PathVariable("sessionId") Integer sessionId) {
+        participantDBService.getRepo().deleteAllBySessionId(sessionId);
+    }
 }

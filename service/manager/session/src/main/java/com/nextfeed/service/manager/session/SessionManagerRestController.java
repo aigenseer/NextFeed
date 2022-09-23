@@ -1,13 +1,14 @@
 package com.nextfeed.service.manager.session;
 
 
-import com.nextfeed.library.core.entity.Session;
+import com.nextfeed.library.core.entity.session.Session;
 import com.nextfeed.library.core.service.manager.SessionManagerService;
 import com.nextfeed.library.core.service.manager.dto.session.NewSessionRequest;
 import lombok.AllArgsConstructor;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,7 +16,7 @@ import java.util.List;
 
 
 @EnableFeignClients(basePackages = "com.nextfeed.library.core.service")
-@SpringBootApplication(scanBasePackages = "com.nextfeed")
+@SpringBootApplication(scanBasePackages = "com.nextfeed", exclude={DataSourceAutoConfiguration.class})
 @AllArgsConstructor
 @RestController
 @RequestMapping(value = "/api/session-manager")
@@ -38,14 +39,9 @@ public class SessionManagerRestController implements SessionManagerService {
         sessionManager.deleteSession(sessionId);
     }
 
-    @RequestMapping(value = "/v1/session", method = RequestMethod.PUT)
-    public Session saveSession(@RequestBody Session session){
-        return sessionManager.saveSession(session);
-    }
-
     @RequestMapping(value = "/v1/session/{sessionId}", method = RequestMethod.GET)
     public Session getSessionById(@PathVariable("sessionId") Integer sessionId){
-        return sessionManager.getSessionById(sessionId);
+        return sessionManager.getDTOById(sessionId);
     }
 
     @RequestMapping(value = "/v1/session/{sessionId}/close", method = RequestMethod.GET)

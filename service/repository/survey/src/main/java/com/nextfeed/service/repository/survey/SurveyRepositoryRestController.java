@@ -16,7 +16,7 @@ import java.util.List;
 
 
 @EnableFeignClients(basePackages = "com.nextfeed.library.core.service")
-@EntityScan("com.nextfeed.library.core.entity")
+@EntityScan("com.nextfeed.library.core.entity.survey")
 @EnableJpaRepositories
 @SpringBootApplication(scanBasePackages = "com.nextfeed")
 @RequiredArgsConstructor
@@ -68,8 +68,13 @@ public class SurveyRepositoryRestController implements SurveyRepositoryService {
     }
 
     @RequestMapping(value = "/v1/survey/all/{sessionId}", method = RequestMethod.GET)
-    public List<Survey> findAllBySessionId(@PathVariable("sessionId") Integer sessionId) {
-        return List.of();
+    public List<Survey> findBySessionId(@PathVariable("sessionId") Integer sessionId) {
+        return surveyDBService.getRepo().findBySessionId(sessionId);
+    }
+
+    @RequestMapping(value = "/v1/survey/delete/all/{sessionId}", method = RequestMethod.GET)
+    public void deleteAllBySessionId(@PathVariable("sessionId") Integer sessionId) {
+        surveyDBService.getRepo().deleteAllBySessionId(sessionId);
     }
 
 }

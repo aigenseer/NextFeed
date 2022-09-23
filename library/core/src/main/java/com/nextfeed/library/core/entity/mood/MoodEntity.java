@@ -1,6 +1,5 @@
-package com.nextfeed.library.core.entity;
+package com.nextfeed.library.core.entity.mood;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -20,8 +19,6 @@ public class MoodEntity {
     long timestamp;
     int participantsCount;
 
-    @JoinColumn(referencedColumnName = "Session")
-    @JoinColumn(name="session_id", nullable=false)
     int session_id;
 
 }

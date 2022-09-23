@@ -1,6 +1,6 @@
 package com.nextfeed.library.core.service.manager;
 
-import com.nextfeed.library.core.entity.SystemConfiguration;
+import com.nextfeed.library.core.entity.system.SystemConfiguration;
 import com.nextfeed.library.core.service.manager.dto.system.GetConfigurationRequest;
 import com.nextfeed.library.core.service.manager.dto.system.NewConfigurationRequest;
 import org.springframework.cloud.openfeign.FeignClient;
