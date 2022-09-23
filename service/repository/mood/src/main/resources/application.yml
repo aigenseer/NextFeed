@@ -1,0 +1,14 @@
+spring:
+  config:
+    import:
+      - classpath:nextfeed.config.yml
+      - classpath:db.config.yml
+  application:
+    name: mood-repository-service
+  main:
+    allow-bean-definition-overriding: true
+  datasource:
+    url: jdbc:postgresql://localhost:5411/nextfeed
+
+server:
+  port: ${nextfeed.service.mood-repository-service.port}

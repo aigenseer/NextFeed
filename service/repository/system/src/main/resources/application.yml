@@ -1,0 +1,14 @@
+spring:
+  config:
+    import:
+      - classpath:nextfeed.config.yml
+      - classpath:db.config.yml
+  application:
+    name: system-repository-service
+  main:
+    allow-bean-definition-overriding: true
+  datasource:
+    url: jdbc:postgresql://localhost:5417/nextfeed
+
+server:
+  port: ${nextfeed.service.system-repository-service.port}

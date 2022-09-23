@@ -3,7 +3,3 @@
 
 nextfeed:
   debug: false
-
-eureka:
-  client:
-    registry-fetch-interval-seconds: 30

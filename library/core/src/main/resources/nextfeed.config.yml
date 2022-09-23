@@ -57,6 +57,32 @@ nextfeed:
       domain: "survey-socket-service.${nextfeed.kubernetes.namespace}"
       port: 8240
 
+
+    mood-repository-service:
+      domain: "mood-repository-service.${nextfeed.kubernetes.namespace}"
+      port: 8310
+    participant-repository-service:
+      domain: "participant-repository-service.${nextfeed.kubernetes.namespace}"
+      port: 8320
+    question-repository-service:
+      domain: "question-repository-service.${nextfeed.kubernetes.namespace}"
+      port: 8330
+    session-repository-service:
+      domain: "session-repository-service.${nextfeed.kubernetes.namespace}"
+      port: 8340
+    survey-repository-service:
+      domain: "survey-repository-service.${nextfeed.kubernetes.namespace}"
+      port: 8350
+    survey-repository-manager-service:
+      domain: "survey-repository-manager-service.${nextfeed.kubernetes.namespace}"
+      port: 8360
+    system-repository-service:
+      domain: "system-repository-service.${nextfeed.kubernetes.namespace}"
+      port: 8370
+    user-repository-service:
+      domain: "user-repository-service.${nextfeed.kubernetes.namespace}"
+      port: 8380
+
 management:
   endpoints:
     jmx:

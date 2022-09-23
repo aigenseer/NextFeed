@@ -37,6 +37,17 @@ include 'service:manager:user'
 include 'service:manager:system'
 
 
+//repository
+include 'service:repository:mood'
+include 'service:repository:participant'
+include 'service:repository:question'
+include 'service:repository:session'
+include 'service:repository:survey'
+//include 'service:repository:survey-template'
+include 'service:repository:system'
+include 'service:repository:user'
+
+
 
 
 
