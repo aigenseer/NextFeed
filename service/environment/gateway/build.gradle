@@ -2,11 +2,13 @@ plugins {
     id 'org.springframework.boot' version '2.7.1'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
     id 'java'
+    id 'com.palantir.docker' version '0.33.0'
 }
 
 group = 'com.nextfeed'
 version = '0.0.1-SNAPSHOT'
-
+ext.serviceType = "service"
+ext.serverPort = 8001
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter'
@@ -18,7 +20,10 @@ dependencies {
 
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
-
+//  Prometheus Support with Micrometer
+    implementation 'io.micrometer:micrometer-core:1.9.3'
+    implementation 'io.micrometer:micrometer-registry-prometheus:1.9.3'
 }
 
 apply from: '../../../gradleSettings/service-settings.gradle'
+apply from: '../../../gradleSettings/docker-settings.gradle'

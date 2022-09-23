@@ -76,6 +76,7 @@ public class TestController {
         final StringBuilder uriBuilder = new StringBuilder();
         uriBuilder.append("https://kubernetes.default.svc/api/v1/namespaces/%s/pods".formatted(NAMESPACE));
         uriBuilder.append("?").append("labelSelector").append("=").append("%s=%s".formatted(label, serviceName));
+        System.out.println(uriBuilder.toString());
         Type localVarReturnType = (new TypeToken<V1PodList>() {}).getType();
         return call(token, uriBuilder.toString(), localVarReturnType);
 
@@ -109,6 +110,7 @@ public class TestController {
                 HttpEntity entity = response.getEntity();
                 if (entity != null) {
                     String result = EntityUtils.toString(entity);
+                    System.out.println(result);
                     return Config.defaultClient().getJSON().deserialize(result, localVarReturnType);
                 }
             }

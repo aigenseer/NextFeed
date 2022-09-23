@@ -6,10 +6,11 @@ include 'library:manager'
 include 'library:socket'
 include 'library:security'
 
+//environment
+include 'service:environment:gateway'
+
 //test
 include 'service:test:test'
-include 'service:test:gateway'
-
 
 //External Service
 include 'service:externalService:webclient'
