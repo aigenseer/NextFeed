@@ -2,13 +2,10 @@ package com.nextfeed.service.manager.question;
 
 import com.nextfeed.library.core.entity.Participant;
 import com.nextfeed.library.core.entity.Question;
-import com.nextfeed.library.core.entity.Session;
 import com.nextfeed.library.core.service.manager.ParticipantManagerService;
-import com.nextfeed.library.core.service.manager.SessionManagerService;
 import com.nextfeed.library.core.service.manager.dto.question.NewQuestionRequest;
-import com.nextfeed.library.core.service.socket.QuestionSocketService;
+import com.nextfeed.library.core.service.repository.QuestionRepositoryService;
 import com.nextfeed.library.core.service.socket.QuestionSocketServices;
-import com.nextfeed.library.manager.repository.service.QuestionDBService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -17,13 +14,13 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class QuestionManager {
 
-    private final QuestionDBService questionDBService;
+    private final QuestionRepositoryService questionRepositoryService;
     private final QuestionSocketServices questionSocketServices;
     private final ParticipantManagerService participantManagerService;
 
 
     public Boolean existsQuestionId(int questionId){
-        return questionDBService.findById(questionId) != null;
+        return questionRepositoryService.findById(questionId) != null;
     }
 
     public Question createQuestion(int sessionId, NewQuestionRequest request){
@@ -36,28 +33,28 @@ public class QuestionManager {
                 .created(request.getCreated())
                 .anonymous(request.getAnonymous())
                 .build();
-        questionDBService.save(question);
+        questionRepositoryService.save(question);
         questionSocketServices.sendQuestion(sessionId, question);
         return question;
     }
 
     public void ratingUpByQuestionId(int sessionId, int questionId, int voterId, boolean rating){
-        Question question = questionDBService.findById(questionId);
+        Question question = questionRepositoryService.findById(questionId);
         Participant voter = participantManagerService.getParticipant(voterId);
 
         if (!question.getVoters().contains(voter)){
             question.getVoters().add(voter);
             question.setRating(question.getRating() + (rating? +1: -1));
-            questionDBService.save(question);
+            questionRepositoryService.save(question);
             questionSocketServices.sendQuestion(sessionId, question);
         }
     }
 
     public void closeQuestion(int sessionId, int questionId){
-        Question question = questionDBService.findById(questionId);
+        Question question = questionRepositoryService.findById(questionId);
         if(question.getClosed() == null){
             question.setClosed(System.currentTimeMillis());
-            questionDBService.save(question);
+            questionRepositoryService.save(question);
             questionSocketServices.sendQuestion(sessionId, question);
         }
     }

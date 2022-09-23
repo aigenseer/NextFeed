@@ -1,11 +1,9 @@
 package com.nextfeed.service.repository.survey;
 
 import com.nextfeed.library.core.entity.survey.Survey;
+import com.nextfeed.library.core.entity.survey.SurveyAnswer;
 import com.nextfeed.library.core.entity.survey.SurveyTemplate;
 import com.nextfeed.library.core.service.repository.SurveyRepositoryService;
-import com.nextfeed.library.manager.repository.service.SurveyAnswerDBService;
-import com.nextfeed.library.manager.repository.service.SurveyDBService;
-import com.nextfeed.library.manager.repository.service.SurveyTemplateDBService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -44,6 +42,16 @@ public class SurveyRepositoryRestController implements SurveyRepositoryService {
         return surveyDBService.findById(surveyId);
     }
 
+    @RequestMapping(value = "/v1/survey-answer/save", method = RequestMethod.POST)
+    public SurveyAnswer save(@RequestBody SurveyAnswer surveyAnswer) {
+        return surveyAnswerDBService.save(surveyAnswer);
+    }
+
+    @RequestMapping(value = "/v1/survey-answer/exists/{surveyId}/{participantId}", method = RequestMethod.GET)
+    public boolean existsSurveyAnswerByParticipant(@PathVariable("surveyId") Integer surveyId, @PathVariable("participantId") Integer participantId) {
+        return surveyAnswerDBService.existsSurveyAnswerByParticipant(participantId, surveyId);
+    }
+
     @RequestMapping(value = "/v1/survey-template/save", method = RequestMethod.POST)
     public SurveyTemplate save(@RequestBody SurveyTemplate surveyTemplate) {
         return surveyTemplateDBService.save(surveyTemplate);
@@ -60,7 +68,7 @@ public class SurveyRepositoryRestController implements SurveyRepositoryService {
     }
 
     @RequestMapping(value = "/v1/survey/all/{sessionId}", method = RequestMethod.GET)
-    public List<Survey> getAllSurvey(@PathVariable("sessionId") Integer sessionId) {
+    public List<Survey> findAllBySessionId(@PathVariable("sessionId") Integer sessionId) {
         return List.of();
     }
 

@@ -5,14 +5,12 @@ package com.nextfeed.service.manager.mood;
 
 import com.nextfeed.library.core.entity.MoodEntity;
 import com.nextfeed.library.core.entity.Participant;
-import com.nextfeed.library.core.entity.Session;
 import com.nextfeed.library.core.service.manager.ParticipantManagerService;
 import com.nextfeed.library.core.service.manager.SessionManagerService;
 import com.nextfeed.library.core.service.manager.dto.mood.NewCalculatedMoodRequest;
 import com.nextfeed.library.core.service.manager.dto.mood.NewMoodRequest;
+import com.nextfeed.library.core.service.repository.MoodRepositoryService;
 import com.nextfeed.library.core.service.socket.MoodSocketServices;
-import com.nextfeed.library.core.service.socket.SessionSocketServices;
-import com.nextfeed.library.manager.repository.service.MoodDBService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -22,7 +20,7 @@ import java.util.*;
 @RequiredArgsConstructor
 public class MoodManager {
 
-    private final MoodDBService moodDBService;
+    private final MoodRepositoryService moodRepositoryService;
     private final SessionManagerService sessionManagerService;
     private final ParticipantManagerService participantManager;
     private final MoodSocketServices moodSocketServices;
@@ -31,7 +29,7 @@ public class MoodManager {
 
     public MoodEntity addMoodValueToSession(int sessionId, NewMoodRequest request){
         MoodEntity moodEntity = MoodEntity.builder().value(request.getMoodValue()).session_id(sessionId).participantsCount(request.getParticipantsCount()).timestamp(new Date().getTime()).build();
-        moodDBService.save(moodEntity);
+        moodRepositoryService.save(moodEntity);
         moodSocketServices.sendMood(sessionId, moodEntity.getValue());
         return moodEntity;
     }

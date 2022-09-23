@@ -18,8 +18,6 @@ import java.util.List;
 
 
 @EnableFeignClients(basePackages = "com.nextfeed.library.core.service")
-@EntityScan("com.nextfeed.library.core.entity")
-@EnableJpaRepositories("com.nextfeed.library.manager.repository")
 @SpringBootApplication(scanBasePackages = "com.nextfeed")
 @AllArgsConstructor
 @RestController

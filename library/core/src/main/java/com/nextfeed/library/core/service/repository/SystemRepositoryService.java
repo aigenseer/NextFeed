@@ -15,6 +15,6 @@ public interface SystemRepositoryService {
     public SystemConfiguration save(@RequestBody SystemConfiguration systemConfiguration);
 
     @RequestMapping(value = "/v1/get/name", method = RequestMethod.POST)
-    public Optional<SystemConfiguration> get(@RequestBody String name);
+    public Optional<SystemConfiguration> getByName(@RequestBody String name);
 
 }

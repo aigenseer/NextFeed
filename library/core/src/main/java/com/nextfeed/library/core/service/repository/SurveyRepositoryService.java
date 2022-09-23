@@ -2,6 +2,7 @@ package com.nextfeed.library.core.service.repository;
 
 import com.nextfeed.library.core.entity.Question;
 import com.nextfeed.library.core.entity.survey.Survey;
+import com.nextfeed.library.core.entity.survey.SurveyAnswer;
 import com.nextfeed.library.core.entity.survey.SurveyTemplate;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,6 +21,12 @@ public interface SurveyRepositoryService {
     @RequestMapping(value = "/v1/survey/get/{surveyId}", method = RequestMethod.GET)
     public Survey findSurveyById(@PathVariable("surveyId") Integer surveyId);
 
+    @RequestMapping(value = "/v1/survey-answer/save", method = RequestMethod.POST)
+    public SurveyAnswer save(@RequestBody SurveyAnswer surveyAnswer);
+
+    @RequestMapping(value = "/v1/survey-answer/exists/{surveyId}/{participantId}", method = RequestMethod.GET)
+    public boolean existsSurveyAnswerByParticipant(@PathVariable("surveyId") Integer surveyId, @PathVariable("participantId") Integer participantId);
+
     @RequestMapping(value = "/v1/survey-template/save", method = RequestMethod.POST)
     public SurveyTemplate save(@RequestBody SurveyTemplate surveyTemplate);
 
@@ -30,6 +37,6 @@ public interface SurveyRepositoryService {
     public SurveyTemplate findTemplateById(@PathVariable("templateId") Integer templateId);
 
     @RequestMapping(value = "/v1/survey/all/{sessionId}", method = RequestMethod.GET)
-    public List<Survey> getAllSurvey(@PathVariable("sessionId") Integer sessionId);
+    public List<Survey> findAllBySessionId(@PathVariable("sessionId") Integer sessionId);
 
 }

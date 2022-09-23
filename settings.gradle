@@ -2,7 +2,7 @@ rootProject.name = 'nextfeed'
 
 //Library
 include 'library:core'
-include 'library:manager'
+include 'library:repository'
 include 'library:socket'
 include 'library:security'
 

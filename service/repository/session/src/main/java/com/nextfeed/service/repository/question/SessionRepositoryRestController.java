@@ -51,7 +51,7 @@ public class SessionRepositoryRestController implements SessionRepositoryService
     }
 
     @RequestMapping(value = "/v1/get/all/closed", method = RequestMethod.GET)
-    public List<Session> getAllOpenSessions() {
+    public List<Session> findAllClosed() {
         return sessionDBService.findAllClosed();
     }
 

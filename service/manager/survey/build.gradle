@@ -24,10 +24,7 @@ dependencies {
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
 
-    runtimeOnly 'org.postgresql:postgresql'
-
     implementation project(':library:core')
-    implementation project(':library:manager')
 }
 
 apply from: '../../../gradleSettings/service-settings.gradle'

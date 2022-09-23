@@ -25,7 +25,7 @@ public interface SessionRepositoryService {
     public List<Session> findAllOpen();
 
     @RequestMapping(value = "/v1/get/all/closed", method = RequestMethod.GET)
-    public List<Session> getAllOpenSessions();
+    public List<Session> findAllClosed();
 
     @RequestMapping(value = "/v1/get/id/{sessionId}", method = RequestMethod.GET)
     public Session findById(@PathVariable("sessionId") Integer sessionId);

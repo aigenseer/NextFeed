@@ -26,7 +26,7 @@ dependencies {
     runtimeOnly 'org.postgresql:postgresql'
 
     implementation project(':library:core')
-    implementation project(':library:manager')
+    implementation project(':library:repository')
 }
 
 apply from: '../../../gradleSettings/service-settings.gradle'

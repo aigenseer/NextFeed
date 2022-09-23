@@ -20,6 +20,6 @@ public interface ParticipantRepositoryService {
     public Participant findById(@PathVariable("participantId") Integer participantId);
 
     @RequestMapping(value = "/v1/get/all/{sessionId}", method = RequestMethod.GET)
-    public List<Participant> get(@PathVariable("sessionId") Integer sessionId);
+    public List<Participant> findBySessionId(@PathVariable("sessionId") Integer sessionId);
 
 }

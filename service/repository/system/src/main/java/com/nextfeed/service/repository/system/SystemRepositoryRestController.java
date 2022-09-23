@@ -4,7 +4,6 @@ package com.nextfeed.service.repository.system;
 import com.nextfeed.library.core.entity.SystemConfiguration;
 
 import com.nextfeed.library.core.service.repository.SystemRepositoryService;
-import com.nextfeed.library.manager.repository.service.SystemConfigurationDBService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -37,7 +36,7 @@ public class SystemRepositoryRestController implements SystemRepositoryService {
     }
 
     @RequestMapping(value = "/v1/get/name", method = RequestMethod.POST)
-    public Optional<SystemConfiguration> get(@RequestBody String name) {
+    public Optional<SystemConfiguration> getByName(@RequestBody String name) {
         return systemConfigurationDBService.getByName(name);
     }
 

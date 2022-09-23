@@ -5,6 +5,7 @@ import com.nextfeed.library.core.entity.survey.SurveyAnswer;
 import com.nextfeed.library.core.entity.survey.SurveyTemplate;
 import com.nextfeed.library.core.service.manager.SessionManagerService;
 import com.nextfeed.library.core.service.manager.dto.survey.SurveyDTO;
+import com.nextfeed.library.core.service.repository.SurveyRepositoryService;
 import com.nextfeed.library.core.service.socket.SurveySocketServices;
 import com.nextfeed.library.manager.repository.service.*;
 import lombok.RequiredArgsConstructor;
@@ -19,11 +20,9 @@ import java.util.*;
 @RequiredArgsConstructor
 public class SurveyManager {
 
-    //todo: muss noch gemacht werden
     private final SurveySocketServices surveySocketServices;
     private final SessionManagerService sessionManagerService;
-    private final SurveyDBService surveyDBService;
-    private final SurveyAnswerDBService surveyAnswerDBService;
+    private final SurveyRepositoryService surveyRepositoryService;
 
     public SurveyDTO surveyDTOMapping(Survey survey){
         return SurveyDTO.builder()
@@ -40,7 +39,7 @@ public class SurveyManager {
 
     public SurveyTemplate createSurvey(Integer sessionId, SurveyTemplate template){
         Survey survey = Survey.builder().template(template).session_id(sessionId).build();
-        updateSurvey(survey);
+        surveyRepositoryService.save(survey);
 
         //todo: muss noch gemacht werden
         surveySocketServices.onCreateByPresenter(sessionId, surveyDTOMapping(survey));
@@ -53,14 +52,6 @@ public class SurveyManager {
         return template;
     }
 
-    @Caching(evict = {
-            @CacheEvict(value = "existsSurveyById", key = "#survey.id")
-    })
-    public void updateSurvey(Survey survey){
-        surveyDBService.save(survey);
-    }
-
-
     public void addAnswerToSurvey(int sessionId, int surveyId, int participantId, String answer){
         Survey survey = getSurveyById(surveyId);
         if(survey != null){
@@ -70,23 +61,18 @@ public class SurveyManager {
     }
 
     private void addAnswerToSurvey(int surveyId, int participantId, String answerValue){
-        if(!surveyAnswerDBService.existsSurveyAnswerByParticipant(participantId, surveyId)){
+        if(!surveyRepositoryService.existsSurveyAnswerByParticipant(participantId, surveyId)){
             SurveyAnswer surveyAnswer = SurveyAnswer.builder()
                     .survey_id(surveyId)
                     .participantId(participantId)
                     .value(answerValue)
                     .build();
-            surveyAnswerDBService.save(surveyAnswer);
+            surveyRepositoryService.save(surveyAnswer);
         }
     }
 
     public Survey getSurveyById(int id){
-        return surveyDBService.findById(id);
-    }
-
-    @Cacheable(value = "existsSurveyById", key = "#id")
-    public boolean existsSurveyById(int id){
-        return surveyDBService.existsById(id);
+        return surveyRepositoryService.findSurveyById(id);
     }
 
 }

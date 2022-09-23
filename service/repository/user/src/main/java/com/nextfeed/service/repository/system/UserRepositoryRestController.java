@@ -33,9 +33,14 @@ public class UserRepositoryRestController implements UserRepositoryService {
         return userDBService.save(User);
     }
 
+    @RequestMapping(value = "/v1/get/{userId}", method = RequestMethod.GET)
+    public User findById(@PathVariable("userId") Integer userId) {
+        return userDBService.findById(userId);
+    }
+
     @RequestMapping(value = "/v1/get/mailaddress", method = RequestMethod.POST)
-    public Optional<User> get(@RequestBody String mailAddress) {
-        return userDBService.getUsersByMailAddress(mailAddress);
+    public User getUsersByMailAddress(@RequestBody String mailAddress) {
+        return userDBService.getUsersByMailAddress(mailAddress).orElseGet(null);
     }
 
 }

@@ -1,7 +1,7 @@
 package com.nextfeed.service.manager.system;
 
 import com.nextfeed.library.core.entity.SystemConfiguration;
-import com.nextfeed.library.manager.repository.service.SystemConfigurationDBService;
+import com.nextfeed.library.core.service.repository.SystemRepositoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -9,20 +9,20 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class SystemManager{
 
-    private final SystemConfigurationDBService systemConfigurationDBService;
+    private final SystemRepositoryService systemRepositoryService;
 
     public SystemConfiguration create(String name, String value){
         SystemConfiguration configuration = SystemConfiguration.builder().name(name).value(value).build();
-        systemConfigurationDBService.save(configuration);
+        systemRepositoryService.save(configuration);
         return configuration;
     }
 
     public SystemConfiguration getByName(String name){
-        return systemConfigurationDBService.getByName(name).orElse(null);
+        return systemRepositoryService.getByName(name).orElse(null);
     }
 
     public Boolean existsByName(String name){
-        return systemConfigurationDBService.getByName(name).isPresent();
+        return systemRepositoryService.getByName(name).isPresent();
     }
 
 
