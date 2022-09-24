@@ -1,6 +1,6 @@
 package com.nextfeed.library.core.service.socket;
 
-import com.nextfeed.library.core.entity.question.Question;
+import com.nextfeed.library.core.entity.question.QuestionDTO;
 import com.nextfeed.library.core.utils.SocketServiceUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -16,7 +16,7 @@ public class QuestionSocketServices {
     @Value("#{new Integer('${nextfeed.service.question-socket-service.port}')}")
     private Integer port;
 
-    public void sendQuestion(Integer sessionId, Question question){
+    public void sendQuestion(Integer sessionId, QuestionDTO question){
         String path = "/api/internal/question-socket/v1/session/%d/question".formatted(sessionId);
         serviceUtils.getInstanceInfoByName(INSTANCE_NAME).forEach(instance -> {
             try {

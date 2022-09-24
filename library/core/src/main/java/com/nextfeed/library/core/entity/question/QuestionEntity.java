@@ -19,13 +19,10 @@ public class QuestionEntity {
 
     private Integer participant_id;
     private String message;
-    private Integer rating = 0;
     private Long created;
     private Boolean anonymous;
     private Long closed;
 
-    @ElementCollection
-    private Set<Integer> voters = Set.of();
     int session_id;
 
 }

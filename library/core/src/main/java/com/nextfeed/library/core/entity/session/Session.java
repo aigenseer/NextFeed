@@ -2,7 +2,7 @@ package com.nextfeed.library.core.entity.session;
 
 import com.nextfeed.library.core.entity.mood.MoodEntity;
 import com.nextfeed.library.core.entity.participant.Participant;
-import com.nextfeed.library.core.entity.question.Question;
+import com.nextfeed.library.core.entity.question.QuestionDTO;
 import com.nextfeed.library.core.entity.survey.Survey;
 import lombok.*;
 
@@ -23,7 +23,7 @@ public class Session {
 
     private List<Participant> participants = List.of();
 
-    private List<Question> questions = List.of();
+    private List<QuestionDTO> questions = List.of();
 
     private List<Survey> surveys = List.of();
 

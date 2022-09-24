@@ -25,7 +25,7 @@ public class ParticipantManager {
         Session session = sessionManagerService.getSessionById(sessionId);
         if(session != null){
             Participant participant = Participant.builder().nickname(nickname).session_id(sessionId).build();
-            participantRepositoryService.save(participant);
+            participant = participantRepositoryService.save(participant);
             sessionSocketServices.sendNewParticipantToAll(sessionId, participant);
             return participant;
         }

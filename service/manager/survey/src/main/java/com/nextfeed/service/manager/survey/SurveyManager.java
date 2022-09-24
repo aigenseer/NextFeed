@@ -36,7 +36,7 @@ public class SurveyManager {
 
     public SurveyTemplate createSurvey(Integer sessionId, SurveyTemplate template){
         Survey survey = Survey.builder().template(template).session_id(sessionId).build();
-        surveyRepositoryService.save(survey);
+        survey = surveyRepositoryService.save(survey);
 
         //todo: muss noch gemacht werden
         surveySocketServices.onCreateByPresenter(sessionId, surveyDTOMapping(survey));

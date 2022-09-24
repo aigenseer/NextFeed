@@ -15,6 +15,6 @@ public interface MoodRepository extends CrudRepository<MoodEntity,Integer> {
     List<MoodEntity> findBySessionId(Integer session_id);
 
     @Query("DELETE FROM MoodEntity s WHERE s.session_id = ?1")
-    List<MoodEntity> deleteAllBySessionId(Integer session_id);
+    void deleteAllBySessionId(Integer session_id);
 
 }

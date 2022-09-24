@@ -1,7 +1,8 @@
 package com.nextfeed.service.repository.question;
 
-import com.nextfeed.library.core.entity.question.Question;
+import com.nextfeed.library.core.entity.question.QuestionDTO;
 import com.nextfeed.library.core.entity.question.QuestionEntity;
+import com.nextfeed.library.core.entity.question.VoterEntity;
 import com.nextfeed.library.core.service.repository.ParticipantRepositoryService;
 import com.nextfeed.library.core.service.repository.QuestionRepositoryService;
 import lombok.RequiredArgsConstructor;
@@ -29,23 +30,25 @@ public class QuestionRepositoryRestController implements QuestionRepositoryServi
     }
 
     private final QuestionDBService questionDBService;
+    private final VoterDBService voterDBService;
     private final ParticipantRepositoryService participantRepositoryService;
 
-    private Question mapEntityToDTO(QuestionEntity q){
-        return Question.builder()
+    private QuestionDTO mapEntityToDTO(QuestionEntity q){
+        var voters = voterDBService.getRepo().findByQuestionId(q.getId());
+        return QuestionDTO.builder()
                 .id(q.getId())
                 .participant(participantRepositoryService.findById(q.getParticipant_id()))
                 .message(q.getMessage())
-                .rating(q.getRating())
+                .rating(voters.stream().map(VoterEntity::getRating).mapToInt(Integer::intValue).sum())
                 .created(q.getCreated())
                 .closed(q.getClosed())
-                .voters(q.getVoters())
+                .voters(voters)
                 .session_id(q.getSession_id())
                 .build();
     }
 
     @RequestMapping(value = "/v1/save", method = RequestMethod.POST)
-    public Question save(@RequestBody QuestionEntity question) {
+    public QuestionDTO save(@RequestBody QuestionEntity question) {
         return mapEntityToDTO(questionDBService.save(question));
     }
 
@@ -54,8 +57,18 @@ public class QuestionRepositoryRestController implements QuestionRepositoryServi
         return questionDBService.findById(questionId);
     }
 
+    @RequestMapping(value = "/v1/get/dto/id/{questionId}", method = RequestMethod.GET)
+    public QuestionDTO findDTOById(@PathVariable("questionId") Integer questionId) {
+        return mapEntityToDTO(questionDBService.findById(questionId));
+    }
+
+    @RequestMapping(value = "/v1/question/{questionId}/vote/add/{participantId}", method = RequestMethod.POST)
+    public void addVote(@PathVariable("questionId") Integer questionId, @PathVariable("participantId") Integer participantId, @RequestBody Integer rating) {
+        voterDBService.save(VoterEntity.builder().question_id(questionId).participant_id(participantId).rating(rating).build());
+    }
+
     @RequestMapping(value = "/v1/get/all/{sessionId}", method = RequestMethod.GET)
-    public List<Question> findBySessionId(@PathVariable("sessionId") Integer sessionId) {
+    public List<QuestionDTO> findBySessionId(@PathVariable("sessionId") Integer sessionId) {
         return questionDBService.getRepo().findBySessionId(sessionId).stream().map(this::mapEntityToDTO).toList();
     }
 

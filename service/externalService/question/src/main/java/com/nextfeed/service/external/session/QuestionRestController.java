@@ -1,7 +1,7 @@
 package com.nextfeed.service.external.session;
 
 
-import com.nextfeed.library.core.entity.question.Question;
+import com.nextfeed.library.core.entity.question.QuestionDTO;
 import com.nextfeed.library.core.service.external.utils.ServiceUtils;
 import com.nextfeed.library.core.service.manager.QuestionManagerService;
 import com.nextfeed.library.core.service.manager.dto.question.NewQuestionRequest;
@@ -29,7 +29,7 @@ public class QuestionRestController {
     private final ServiceUtils serviceUtils;
 
     @PostMapping("/v1/session/{sessionId}/question/create")
-    public Question createQuestion(@RequestBody NewQuestionRequest request, @PathVariable("sessionId") Integer sessionId){
+    public QuestionDTO createQuestion(@RequestBody NewQuestionRequest request, @PathVariable("sessionId") Integer sessionId){
         serviceUtils.checkSessionId(sessionId);
         serviceUtils.checkParticipantId(request.getParticipantId());
         return questionManagerService.createQuestion(sessionId, request);

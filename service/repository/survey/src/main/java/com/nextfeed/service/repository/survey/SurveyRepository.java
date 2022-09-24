@@ -14,6 +14,6 @@ public interface SurveyRepository extends CrudRepository<Survey,Integer> {
     List<Survey> findBySessionId(Integer session_id);
 
     @Query("DELETE FROM Survey s WHERE s.session_id = ?1")
-    List<Survey> deleteAllBySessionId(Integer session_id);
+    void deleteAllBySessionId(Integer session_id);
 
 }

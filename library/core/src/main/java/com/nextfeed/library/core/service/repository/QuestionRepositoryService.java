@@ -1,7 +1,8 @@
 package com.nextfeed.library.core.service.repository;
 
-import com.nextfeed.library.core.entity.question.Question;
+import com.nextfeed.library.core.entity.question.QuestionDTO;
 import com.nextfeed.library.core.entity.question.QuestionEntity;
+import com.nextfeed.library.core.entity.question.VoterEntity;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,13 +15,19 @@ import java.util.List;
 public interface QuestionRepositoryService {
 
     @RequestMapping(value = "/v1/save", method = RequestMethod.POST)
-    public Question save(@RequestBody QuestionEntity question);
+    public QuestionDTO save(@RequestBody QuestionEntity question);
 
     @RequestMapping(value = "/v1/get/id/{questionId}", method = RequestMethod.GET)
     public QuestionEntity findById(@PathVariable("questionId") Integer questionId);
 
+    @RequestMapping(value = "/v1/get/dto/id/{questionId}", method = RequestMethod.GET)
+    public QuestionDTO findDTOById(@PathVariable("questionId") Integer questionId);
+
+    @RequestMapping(value = "/v1/question/{questionId}/vote/add/{participantId}", method = RequestMethod.POST)
+    public void addVote(@PathVariable("questionId") Integer questionId, @PathVariable("participantId") Integer participantId, @RequestBody Integer rating);
+
     @RequestMapping(value = "/v1/get/all/{sessionId}", method = RequestMethod.GET)
-    public List<Question> findBySessionId(@PathVariable("sessionId") Integer sessionId);
+    public List<QuestionDTO> findBySessionId(@PathVariable("sessionId") Integer sessionId);
 
     @RequestMapping(value = "/v1/delete/all/{sessionId}", method = RequestMethod.GET)
     public void deleteAllBySessionId(@PathVariable("sessionId") Integer sessionId);

@@ -1,7 +1,7 @@
 package com.nextfeed.service.manager.question;
 
 
-import com.nextfeed.library.core.entity.question.Question;
+import com.nextfeed.library.core.entity.question.QuestionDTO;
 import com.nextfeed.library.core.service.manager.QuestionManagerService;
 import com.nextfeed.library.core.service.manager.dto.question.NewQuestionRequest;
 import lombok.AllArgsConstructor;
@@ -33,7 +33,7 @@ public class QuestionManagerRestController implements QuestionManagerService {
     }
 
     @RequestMapping(value = "/v1/session/{sessionId}/question/create", method = RequestMethod.POST)
-    public Question createQuestion(@PathVariable("sessionId") Integer sessionId, @RequestBody NewQuestionRequest request) {
+    public QuestionDTO createQuestion(@PathVariable("sessionId") Integer sessionId, @RequestBody NewQuestionRequest request) {
         return questionManager.createQuestion(sessionId, request);
     }
 

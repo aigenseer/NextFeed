@@ -14,5 +14,5 @@ public interface ParticipantRepository extends CrudRepository<Participant,Intege
     List<Participant> findBySessionId(Integer session_id);
 
     @Query("DELETE FROM Participant s WHERE s.session_id = ?1")
-    List<Participant> deleteAllBySessionId(Integer session_id);
+    void deleteAllBySessionId(Integer session_id);
 }

@@ -3,7 +3,7 @@ package com.nextfeed.library.core.entity.question;
 import com.nextfeed.library.core.entity.participant.Participant;
 import lombok.*;
 
-import javax.persistence.*;
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -11,7 +11,7 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Question {
+public class QuestionDTO {
 
     private Integer id;
     private Participant participant;
@@ -21,7 +21,7 @@ public class Question {
     private Boolean anonymous;
     private Long closed;
 
-    private Set<Integer> voters = Set.of();
+    private List<VoterEntity> voters;
     int session_id;
 
 }

@@ -18,7 +18,7 @@ import java.util.List;
 @SpringBootApplication(scanBasePackages = "com.nextfeed")
 @RequiredArgsConstructor
 @RestController
-@RequestMapping(value = "/api/user-repository")
+@RequestMapping(value = "/api/mood-repository")
 public class MoodRepositoryRestController implements MoodRepositoryService {
 
     public static void main(String[] args) {

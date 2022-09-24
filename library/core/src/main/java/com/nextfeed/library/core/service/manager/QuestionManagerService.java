@@ -1,6 +1,6 @@
 package com.nextfeed.library.core.service.manager;
 
-import com.nextfeed.library.core.entity.question.Question;
+import com.nextfeed.library.core.entity.question.QuestionDTO;
 import com.nextfeed.library.core.service.manager.dto.question.NewQuestionRequest;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,7 +15,7 @@ public interface QuestionManagerService {
     public Boolean existsQuestionId(@PathVariable("questionId") Integer questionId);
 
     @RequestMapping(value = "/v1/session/{sessionId}/question/create", method = RequestMethod.POST)
-    public Question createQuestion(@PathVariable("sessionId") Integer sessionId, @RequestBody NewQuestionRequest request);
+    public QuestionDTO createQuestion(@PathVariable("sessionId") Integer sessionId, @RequestBody NewQuestionRequest request);
 
     @RequestMapping(value = "/v1/session/{sessionId}/question/{questionId}/participant/{participantId}", method = RequestMethod.PUT)
     public void ratingUpByQuestionId(@PathVariable("sessionId") Integer sessionId, @PathVariable("questionId") Integer questionId, @PathVariable("participantId") Integer participantId, @RequestBody Boolean rating);

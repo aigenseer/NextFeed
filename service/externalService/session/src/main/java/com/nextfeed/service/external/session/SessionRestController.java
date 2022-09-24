@@ -2,7 +2,7 @@ package com.nextfeed.service.external.session;
 
 
 import com.nextfeed.library.core.entity.participant.Participant;
-import com.nextfeed.library.core.entity.question.Question;
+import com.nextfeed.library.core.entity.question.QuestionDTO;
 import com.nextfeed.library.core.entity.session.Session;
 import com.nextfeed.library.core.entity.session.SessionMetadata;
 import com.nextfeed.library.core.service.external.utils.ServiceUtils;
@@ -26,7 +26,6 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 
@@ -77,7 +76,7 @@ public class SessionRestController{
 
         Session session = sessionManagerService.getSessionById(sessionId);
         List<Participant> participants = session.getParticipants();
-        List<Question> questions = session.getQuestions();
+        List<QuestionDTO> questions = session.getQuestions();
 
         Map<String, Object> sessionData = new HashMap<>();
         sessionData.put("questions", questions);
@@ -92,7 +91,7 @@ public class SessionRestController{
     }
 
     @PostMapping("/v1/session/{sessionId}/question/create")
-    public Question createQuestion(@RequestBody NewQuestionRequest request, @PathVariable("sessionId") Integer sessionId){
+    public QuestionDTO createQuestion(@RequestBody NewQuestionRequest request, @PathVariable("sessionId") Integer sessionId){
         serviceUtils.checkSessionId(sessionId);
         serviceUtils.checkParticipantId(request.getParticipantId());
         return questionManagerService.createQuestion(sessionId, request);

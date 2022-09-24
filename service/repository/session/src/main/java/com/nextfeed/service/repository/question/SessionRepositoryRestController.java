@@ -1,7 +1,5 @@
 package com.nextfeed.service.repository.question;
 
-import com.nextfeed.library.core.entity.question.Question;
-import com.nextfeed.library.core.entity.question.QuestionEntity;
 import com.nextfeed.library.core.entity.session.Session;
 import com.nextfeed.library.core.entity.session.SessionEntity;
 import com.nextfeed.library.core.service.repository.*;

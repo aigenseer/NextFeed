@@ -38,7 +38,7 @@ public class UserRepositoryRestController implements UserRepositoryService {
 
     @RequestMapping(value = "/v1/get/mailaddress", method = RequestMethod.POST)
     public User getUsersByMailAddress(@RequestBody String mailAddress) {
-        return userDBService.getUsersByMailAddress(mailAddress).orElseGet(null);
+        return userDBService.getUsersByMailAddress(mailAddress).orElse(null);
     }
 
 }
