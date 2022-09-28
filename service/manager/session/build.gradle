@@ -7,7 +7,6 @@ plugins {
 
 group = 'com.nextfeed'
 version = '0.0.1-SNAPSHOT'
-ext.dockerType = "manager"
 ext.serviceType = "manager-service"
 ext.serverPort = 8140
 

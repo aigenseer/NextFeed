@@ -24,7 +24,6 @@ public class SurveySocketRestController implements SurveySocketService {
     }
 
     private final SurveyService surveyService;
-    private final SurveyManagerService surveyManagerService;
 
     @RequestMapping(value = "/v1/session/{sessionId}/survey/presenter", method = RequestMethod.POST)
     public void onCreateByPresenter(@PathVariable("sessionId") Integer sessionId, @RequestBody SurveyDTO surveyDTO){

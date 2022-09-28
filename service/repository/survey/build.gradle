@@ -9,7 +9,7 @@ group = 'com.nextfeed'
 version = '0.0.1-SNAPSHOT'
 ext.dockerType = "repository"
 ext.serviceType = "repository-service"
-ext.serverPort = 8320
+ext.serverPort = 8350
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter'
