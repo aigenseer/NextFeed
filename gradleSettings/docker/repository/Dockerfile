@@ -8,5 +8,6 @@ ENV POSTGRES_DB nextfeed
 ENV POSTGRES_USER nextfeed
 ENV POSTGRES_PASSWORD nextfeed
 ENV SHOW_SQL=false
+ENV LOGGING_METRICS=false
 
-CMD java -jar app.jar --spring.profiles.active=default,prod --nextfeed.datasource.host=$POSTGRES_HOST --nextfeed.datasource.port=$POSTGRES_PORT  --nextfeed.datasource.db=$POSTGRES_DB --nextfeed.datasource.username=$POSTGRES_USER --nextfeed.datasource.pw=$POSTGRES_PASSWORD --nextfeed.datasource.show-sql=$SHOW_SQL
+CMD java -jar app.jar --spring.profiles.active=default,prod --nextfeed.datasource.host=$POSTGRES_HOST --nextfeed.datasource.port=$POSTGRES_PORT  --nextfeed.datasource.db=$POSTGRES_DB --nextfeed.datasource.username=$POSTGRES_USER --nextfeed.datasource.pw=$POSTGRES_PASSWORD --nextfeed.datasource.show-sql=$SHOW_SQL --nextfeed.metrics.enabled=$LOGGING_METRICS
