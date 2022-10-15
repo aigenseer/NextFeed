@@ -1,0 +1,36 @@
+syntax = "proto3";
+
+
+import public "core/DTOEntities.proto";
+import public "core/Requests.proto";
+import public "core/Response.proto";
+option java_multiple_files = true;
+option java_package = "com.nextfeed.library.core.proto.manager";
+option java_outer_classname = "ParticipantManagerServiceProto";
+
+service ParticipantManagerService {
+  rpc createParticipantBySessionId (CreateParticipantBySessionIdRequest) returns (ParticipantDTO) {}
+  rpc getParticipantsBySessionId (IDRequest) returns (ParticipantDTOList) {}
+  rpc getConnectedParticipantsBySessionId (IDRequest) returns (ParticipantDTOList) {}
+  rpc getSessionByParticipantId (IDRequest) returns (OptionalSessionDTO) {}
+  rpc getSessionIdByParticipantId (IDRequest) returns (IDResponse) {}
+  rpc updateConnectionStatusByParticipantId (UpdateConnectionStatusByParticipantIdRequest) returns (Empty) {}
+  rpc existsParticipantId(IDRequest) returns (BooleanResponse) {}
+  rpc getParticipant(IDRequest) returns (OptionalParticipantDTO) {}
+}
+
+message CreateParticipantBySessionIdRequest {
+  int32 session_id = 1;
+  ParticipantDTO participant = 2;
+}
+
+message UpdateConnectionStatusByParticipantIdRequest{
+  int32 participantId = 1;
+  bool status = 2;
+}
+
+
+
+
+
+

@@ -17,7 +17,7 @@ public class SessionEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    private long closed = 0;
+    private long closed;
     private String sessionCode;
     private String name;
 

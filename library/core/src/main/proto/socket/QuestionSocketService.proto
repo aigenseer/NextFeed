@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+import public "core/DTOEntities.proto";
+import public "core/Requests.proto";
+import public "core/Response.proto";
+option java_multiple_files = true;
+option java_package = "com.nextfeed.library.core.proto.repository";
+option java_outer_classname = "QuestionSocketServiceProto";
+
+service QuestionSocketService {
+  rpc sendQuestion (SendQuestionRequest) returns (Empty) {}
+}
+
+message SendQuestionRequest{
+  int32 sessionId = 1;
+  QuestionDTO QuestionDTO = 2;
+}
+
+
+
+
+
+

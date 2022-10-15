@@ -1,0 +1,155 @@
+syntax = "proto3";
+
+option java_package = "com.nextfeed.library.core.proto.entity";
+
+message UserDTO {
+  optional int32 id = 1;
+  string name = 2;
+  string hashPassword = 3;
+  int64 registrationTime = 4;
+  string mailAddress = 5;
+}
+
+message OptionalUserDTO {
+  optional UserDTO userDTO = 1;
+}
+
+message ParticipantDTO {
+  optional int32 id = 1;
+  string nickname = 2;
+  optional bool connected = 3;
+  optional int32 session_id = 4;
+}
+
+message OptionalParticipantDTO{
+  optional ParticipantDTO participant = 1;
+}
+
+message ParticipantDTOList {
+  repeated ParticipantDTO Participants = 1;
+}
+
+message QuestionDTO{
+  int32 id = 1;
+  ParticipantDTO participant = 2;
+  string message = 3;
+  int32 rating = 4;
+  int64 created = 5;
+  bool anonymous = 6;
+  int64 closed = 7;
+  repeated VoterEntityDTO voterEntity = 8;
+  int32 session_id = 9;
+}
+
+message OptionalQuestionDTO{
+  optional QuestionDTO question = 1;
+}
+
+message QuestionDTOList{
+  repeated QuestionDTO questions = 1;
+}
+
+message VoterEntityDTO{
+  int32 question_id = 1;
+  int32 participant_id = 2;
+  int32 rating = 3;
+}
+
+message SurveyDTO{
+  int32 id = 1;
+  repeated SurveyAnswerDTO surveyAnswers = 2;
+  SurveyTemplateDTO template = 3;
+  int64 timestamp = 4;
+  int32 session_id = 5;
+}
+
+message SurveyDTOList{
+  repeated SurveyDTO surveys = 1;
+}
+
+message OptionalSurveyDTO{
+  optional SurveyDTO survey = 1;
+}
+
+message SurveyAnswerDTO{
+  int32 id = 1;
+  string value = 2;
+  int32 survey_id = 3;
+  int32 participantId = 4;
+}
+
+message SurveyTemplateDTO{
+  int32 id = 1;
+  string name = 2;
+  SurveyType surveyType = 3;
+  string question = 4;
+  int64 duration = 5;
+  bool publishResults = 6;
+}
+
+message OptionalSurveyTemplateDTO{
+  optional SurveyTemplateDTO surveyTemplate = 1;
+}
+
+message SurveyTemplateDTOList{
+  repeated SurveyTemplateDTO surveyTemplates = 1;
+}
+
+enum SurveyType {
+  YesNo = 0;
+  Rating = 1;
+  OpenAnswer = 2;
+}
+
+message MoodEntityDTO{
+  int32 id = 1;
+  double value = 2;
+  int64 timestamp = 3;
+  int32 participantsCount = 4;
+  int32 session_id = 5;
+}
+
+message MoodEntityDTOList{
+  repeated MoodEntityDTO entries = 1;
+}
+
+message SessionEntityDTO{
+  int32 id = 1;
+  int64 closed = 6;
+  string sessionCode = 7;
+  string name = 8;
+}
+
+message OptionalSessionEntityDTO{
+  optional SessionEntityDTO sessionEntity = 1;
+}
+
+message SessionDTO{
+  int32 id = 1;
+  ParticipantDTOList participants = 2;
+  QuestionDTOList questions = 3;
+  SurveyDTOList surveys = 4;
+  MoodEntityDTOList moodEntities = 5;
+  int64 closed = 6;
+  string sessionCode = 7;
+  string name = 8;
+}
+
+message OptionalSessionDTO{
+  optional SessionDTO session = 1;
+}
+
+message SessionDTOList{
+  repeated SessionDTO sessions = 1;
+}
+
+message SystemConfigurationDTO {
+  int32 id = 1;
+  string name = 2;
+  string value = 3;
+}
+
+message OptionalSystemConfigurationDTO {
+  optional SystemConfigurationDTO systemConfigurationDTO = 1;
+}
+

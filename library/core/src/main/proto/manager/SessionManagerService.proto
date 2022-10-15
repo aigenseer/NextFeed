@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+import public "core/DTOEntities.proto";
+import public "core/Requests.proto";
+import public "core/Response.proto";
+option java_multiple_files = true;
+option java_package = "com.nextfeed.library.core.proto.repository";
+option java_outer_classname = "SessionManagerServiceProto";
+
+service SessionManagerService {
+  rpc createSession (NewSessionRequest) returns (SessionDTO) {}
+  rpc deleteSession (IDRequest) returns (Empty) {}
+  rpc getSessionById (IDRequest) returns (OptionalSessionDTO) {}
+  rpc closeSession (IDRequest) returns (Empty) {}
+  rpc isSessionClosed (IDRequest) returns (BooleanResponse) {}
+  rpc existsSessionId (IDRequest) returns (BooleanResponse) {}
+  rpc getAllSessions (Empty) returns (SessionDTOList) {}
+  rpc getAllOpenSessions (Empty) returns (SessionDTOList) {}
+  rpc getAllClosedSessions (Empty) returns (SessionDTOList) {}
+  rpc closeAllOpenSessions (Empty) returns (Empty) {}
+}
+
+message NewSessionRequest{
+  string name = 1;
+}
+
+
+
+
+
+

@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+option java_package = "com.nextfeed.library.core.proto.response";
+
+message IDResponse{
+  int32 id = 1;
+}
+
+message Empty {
+
+}
+
+message BooleanResponse{
+  bool result = 1;
+}

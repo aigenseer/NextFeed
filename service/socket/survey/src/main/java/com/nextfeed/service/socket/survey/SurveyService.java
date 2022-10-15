@@ -1,8 +1,6 @@
 package com.nextfeed.service.socket.survey;
 
-import com.nextfeed.library.core.entity.survey.Survey;
-import com.nextfeed.library.core.entity.survey.SurveyTemplate;
-import com.nextfeed.library.core.service.manager.dto.survey.SurveyDTO;
+import com.nextfeed.library.core.proto.entity.DTOEntities;
 import com.nextfeed.service.socket.survey.dto.SurveyParticipantDataResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -19,12 +17,12 @@ public class SurveyService {
     private static final String WS_MESSAGE_RESULT_TRANSFER_DESTINATION = "/socket/survey-socket/v1/%s/session/%d/survey/%d/onresult";
     private static final String WS_MESSAGE_UPDATE_TRANSFER_DESTINATION = "/socket/survey-socket/v1/presenter/session/%d/survey/%d/onupdate";
 
-    public void onCreateByPresenter(int sessionId, SurveyDTO surveyDTO){
+    public void onCreateByPresenter(int sessionId, DTOEntities.SurveyDTO surveyDTO){
         String path = WS_MESSAGE_CREATE_TRANSFER_DESTINATION.formatted("presenter", sessionId);
         simpMessagingTemplate.convertAndSend(path, surveyDTO);
     }
 
-    public void onCreateByParticipant(int sessionId, int surveyId, SurveyTemplate template){
+    public void onCreateByParticipant(int sessionId, int surveyId, DTOEntities.SurveyTemplateDTO template){
         String path = WS_MESSAGE_CREATE_TRANSFER_DESTINATION.formatted("participant", sessionId);
         simpMessagingTemplate.convertAndSend(path, new SurveyParticipantDataResponse(surveyId, template));
     }
@@ -35,16 +33,16 @@ public class SurveyService {
         simpMessagingTemplate.convertAndSend(path,sessionId);
     }
 
-    public void onUpdate(int sessionId, SurveyDTO surveyDTO){
+    public void onUpdate(int sessionId, DTOEntities.SurveyDTO surveyDTO){
         String path = WS_MESSAGE_UPDATE_TRANSFER_DESTINATION.formatted(sessionId, surveyDTO.getId());
         simpMessagingTemplate.convertAndSend(path, surveyDTO);
     }
 
-    public void onResult(int sessionId, SurveyDTO surveyDTO){
+    public void onResult(int sessionId, DTOEntities.SurveyDTO surveyDTO){
         String presenterPath = WS_MESSAGE_RESULT_TRANSFER_DESTINATION.formatted("presenter",sessionId, surveyDTO.getId());
 
         simpMessagingTemplate.convertAndSend(presenterPath, surveyDTO);
-        if(surveyDTO.getTemplate().isPublishResults()){
+        if(surveyDTO.getTemplate().getPublishResults()){
             String participantPath = WS_MESSAGE_RESULT_TRANSFER_DESTINATION.formatted("participant",sessionId, surveyDTO.getId());
             simpMessagingTemplate.convertAndSend(participantPath, surveyDTO);
         }

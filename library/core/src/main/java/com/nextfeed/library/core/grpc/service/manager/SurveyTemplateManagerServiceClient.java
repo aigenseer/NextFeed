@@ -1,0 +1,27 @@
+package com.nextfeed.library.core.grpc.service.manager;
+
+import com.nextfeed.library.core.proto.entity.DTOEntities;
+import com.nextfeed.library.core.proto.manager.SurveyTemplateManagerServiceGrpc;
+import com.nextfeed.library.core.utils.*;
+import net.devh.boot.grpc.client.inject.GrpcClient;
+
+import java.util.Optional;
+
+public class SurveyTemplateManagerServiceClient {
+
+    @GrpcClient("survey-template-manager-service")
+    private SurveyTemplateManagerServiceGrpc.SurveyTemplateManagerServiceBlockingStub rpcService;
+
+    public DTOEntities.SurveyTemplateDTO createTemplate(DTOEntities.SurveyTemplateDTO dto) {
+        return rpcService.createTemplate(dto);
+    }
+
+    public Optional<DTOEntities.SurveyTemplateDTO> getTemplateById(Integer id) {
+        return Optional.of(rpcService.getTemplateById(DTORequestUtils.createIDRequest(id)).getSurveyTemplate());
+    }
+
+    public DTOEntities.SurveyTemplateDTOList getAllTemplates() {
+        return rpcService.getAllTemplates(DTOResponseUtils.createEmpty());
+    }
+
+}

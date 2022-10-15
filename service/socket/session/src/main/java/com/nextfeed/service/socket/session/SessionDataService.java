@@ -1,6 +1,7 @@
 package com.nextfeed.service.socket.session;
 
 import com.nextfeed.library.core.entity.participant.Participant;
+import com.nextfeed.library.core.proto.entity.DTOEntities;
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
@@ -55,7 +56,7 @@ enum SessionDataServiceSharedPath {
 public class SessionDataService {
     private final SimpMessagingTemplate simpMessagingTemplate;
 
-    public void sendNewParticipantToAll(int sessionId, Participant participant){
+    public void sendNewParticipantToAll(int sessionId, DTOEntities.ParticipantDTO participant){
         String presenterPath = String.format(SessionDataServicePresenterPath.sendNewParticipantToAll.toString(),sessionId);
         String participantPath = String.format(SessionDataServiceParticipantPath.sendNewParticipantToAll.toString(),sessionId);
 
@@ -68,7 +69,7 @@ public class SessionDataService {
         simpMessagingTemplate.convertAndSend(path, "");
     }
 
-    public void sendConnectionStatus(int sessionId, List<Participant> participants){
+    public void sendConnectionStatus(int sessionId, List<DTOEntities.ParticipantDTO> participants){
         String path = String.format(SessionDataServicePresenterPath.sendParticipantConnectionStatus.toString(),sessionId);
         simpMessagingTemplate.convertAndSend(path, participants);
     }

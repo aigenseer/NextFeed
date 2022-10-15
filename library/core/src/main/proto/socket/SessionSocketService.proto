@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+import public "core/DTOEntities.proto";
+import public "core/Requests.proto";
+import public "core/Response.proto";
+option java_multiple_files = true;
+option java_package = "com.nextfeed.library.core.proto.repository";
+option java_outer_classname = "SessionSocketServiceProto";
+
+service SessionSocketService {
+  rpc sendNewParticipantToAll (SendNewParticipantToAllRequest) returns (Empty) {}
+  rpc sendClose (IDRequest) returns (Empty) {}
+  rpc sendConnectionStatus (SendConnectionStatusRequest) returns (Empty) {}
+}
+
+message SendNewParticipantToAllRequest{
+  int32 sessionId = 1;
+  ParticipantDTO participant = 2;
+}
+
+message SendConnectionStatusRequest{
+  int32 sessionId = 1;
+  ParticipantDTOList participants = 2;
+}
+
+
+
+
+
+
+

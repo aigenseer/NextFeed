@@ -1,31 +1,26 @@
 package com.nextfeed.service.manager.survey;
 
-
-import com.nextfeed.library.core.entity.survey.Survey;
 import com.nextfeed.library.core.service.socket.SurveySocketServices;
 import lombok.RequiredArgsConstructor;
 
-import java.util.Date;
 
 @RequiredArgsConstructor
 public class SurveyTimer extends Thread{
     private final int sessionId;
     private final int surveyId;
-    //todo: muss noch gemacht werden
     private final SurveySocketServices surveySocketServices;
     private final SurveyManager surveyManager;
 
     @Override
     public void run() {
         try {
-            Survey survey = surveyManager.getSurveyById(surveyId);
-            sleep(survey.getTemplate().getDuration() * 1000L);
-            survey = surveyManager.getSurveyById(surveyId);
-            survey.setTimestamp(new Date().getTime());
-            surveyManager.getSurveyRepositoryService().save(survey);
-            //todo: muss noch gemacht werden
-            surveySocketServices.onClose(sessionId, survey.getId());
-            surveySocketServices.onResult(sessionId, surveyManager.surveyDTOMapping(survey));
+            var survey = surveyManager.getSurveyById(surveyId);
+            if(survey.isPresent()){
+                sleep(survey.get().getTemplate().getDuration() * 1000L);
+                survey = surveyManager.getSurveyRepositoryServiceClient().closeSurvey(survey.get().getId());
+                surveySocketServices.onClose(sessionId, survey.get().getId());
+                surveySocketServices.onResult(sessionId, survey.get());
+            }
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

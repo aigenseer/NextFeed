@@ -1,9 +1,8 @@
 package com.nextfeed.service.socket.mood;
 
 
-import com.nextfeed.library.core.service.manager.MoodManagerService;
-import com.nextfeed.library.core.service.manager.ParticipantManagerService;
-import com.nextfeed.library.core.service.manager.dto.mood.NewCalculatedMoodRequest;
+import com.nextfeed.library.core.grpc.service.manager.MoodManagerServiceClient;
+import com.nextfeed.library.core.grpc.service.manager.ParticipantManagerServiceClient;
 import com.nextfeed.library.security.utils.PrincipalUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.SpringApplication;
@@ -28,16 +27,16 @@ public class MoodSocketController {
         SpringApplication.run(MoodSocketController.class, args);
     }
 
-    private final ParticipantManagerService participantManagerService;
-    private final MoodManagerService moodManagerService;
+    private final ParticipantManagerServiceClient participantManagerServiceClient;
+    private final MoodManagerServiceClient moodManagerServiceClient;
     private final PrincipalUtils principalUtils;
 
     @MessageMapping("/socket/mood-socket/v1/participant/session/{sessionId}/mood/{rating}")
     public void ratingChange(@DestinationVariable Integer sessionId, @DestinationVariable Integer rating, Principal principal){
         Optional<Integer> participantId = principalUtils.getClaim("id", principal);
         if(participantId.isPresent()){
-            if(participantManagerService.existsParticipantId(participantId.get())){
-                moodManagerService.createCalculatedMoodValue(sessionId, NewCalculatedMoodRequest.builder().moodValue(rating).participantId(participantId.get()).build());
+            if(participantManagerServiceClient.existsParticipantId(participantId.get())){
+                moodManagerServiceClient.createCalculatedMoodValue(sessionId, Double.valueOf(rating), participantId.get());
             }
         }
     }

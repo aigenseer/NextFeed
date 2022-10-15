@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+
+import public "core/DTOEntities.proto";
+import public "core/Requests.proto";
+import public "core/Response.proto";
+option java_multiple_files = true;
+option java_package = "com.nextfeed.library.core.proto.repository";
+option java_outer_classname = "ParticipantRepositoryServiceProto";
+
+service ParticipantRepositoryService {
+  rpc save (ParticipantDTO) returns (ParticipantDTO) {}
+  rpc findById (IDRequest) returns (OptionalParticipantDTO) {}
+  rpc findBySessionId (IDRequest) returns (ParticipantDTOList) {}
+  rpc deleteAllBySessionId (IDRequest) returns (Empty) {}
+}
+
+
+
+
+
+

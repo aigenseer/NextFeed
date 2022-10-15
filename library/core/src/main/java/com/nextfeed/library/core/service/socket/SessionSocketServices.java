@@ -1,7 +1,14 @@
 package com.nextfeed.library.core.service.socket;
 
 import com.nextfeed.library.core.entity.participant.Participant;
+import com.nextfeed.library.core.proto.entity.DTOEntities;
+import com.nextfeed.library.core.proto.repository.*;
+import com.nextfeed.library.core.utils.DTOListUtils;
+import com.nextfeed.library.core.utils.DTORequestUtils;
+import com.nextfeed.library.core.utils.DTOResponseUtils;
 import com.nextfeed.library.core.utils.SocketServiceUtils;
+import io.grpc.ManagedChannel;
+import io.grpc.ManagedChannelBuilder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -10,7 +17,7 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @Service
-public class SessionSocketServices implements SessionSocketService {
+public class SessionSocketServices {
 
     private final SocketServiceUtils serviceUtils;
     private final static String INSTANCE_NAME = "session-socket-service";
@@ -18,11 +25,13 @@ public class SessionSocketServices implements SessionSocketService {
     @Value("#{new Integer('${nextfeed.service.session-socket-service.port}')}")
     private Integer port;
 
-    public void sendNewParticipantToAll(Integer sessionId, Participant participant){
-        String path = "/api/internal/session-socket/v1/session/%d/notify/participant".formatted(sessionId);
+    public void sendNewParticipantToAll(Integer sessionId, DTOEntities.ParticipantDTO participantDTO){
         serviceUtils.getInstanceInfoByName(INSTANCE_NAME).forEach(instance -> {
             try {
-                serviceUtils.postRequest(serviceUtils.getURIByInstance(instance, port, path), participant, String.class);
+                ManagedChannel managedChannel = ManagedChannelBuilder.forAddress(instance.getIPAddr(), port).usePlaintext().build();
+                SessionSocketServiceGrpc.SessionSocketServiceBlockingStub blockingStub = SessionSocketServiceGrpc.newBlockingStub(managedChannel);
+                blockingStub.sendNewParticipantToAll(SendNewParticipantToAllRequest.newBuilder().setSessionId(sessionId).setParticipant(participantDTO).build());
+                managedChannel.shutdown();
             }catch (Exception e){
                 System.err.println("Can not call instance");
                 System.err.println(e);
@@ -34,7 +43,10 @@ public class SessionSocketServices implements SessionSocketService {
         String path = "/api/internal/session-socket/v1/session/%d/notify/session/close".formatted(sessionId);
         serviceUtils.getInstanceInfoByName(INSTANCE_NAME).forEach(instance -> {
             try {
-                serviceUtils.getRequest(serviceUtils.getURIByInstance(instance, port, path), String.class);
+                ManagedChannel managedChannel = ManagedChannelBuilder.forAddress(instance.getIPAddr(), port).usePlaintext().build();
+                SessionSocketServiceGrpc.SessionSocketServiceBlockingStub blockingStub = SessionSocketServiceGrpc.newBlockingStub(managedChannel);
+                blockingStub.sendClose(DTORequestUtils.createIDRequest(sessionId));
+                managedChannel.shutdown();
             }catch (Exception e){
                 System.err.println("Can not call instance");
                 System.err.println(e);
@@ -42,11 +54,13 @@ public class SessionSocketServices implements SessionSocketService {
         });
     }
 
-    public void sendConnectionStatus(Integer sessionId, List<Participant> participants){
-        String path = "/api/internal/session-socket/v1/session/%d/notify/participants/status".formatted(sessionId);
+    public void sendConnectionStatus(Integer sessionId, List<DTOEntities.ParticipantDTO> participantDTOs){
         serviceUtils.getInstanceInfoByName(INSTANCE_NAME).forEach(instance -> {
             try {
-                serviceUtils.postRequest(serviceUtils.getURIByInstance(instance, port, path), participants, String.class);
+                ManagedChannel managedChannel = ManagedChannelBuilder.forAddress(instance.getIPAddr(), port).usePlaintext().build();
+                SessionSocketServiceGrpc.SessionSocketServiceBlockingStub blockingStub = SessionSocketServiceGrpc.newBlockingStub(managedChannel);
+                blockingStub.sendConnectionStatus(SendConnectionStatusRequest.newBuilder().setSessionId(sessionId).setParticipants(DTOListUtils.toParticipantDTOList(participantDTOs)).build());
+                managedChannel.shutdown();
             }catch (Exception e){
                 System.err.println("Can not call instance");
                 System.err.println(e);

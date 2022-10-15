@@ -1,0 +1,40 @@
+syntax = "proto3";
+
+
+import public "core/DTOEntities.proto";
+import public "core/Requests.proto";
+import public "core/Response.proto";
+option java_multiple_files = true;
+option java_package = "com.nextfeed.library.core.proto.manager";
+option java_outer_classname = "MoodManagerServiceProto";
+
+service MoodManagerService {
+  rpc addMoodValueToSession (AddMoodValueToSessionRequest) returns (MoodEntityDTO) {}
+  rpc createCalculatedMoodValue (CreateCalculatedMoodValueRequest) returns (MoodEntityDTO) {}
+}
+
+message AddMoodValueToSessionRequest {
+  int32 session_id = 1;
+  NewMoodRequest newMoodRequest = 2;
+}
+
+message NewMoodRequest{
+  double moodValue = 1;
+  int32 participantsCount = 2;
+}
+
+message CreateCalculatedMoodValueRequest {
+  int32 session_id = 1;
+  NewCalculatedMoodRequest newCalculatedMoodRequest = 2;
+}
+
+message NewCalculatedMoodRequest{
+  double moodValue = 1;
+  int32 participantId = 2;
+}
+
+
+
+
+
+

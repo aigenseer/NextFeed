@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+option java_package = "com.nextfeed.library.core.proto.requests";
+
+message IDRequest{
+  int32 id = 1;
+}
+
+message SearchRequest{
+  string search = 1;
+}

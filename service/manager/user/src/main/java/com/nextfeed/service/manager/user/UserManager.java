@@ -1,6 +1,8 @@
 package com.nextfeed.service.manager.user;
 
 import com.nextfeed.library.core.entity.user.User;
+import com.nextfeed.library.core.grpc.service.repository.UserRepositoryServiceClient;
+import com.nextfeed.library.core.proto.entity.DTOEntities;
 import com.nextfeed.library.core.service.repository.UserRepositoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -13,27 +15,27 @@ import java.util.*;
 @RequiredArgsConstructor
 public class UserManager {
 
-    private final UserRepositoryService userRepositoryService;
+    private final UserRepositoryServiceClient userRepositoryServiceClient;
     private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
-    public User createUser(String mailAddress, String name, String pw){
-        User user = User.builder().mailAddress(mailAddress).name(name).hashPassword(passwordEncoder.encode(pw)).registrationTime(new Date().getTime()).build();
-        userRepositoryService.save(user);
+    public DTOEntities.UserDTO createUser(String mailAddress, String name, String pw){
+        var user = DTOEntities.UserDTO.newBuilder().setMailAddress(mailAddress).setName(name).setHashPassword(passwordEncoder.encode(pw)).setRegistrationTime(new Date().getTime()).build();
+        userRepositoryServiceClient.save(user);
         return user;
     }
 
-    public User getUserById(Integer id){
-        return userRepositoryService.findById(id);
+    public Optional<DTOEntities.UserDTO> getUserById(Integer id){
+        return userRepositoryServiceClient.findById(id);
     }
 
-    public User getUserByMailAddress(String mailAddress){
-        return userRepositoryService.getUsersByMailAddress(mailAddress);
+    public Optional<DTOEntities.UserDTO> getUserByMailAddress(String mailAddress){
+        return userRepositoryServiceClient.getUsersByMailAddress(mailAddress);
     }
 
     public boolean validatePasswordByMailAddress(String mailAddress, String pw){
-        User user = getUserByMailAddress(mailAddress);
-        if(user!= null){
-            return passwordEncoder.matches(pw, user.getHashPassword());
+        var user = getUserByMailAddress(mailAddress);
+        if(user.isPresent()){
+            return passwordEncoder.matches(pw, user.get().getHashPassword());
         }
         return false;
     }

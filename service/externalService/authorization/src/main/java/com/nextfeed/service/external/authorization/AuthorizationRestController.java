@@ -1,15 +1,12 @@
 package com.nextfeed.service.external.authorization;
 
-
-import com.nextfeed.library.core.entity.participant.Participant;
-import com.nextfeed.library.core.entity.session.Session;
-import com.nextfeed.library.core.entity.user.User;
+import com.nextfeed.library.core.grpc.service.manager.ParticipantManagerServiceClient;
+import com.nextfeed.library.core.grpc.service.manager.SessionManagerServiceClient;
+import com.nextfeed.library.core.grpc.service.manager.UserManagerServiceClient;
+import com.nextfeed.library.core.proto.entity.DTOEntities;
+import com.nextfeed.library.core.proto.manager.*;
 import com.nextfeed.library.core.service.external.utils.ServiceUtils;
-import com.nextfeed.library.core.service.manager.ParticipantManagerService;
-import com.nextfeed.library.core.service.manager.SessionManagerService;
-import com.nextfeed.library.core.service.manager.UserManagerService;
-import com.nextfeed.library.core.service.manager.dto.user.NewUserRequest;
-import com.nextfeed.library.core.service.manager.dto.user.ValidateUserRequest;
+import com.nextfeed.library.core.utils.DTO2EntityUtils;
 import com.nextfeed.library.security.TokenUserService;
 import com.nextfeed.service.external.authorization.dto.LoginParticipantRequest;
 import com.nextfeed.service.external.authorization.dto.RegistrationRequest;
@@ -24,6 +21,8 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.Optional;
+
 @EnableFeignClients(basePackages = "com.nextfeed.library.core.service")
 @SpringBootApplication(scanBasePackages = "com.nextfeed", exclude={DataSourceAutoConfiguration.class})
 @RestController
@@ -35,50 +34,51 @@ public class AuthorizationRestController {
         SpringApplication.run(AuthorizationRestController.class, args);
     }
 
-    private final UserManagerService userManagerService;
     private final TokenUserService tokenUserService;
     private final ServiceUtils serviceUtils;
-    private final SessionManagerService sessionManagerService;
-    private final ParticipantManagerService participantManagerService;
+    private final SessionManagerServiceClient sessionManagerServiceClient;
+    private final ParticipantManagerServiceClient participantManagerService;
+    private final UserManagerServiceClient userManagerServiceClient;
 
     @RequestMapping(value = "/v1/test/auth", method = RequestMethod.GET)
     public JwtResponse testPresenterAuthentication(){
-        User user = userManagerService.getUserByMailAddress("ok@ok.de");
-        if(user == null){
-            user = userManagerService.createUser(NewUserRequest.builder().mailAddress("ok@ok.de").name("OK").pw("root").build());
+        var userDTO = userManagerServiceClient.getUserByMailAddress("ok@ok.de");
+        if(userDTO.isPresent()){
+            userDTO = Optional.of(userManagerServiceClient.createUser("ok@ok.de", "OK", "root"));
         }
-        return new JwtResponse(tokenUserService.getTokenByPresenterUser(user));
+        return new JwtResponse(tokenUserService.getTokenByPresenterUser(userDTO.get().getName(), userDTO.get().getHashPassword()));
     }
 
 
     @RequestMapping(value = "/v1/presenter/auth", method = RequestMethod.POST)
     public JwtResponse presenterAuthentication(@RequestBody ValidateUserRequest request){
-        if(!userManagerService.validatePasswordByMailAddress(request)){
+        if(!userManagerServiceClient.validatePasswordByMailAddress(request.getMailAddress(), request.getPw())){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Mail-Address or password wrong");
         }
-        User user = userManagerService.getUserByMailAddress(request.getMailAddress());
-        return new JwtResponse(tokenUserService.getTokenByPresenterUser(user));
+        DTOEntities.UserDTO userDTO = userManagerServiceClient.getUserByMailAddress(request.getMailAddress()).get();
+        return new JwtResponse(tokenUserService.getTokenByPresenterUser(userDTO.getName(), userDTO.getHashPassword()));
     }
 
     @RequestMapping(value = "/v1/presenter/registration", method = RequestMethod.POST)
     public JwtResponse presenterRegistration(@RequestBody RegistrationRequest request){
-        if(userManagerService.getUserByMailAddress(request.getMailAddress()) != null){
+        if(userManagerServiceClient.getUserByMailAddress(request.getMailAddress()).isPresent()){
             throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "Mail-Address are exists");
         }
-        User user = userManagerService.createUser(NewUserRequest.builder().mailAddress(request.getMailAddress()).name(request.getName()).pw(request.getPw()).build());
-        return new JwtResponse(tokenUserService.getTokenByPresenterUser(user));
+        DTOEntities.UserDTO userDTO = userManagerServiceClient.createUser(request.getName(), request.getMailAddress(), request.getPw());
+        return new JwtResponse(tokenUserService.getTokenByPresenterUser(userDTO.getName(), userDTO.getHashPassword()));
     }
 
     private boolean isCorrectSessionCode(Integer sessionId, String sessionCode){
-        Session session = sessionManagerService.getSessionById(sessionId);
-        return session != null && session.getSessionCode().equals(sessionCode);
+        var session = sessionManagerServiceClient.getSessionById(sessionId);
+        return session.isPresent() && session.get().getSessionCode().equals(sessionCode);
     }
 
     @RequestMapping(value = "/v1/participant/auth", method = RequestMethod.POST)
     public JwtResponse participantAuthentication(@RequestBody LoginParticipantRequest request){
         serviceUtils.checkSessionId(request.getSessionId());
         if(!isCorrectSessionCode(request.getSessionId(), request.getSessionCode())) throw new BadCredentialsException("Bad session data");
-        Participant participant = participantManagerService.createParticipantBySessionId(request.getSessionId(), Participant.builder().nickname(request.getNickname()).build());
+        var dto = participantManagerService.createParticipantBySessionId(request.getSessionId(), DTOEntities.ParticipantDTO.newBuilder().setNickname(request.getNickname()).build());
+        var participant = DTO2EntityUtils.dto2Participant(dto);
         return new JwtResponse(tokenUserService.getTokenBytParticipant(participant));
     }
 

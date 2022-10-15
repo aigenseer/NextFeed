@@ -1,7 +1,7 @@
 package com.nextfeed.library.core.entity.survey;
 
 
-import com.nextfeed.library.core.enums.SurveyType;
+import com.nextfeed.library.core.proto.entity.DTOEntities;
 import lombok.*;
 
 import javax.persistence.*;
@@ -18,7 +18,7 @@ public class SurveyTemplate {
     private int id;
     private String name;
     @Enumerated(EnumType.STRING)
-    private SurveyType type;
+    private DTOEntities.SurveyType type;
     private String question;
     //always >0
     private long duration;

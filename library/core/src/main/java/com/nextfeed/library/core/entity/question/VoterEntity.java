@@ -20,5 +20,5 @@ public class VoterEntity implements Serializable {
     @Id
     private Integer participant_id;
 
-    private Integer rating = 0;
+    private Integer rating;
 }

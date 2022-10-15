@@ -18,8 +18,8 @@ public class TokenUserService {
 
     private final JWTTokenService tokenService;
 
-    public String getTokenByPresenterUser(User user){
-        return tokenService.generateTokenWithAuthorities(getPresenterDetails(user));
+    public String getTokenByPresenterUser(String name, String pw){
+        return tokenService.generateTokenWithAuthorities(getPresenterDetails(name, pw));
     }
 
     public String getTokenBytParticipant(Participant participant){
@@ -29,8 +29,8 @@ public class TokenUserService {
         return tokenService.generateTokenWithAuthorities(getParticipantDetails(participant), claims);
     }
 
-    private UserDetails getPresenterDetails(User user){
-        return new org.springframework.security.core.userdetails.User(user.getName(), user.getHashPassword(), List.of(new SimpleGrantedAuthority("ROLE_"+ UserRole.PRESENTER)));
+    private UserDetails getPresenterDetails(String name, String pw){
+        return new org.springframework.security.core.userdetails.User(name, pw, List.of(new SimpleGrantedAuthority("ROLE_"+ UserRole.PRESENTER)));
     }
 
     private UserDetails getParticipantDetails(Participant participant){

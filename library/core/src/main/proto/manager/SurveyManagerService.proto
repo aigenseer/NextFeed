@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+
+import public "core/DTOEntities.proto";
+import public "core/Requests.proto";
+import public "core/Response.proto";
+option java_multiple_files = true;
+option java_package = "com.nextfeed.library.core.proto.manager";
+option java_outer_classname = "SurveyManagerServiceProto";
+
+service SurveyManagerService {
+  rpc createSurvey (CreateSurveyRequest) returns (SurveyTemplateDTO) {}
+  rpc getSurveysBySessionId (IDRequest) returns (SurveyDTOList) {}
+  rpc addAnswerToSurvey (AddAnswerToSurveyRequest) returns (Empty) {}
+}
+
+message CreateSurveyRequest {
+  int32 session_id = 1;
+  SurveyTemplateDTO template = 2;
+}
+
+message AddAnswerToSurveyRequest{
+  int32 sessionId = 1;
+  int32 surveyId = 2;
+  int32 participantId = 3;
+  string answer = 4;
+}
+
+
+
+
+
+

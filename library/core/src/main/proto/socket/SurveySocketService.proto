@@ -1,0 +1,48 @@
+syntax = "proto3";
+
+import public "core/DTOEntities.proto";
+import public "core/Requests.proto";
+import public "core/Response.proto";
+option java_multiple_files = true;
+option java_package = "com.nextfeed.library.core.proto.repository";
+option java_outer_classname = "SurveySocketServiceProto";
+
+service SurveySocketService {
+  rpc onCreateByPresenter (CreateByPresenterRequest) returns (Empty) {}
+  rpc onCreateByParticipant (CreateByParticipantRequest) returns (Empty) {}
+  rpc onClose (CloseRequest) returns (Empty) {}
+  rpc onUpdate (UpdateRequest) returns (Empty) {}
+  rpc onResult (ResultRequest) returns (Empty) {}
+}
+
+message CreateByPresenterRequest{
+  int32 sessionId = 1;
+  SurveyDTO survey = 2;
+}
+
+message CreateByParticipantRequest{
+  int32 sessionId = 1;
+  int32 surveyId = 2;
+  SurveyTemplateDTO template = 3;
+}
+
+message CloseRequest{
+  int32 sessionId = 1;
+  int32 surveyId = 2;
+}
+
+message UpdateRequest{
+  int32 sessionId = 1;
+  SurveyDTO surveyDTO = 2;
+}
+
+message ResultRequest{
+  int32 sessionId = 1;
+  SurveyDTO surveyDTO = 2;
+}
+
+
+
+
+
+

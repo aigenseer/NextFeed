@@ -15,7 +15,7 @@ public class Participant {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String nickname;
-    private boolean connected = false;
+    private boolean connected;
 
     Integer session_id;
 

@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+import public "core/DTOEntities.proto";
+import public "core/Requests.proto";
+import public "core/Response.proto";
+option java_multiple_files = true;
+option java_package = "com.nextfeed.library.core.proto.repository";
+option java_outer_classname = "QuestionRepositoryServiceProto";
+
+service QuestionRepositoryService {
+  rpc save (QuestionDTO) returns (QuestionDTO) {}
+  rpc findById (IDRequest) returns (OptionalQuestionDTO) {}
+  rpc addVote (VoteQuestionRequest) returns (Empty) {}
+  rpc findBySessionId (IDRequest) returns (QuestionDTOList) {}
+  rpc deleteAllBySessionId (IDRequest) returns (Empty) {}
+  rpc close (IDRequest) returns (OptionalQuestionDTO) {}
+}
+
+message VoteQuestionRequest{
+  int32 questionId = 1;
+  int32 participantId = 2;
+  int32 rating = 3;
+}
+
+
+
+
+
+

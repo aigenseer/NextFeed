@@ -20,6 +20,8 @@ dependencies {
     implementation project(':library:security')
     implementation project(':library:core')
 
+    implementation 'net.devh:grpc-client-spring-boot-starter:2.13.1.RELEASE'
+
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
 }

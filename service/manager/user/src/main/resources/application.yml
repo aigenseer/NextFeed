@@ -9,3 +9,10 @@ spring:
 
 server:
   port: ${nextfeed.service.user-manager-service.port}
+
+grpc:
+  server:
+    port: ${nextfeed.service.user-manager-service.grpc-port}
+
+
+

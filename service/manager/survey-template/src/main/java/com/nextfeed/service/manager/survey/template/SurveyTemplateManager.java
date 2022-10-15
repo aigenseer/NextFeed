@@ -17,7 +17,7 @@ public class SurveyTemplateManager {
         return surveyRepositoryService.save(template);
     }
 
-    public Collection<SurveyTemplate> getAllTemplates(){
+    public List<SurveyTemplate> getAllTemplates(){
         return surveyRepositoryService.findAllTemplates();
     }
 

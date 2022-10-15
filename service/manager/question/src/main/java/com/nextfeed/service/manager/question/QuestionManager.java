@@ -1,12 +1,9 @@
 package com.nextfeed.service.manager.question;
 
-import com.nextfeed.library.core.entity.participant.Participant;
-import com.nextfeed.library.core.entity.question.QuestionDTO;
-import com.nextfeed.library.core.entity.question.QuestionEntity;
-import com.nextfeed.library.core.entity.question.VoterEntity;
-import com.nextfeed.library.core.service.manager.ParticipantManagerService;
-import com.nextfeed.library.core.service.manager.dto.question.NewQuestionRequest;
-import com.nextfeed.library.core.service.repository.QuestionRepositoryService;
+import com.nextfeed.library.core.grpc.service.manager.ParticipantManagerServiceClient;
+import com.nextfeed.library.core.grpc.service.repository.QuestionRepositoryServiceClient;
+import com.nextfeed.library.core.proto.entity.DTOEntities;
+import com.nextfeed.library.core.proto.manager.NewQuestionRequest;
 import com.nextfeed.library.core.service.socket.QuestionSocketServices;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -16,45 +13,47 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class QuestionManager {
 
-    private final QuestionRepositoryService questionRepositoryService;
+    private final QuestionRepositoryServiceClient questionRepositoryServiceClient;
     private final QuestionSocketServices questionSocketServices;
-    private final ParticipantManagerService participantManagerService;
+    private final ParticipantManagerServiceClient participantManagerServiceClient;
 
 
     public Boolean existsQuestionId(int questionId){
-        return questionRepositoryService.findById(questionId) != null;
+        return questionRepositoryServiceClient.findById(questionId).isPresent();
     }
 
-    public QuestionDTO createQuestion(int sessionId, NewQuestionRequest request){
-        Participant participant = participantManagerService.getParticipant(request.getParticipantId());
-        QuestionEntity question = QuestionEntity.builder()
-                .participant_id(participant.getSession_id())
-                .session_id(sessionId)
-                .message(request.getMessage())
-                .created(request.getCreated())
-                .anonymous(request.getAnonymous())
+    public DTOEntities.QuestionDTO createQuestion(int sessionId, NewQuestionRequest request){
+        var participant = participantManagerServiceClient.getParticipant(request.getParticipantId());
+        DTOEntities.QuestionDTO question = DTOEntities.QuestionDTO.newBuilder()
+                .setParticipant(participant.get())
+                .setSessionId(sessionId)
+                .setMessage(request.getMessage())
+                .setCreated(request.getCreated())
+                .setAnonymous(request.getAnonymous())
                 .build();
-        var dto = questionRepositoryService.save(question);
+        var dto = questionRepositoryServiceClient.save(question);
         questionSocketServices.sendQuestion(sessionId, dto);
         return dto;
     }
 
     public void ratingUpByQuestionId(int sessionId, int questionId, int voterId, boolean rating){
-        QuestionDTO questionDTO = questionRepositoryService.findDTOById(questionId);
-        Participant voter = participantManagerService.getParticipant(voterId);
+        var questionDTO = questionRepositoryServiceClient.findById(questionId);
+        var participantDTO = participantManagerServiceClient.getParticipant(voterId);
 
-        if (!questionDTO.getVoters().stream().map(VoterEntity::getParticipant_id).toList().contains(voter.getId())){
-            questionRepositoryService.addVote(questionId, voter.getId(), (rating? +1: -1));
-            questionSocketServices.sendQuestion(sessionId, questionRepositoryService.findDTOById(questionId));
+        if (questionDTO.isPresent() &&
+            participantDTO.isPresent() &&
+            !questionDTO.get().getVoterEntityList().stream().map(DTOEntities.VoterEntityDTO::getParticipantId).toList().contains(participantDTO.get().getId())){
+            questionRepositoryServiceClient.addVote(questionId, participantDTO.get().getId(), (rating? +1: -1));
+            questionSocketServices.sendQuestion(sessionId, questionRepositoryServiceClient.findById(questionId).get());
         }
     }
 
     public void closeQuestion(int sessionId, int questionId){
-        QuestionEntity question = questionRepositoryService.findById(questionId);
-        if(question.getClosed() == null){
-            question.setClosed(System.currentTimeMillis());
-            var dto = questionRepositoryService.save(question);
-            questionSocketServices.sendQuestion(sessionId, dto);
+        var dto = questionRepositoryServiceClient.findById(questionId);
+        if(dto.isPresent() && dto.get().getClosed() != 0){
+            var r = questionRepositoryServiceClient.close(questionId);
+            if(r.isPresent())
+                questionSocketServices.sendQuestion(sessionId, r.get());
         }
     }
 

@@ -1,15 +1,13 @@
 package com.nextfeed.service.external.session;
 
-
-import com.nextfeed.library.core.entity.participant.Participant;
-import com.nextfeed.library.core.entity.question.QuestionDTO;
 import com.nextfeed.library.core.entity.session.Session;
 import com.nextfeed.library.core.entity.session.SessionMetadata;
+import com.nextfeed.library.core.grpc.service.manager.QuestionManagerServiceClient;
+import com.nextfeed.library.core.grpc.service.manager.SessionManagerServiceClient;
+import com.nextfeed.library.core.proto.entity.DTOEntities;
+import com.nextfeed.library.core.service.external.dto.authorization.NewQuestionRequest;
+import com.nextfeed.library.core.service.external.dto.authorization.NewSessionRequest;
 import com.nextfeed.library.core.service.external.utils.ServiceUtils;
-import com.nextfeed.library.core.service.manager.QuestionManagerService;
-import com.nextfeed.library.core.service.manager.SessionManagerService;
-import com.nextfeed.library.core.service.manager.dto.question.NewQuestionRequest;
-import com.nextfeed.library.core.service.manager.dto.session.NewSessionRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -40,8 +38,8 @@ public class SessionRestController{
         SpringApplication.run(SessionRestController.class, args);
     }
 
-    private final SessionManagerService sessionManagerService;
-    private final QuestionManagerService questionManagerService;
+    private final SessionManagerServiceClient sessionManagerServiceClient;
+    private final QuestionManagerServiceClient questionManagerServiceClient;
     private final ServiceUtils serviceUtils;
 //    private final TokenService tokenService;
 //    private final WebSocketHolderService webSocketHolderService;
@@ -50,7 +48,7 @@ public class SessionRestController{
 
     @PostMapping("/v1/session/presenter/create")
     public Map<String,Object> createNewSession(@RequestBody NewSessionRequest request) {
-        Session session = sessionManagerService.createSession(request);
+        var session = sessionManagerServiceClient.createSession(request.getName());
         Map<String,Object> sessionInformation = new HashMap<>();
         sessionInformation.put("id", session.getId());
         sessionInformation.put("sessionCode",session.getSessionCode());
@@ -60,8 +58,8 @@ public class SessionRestController{
     @GetMapping("/v1/session/presenter/{sessionId}/close")
     public void closeSession(@PathVariable("sessionId") Integer sessionId) {
         serviceUtils.checkSessionId(sessionId);
-        if(!sessionManagerService.isSessionClosed(sessionId))
-            sessionManagerService.closeSession(sessionId);
+        if(!sessionManagerServiceClient.isSessionClosed(sessionId))
+            sessionManagerServiceClient.closeSession(sessionId);
     }
 
     @GetMapping("/v1/session/{sessionId}/initial")
@@ -70,13 +68,13 @@ public class SessionRestController{
 //        if(!SecurityContextHolderUtils.isCurrentUser()) tokenService.checkSessionIdByToken(token, sessionId);
         serviceUtils.checkSessionId(sessionId);
 
-        if(sessionManagerService.isSessionClosed(sessionId)){
+        if(sessionManagerServiceClient.isSessionClosed(sessionId)){
             return null;
         }
 
-        Session session = sessionManagerService.getSessionById(sessionId);
-        List<Participant> participants = session.getParticipants();
-        List<QuestionDTO> questions = session.getQuestions();
+        var session = sessionManagerServiceClient.getSessionById(sessionId);
+        List<DTOEntities.ParticipantDTO> participants = session.get().getParticipants().getParticipantsList();
+        List<DTOEntities.QuestionDTO> questions = session.get().getQuestions().getQuestionsList();
 
         Map<String, Object> sessionData = new HashMap<>();
         sessionData.put("questions", questions);
@@ -87,32 +85,25 @@ public class SessionRestController{
     @DeleteMapping("/v1/session/presenter/{sessionId}")
     public void deleteSession(@PathVariable("sessionId") Integer sessionId) {
         serviceUtils.checkSessionId(sessionId);
-        if(sessionManagerService.isSessionClosed(sessionId)) sessionManagerService.deleteSession(sessionId);
-    }
-
-    @PostMapping("/v1/session/{sessionId}/question/create")
-    public QuestionDTO createQuestion(@RequestBody NewQuestionRequest request, @PathVariable("sessionId") Integer sessionId){
-        serviceUtils.checkSessionId(sessionId);
-        serviceUtils.checkParticipantId(request.getParticipantId());
-        return questionManagerService.createQuestion(sessionId, request);
+        if(sessionManagerServiceClient.isSessionClosed(sessionId)) sessionManagerServiceClient.deleteSession(sessionId);
     }
 
     @GetMapping("/v1/session/presenter/sessions/metadata")
     public List<SessionMetadata> getSessionsMetadata() {
-        return sessionManagerService.getAllClosedSessions()
+        return sessionManagerServiceClient.getAllClosedSessions().getSessionsList()
                 .stream()
                 .map(this::toMetadata)
                 .collect(Collectors.toList());
     }
 
-    private SessionMetadata toMetadata(Session session){
+    private SessionMetadata toMetadata(DTOEntities.SessionDTO session){
         return new SessionMetadata(session.getId(),session.getName(),session.getClosed());
     }
 
     @GetMapping("/v1/session/presenter/{sessionId}/data")
-    public Session getSessionData(@PathVariable("sessionId") Integer sessionId) {
+    public DTOEntities.SessionDTO getSessionData(@PathVariable("sessionId") Integer sessionId) {
         serviceUtils.checkSessionId(sessionId, false);
-        return sessionManagerService.getSessionById(sessionId);
+        return sessionManagerServiceClient.getSessionById(sessionId).get();
     }
 
     @GetMapping("/v1/session/presenter/{sessionId}/participant/{participantId}/kill/{blocked}")

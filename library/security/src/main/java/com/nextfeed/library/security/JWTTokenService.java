@@ -3,10 +3,8 @@ package com.nextfeed.library.security;
 import java.util.*;
 import java.util.function.Function;
 
-import com.nextfeed.library.core.entity.system.SystemConfiguration;
-import com.nextfeed.library.core.service.manager.SystemManagerService;
-import com.nextfeed.library.core.service.manager.dto.system.GetConfigurationRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -18,36 +16,37 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.PostConstruct;
 
 @RequiredArgsConstructor
 @Service
 public class JWTTokenService {
 
     public static final long JWT_TOKEN_VALIDITY = 5 * 60 * 60;
-    private final SystemManagerService systemManagerService;
+//    private final SystemManagerServiceClient systemManagerServiceClient;
 
-//    @Value("${jwt.secret}")
+    @Value("${jwt.secret}")
     private String secret;
 
-    @PostConstruct
-    public void init() throws InterruptedException {
-        SystemConfiguration configuration = null;
-        for (int i = 0; i <= 60; i++) {
-            try {
-                i++;
-                configuration = systemManagerService.get(new GetConfigurationRequest("jwt.secret"));
-                secret = configuration.getValue();
-                break;
-            }catch (Exception e){
-                System.out.println(e);
-                Thread.sleep(5000);
-            }
-        }
-        if(configuration == null){
-            throw new RuntimeException("Can not call service");
-        }
-    }
+//    @PostConstruct
+//    public void init() throws InterruptedException {
+//        Optional<DTOEntities.SystemConfigurationDTO> configuration = null;
+//        for (int i = 0; i <= 60; i++) {
+//            try {
+//                i++;
+//                configuration = systemManagerServiceClient.get("jwt.secret");
+//                if (configuration.isPresent()){
+//                    secret = configuration.get().getValue();
+//                    break;
+//                }
+//            }catch (Exception e){
+//                System.out.println(e);
+//                Thread.sleep(5000);
+//            }
+//        }
+//        if(configuration == null){
+//            throw new RuntimeException("Can not call service");
+//        }
+//    }
 
     public String getUsernameFromToken(String token) {
         return getClaimFromToken(token, Claims::getSubject);
