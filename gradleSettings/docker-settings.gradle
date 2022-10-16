@@ -1,7 +1,7 @@
 task copyDockerFile() {
     copy {
         from new File(project.rootDir.getAbsolutePath() + "/gradleSettings/docker/"+(project.hasProperty("dockerType")? "$dockerType": "default")+"/Dockerfile").getCanonicalPath()
-        filter { it.replaceAll('<%=port%>', project.hasProperty("serverPort")? "$serverPort": "8080") }
+        filter { it.replaceAll('<%=ports%>', project.hasProperty("serverPorts")? "$serverPort": "8080") }
         filter { it.replaceAll('<%=name%>', project.name) }
         filter { it.replaceAll('<%=version%>', project.version) }
         into "$buildDir"
@@ -10,7 +10,7 @@ task copyDockerFile() {
 tasks.named("docker") { dependsOn("copyDockerFile") }
 
 docker {
-    name "nextfeed/kube-2-${project.name}${project.hasProperty("serviceType")? "-$serviceType": ""}:${project.version}"
+    name "nextfeed/kube-3-${project.name}${project.hasProperty("serviceType")? "-$serviceType": ""}:${project.version}"
     files "$buildDir/libs/${project.name}-${project.version}.jar"
     dockerfile file("$buildDir/Dockerfile")
     pull true

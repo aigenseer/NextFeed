@@ -1,6 +1,6 @@
 FROM openjdk:17
 LABEL maintainer "lecturefeed@gmail.com"
-EXPOSE <%=port%>
+EXPOSE <%=ports%>
 COPY <%=name%>-<%=version%>.jar app.jar
 ENV POSTGRES_HOST localhost
 ENV POSTGRES_PORT 5432

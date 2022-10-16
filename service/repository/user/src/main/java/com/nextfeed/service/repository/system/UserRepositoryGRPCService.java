@@ -43,8 +43,12 @@ public class UserRepositoryGRPCService extends UserRepositoryServiceGrpc.UserRep
 
     @Override
     public void getUsersByMailAddress(Requests.SearchRequest request, StreamObserver<DTOEntities.OptionalUserDTO> responseObserver) {
-        var u = userDBService.getUsersByMailAddress(request.getSearch()).orElse(null);
-        responseObserver.onNext(DTOEntities.OptionalUserDTO.newBuilder().setUserDTO(Entity2DTOUtils.user2DTO(u)).build());
+        var u = userDBService.getUsersByMailAddress(request.getSearch());
+        var builder = DTOEntities.OptionalUserDTO.newBuilder();
+        if(u.isPresent()){
+            builder.setUserDTO(Entity2DTOUtils.user2DTO(u.get()));
+        }
+        responseObserver.onNext(builder.build());
         responseObserver.onCompleted();
     }
 
