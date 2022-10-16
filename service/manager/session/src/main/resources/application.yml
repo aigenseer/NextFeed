@@ -10,4 +10,6 @@ spring:
 server:
   port: ${nextfeed.service.session-manager-service.port}
 
-
+grpc:
+  server:
+    port: ${nextfeed.service.session-manager-service.grpc-port}

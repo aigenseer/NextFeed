@@ -16,13 +16,13 @@ public class SurveySocketServices{
     private final SocketServiceUtils serviceUtils;
     private final static String INSTANCE_NAME = "survey-socket-service";
 
-    @Value("#{new Integer('${nextfeed.service.survey-socket-service.port}')}")
+    @Value("#{new Integer('${nextfeed.service.survey-socket-service.grpc-port}')}")
     private Integer port;
 
     public void onCreateByPresenter(Integer sessionId, DTOEntities.SurveyDTO surveyDTO){
         serviceUtils.getInstanceInfoByName(INSTANCE_NAME).forEach(instance -> {
             try {
-                ManagedChannel managedChannel = ManagedChannelBuilder.forAddress(instance.getIPAddr(), port).usePlaintext().build();
+                ManagedChannel managedChannel = ManagedChannelBuilder.forTarget("static://%s:%s".formatted(instance.getIPAddr(), port)).usePlaintext().build();
                 SurveySocketServiceGrpc.SurveySocketServiceBlockingStub blockingStub = SurveySocketServiceGrpc.newBlockingStub(managedChannel);
                 blockingStub.onCreateByPresenter(CreateByPresenterRequest.newBuilder().setSessionId(sessionId).setSurvey(surveyDTO).build());
                 managedChannel.shutdown();
@@ -37,7 +37,7 @@ public class SurveySocketServices{
     public void onCreateByParticipant(Integer sessionId, Integer surveyId, DTOEntities.SurveyTemplateDTO template){
         serviceUtils.getInstanceInfoByName(INSTANCE_NAME).forEach(instance -> {
             try {
-                ManagedChannel managedChannel = ManagedChannelBuilder.forAddress(instance.getIPAddr(), port).usePlaintext().build();
+                ManagedChannel managedChannel = ManagedChannelBuilder.forTarget("static://%s:%s".formatted(instance.getIPAddr(), port)).usePlaintext().build();
                 SurveySocketServiceGrpc.SurveySocketServiceBlockingStub blockingStub = SurveySocketServiceGrpc.newBlockingStub(managedChannel);
                 blockingStub.onCreateByParticipant(CreateByParticipantRequest.newBuilder().setSessionId(sessionId).setSurveyId(surveyId).setTemplate(template).build());
                 managedChannel.shutdown();
@@ -51,7 +51,7 @@ public class SurveySocketServices{
     public void onClose(Integer sessionId, Integer surveyId){
         serviceUtils.getInstanceInfoByName(INSTANCE_NAME).forEach(instance -> {
             try {
-                ManagedChannel managedChannel = ManagedChannelBuilder.forAddress(instance.getIPAddr(), port).usePlaintext().build();
+                ManagedChannel managedChannel = ManagedChannelBuilder.forTarget("static://%s:%s".formatted(instance.getIPAddr(), port)).usePlaintext().build();
                 SurveySocketServiceGrpc.SurveySocketServiceBlockingStub blockingStub = SurveySocketServiceGrpc.newBlockingStub(managedChannel);
                 blockingStub.onClose(CloseRequest.newBuilder().setSessionId(sessionId).setSurveyId(surveyId).build());
                 managedChannel.shutdown();
@@ -65,7 +65,7 @@ public class SurveySocketServices{
     public void onUpdate(Integer sessionId, DTOEntities.SurveyDTO surveyDTO){
         serviceUtils.getInstanceInfoByName(INSTANCE_NAME).forEach(instance -> {
             try {
-                ManagedChannel managedChannel = ManagedChannelBuilder.forAddress(instance.getIPAddr(), port).usePlaintext().build();
+                ManagedChannel managedChannel = ManagedChannelBuilder.forTarget("static://%s:%s".formatted(instance.getIPAddr(), port)).usePlaintext().build();
                 SurveySocketServiceGrpc.SurveySocketServiceBlockingStub blockingStub = SurveySocketServiceGrpc.newBlockingStub(managedChannel);
                 blockingStub.onUpdate(UpdateRequest.newBuilder().setSessionId(sessionId).setSurveyDTO(surveyDTO).build());
                 managedChannel.shutdown();
@@ -79,7 +79,7 @@ public class SurveySocketServices{
     public void onResult(Integer sessionId, DTOEntities.SurveyDTO surveyDTO){
         serviceUtils.getInstanceInfoByName(INSTANCE_NAME).forEach(instance -> {
             try {
-                ManagedChannel managedChannel = ManagedChannelBuilder.forAddress(instance.getIPAddr(), port).usePlaintext().build();
+                ManagedChannel managedChannel = ManagedChannelBuilder.forTarget("static://%s:%s".formatted(instance.getIPAddr(), port)).usePlaintext().build();
                 SurveySocketServiceGrpc.SurveySocketServiceBlockingStub blockingStub = SurveySocketServiceGrpc.newBlockingStub(managedChannel);
                 blockingStub.onResult(ResultRequest.newBuilder().setSessionId(sessionId).setSurveyDTO(surveyDTO).build());
                 managedChannel.shutdown();

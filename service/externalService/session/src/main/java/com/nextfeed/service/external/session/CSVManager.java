@@ -1,11 +1,7 @@
 package com.nextfeed.service.external.session;
 
-import com.nextfeed.library.core.entity.mood.MoodEntity;
-import com.nextfeed.library.core.entity.participant.Participant;
-import com.nextfeed.library.core.entity.question.QuestionDTO;
-import com.nextfeed.library.core.entity.session.Session;
-import com.nextfeed.library.core.entity.survey.Survey;
-import com.nextfeed.library.core.service.manager.SessionManagerService;
+import com.nextfeed.library.core.grpc.service.manager.SessionManagerServiceClient;
+import com.nextfeed.library.core.proto.entity.DTOEntities;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
@@ -20,19 +16,19 @@ import java.util.zip.ZipOutputStream;
 @RequiredArgsConstructor
 public class CSVManager {
 
-    private final SessionManagerService sessionManagerService;
+    private final SessionManagerServiceClient sessionManagerServiceClient;
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
 
     public File buildSessionZip(Integer sessionId) throws IOException {
         File tempZip = File.createTempFile("lecturefeed-tmp-session-", ".zip");
-        Session session = sessionManagerService.getSessionById(sessionId);
+        var session = sessionManagerServiceClient.getSessionById(sessionId);
         ZipOutputStream out = new ZipOutputStream(new FileOutputStream(tempZip));
-        if(session != null){
-            appendFileToZip(out, "session.csv", createSessionCSVFile(session));
-            appendFileToZip(out, "questions.csv", createQuestionsCSV(session));
-            appendFileToZip(out, "participants.csv", createParticipantCSV(session));
-            appendFileToZip(out, "moods.csv", createMoodCSV(session));
-            appendFileToZip(out, "surveys.csv", createSurveyCSV(session));
+        if(session.isPresent()){
+            appendFileToZip(out, "session.csv", createSessionCSVFile(session.get()));
+            appendFileToZip(out, "questions.csv", createQuestionsCSV(session.get()));
+            appendFileToZip(out, "participants.csv", createParticipantCSV(session.get()));
+            appendFileToZip(out, "moods.csv", createMoodCSV(session.get()));
+            appendFileToZip(out, "surveys.csv", createSurveyCSV(session.get()));
         }
         out.close();
         return tempZip;
@@ -53,7 +49,7 @@ public class CSVManager {
         return File.createTempFile("lecturefeed-tmp-csv-", ".csv");
     }
 
-    private File createSessionCSVFile(Session session) throws IOException {
+    private File createSessionCSVFile(DTOEntities.SessionDTO session) throws IOException {
         File tempFile = getTempCSVFile();
         FileWriter out = new FileWriter(tempFile);
         String[] headers = { "Session Id", "Name", "Session Code", "Closed"};
@@ -63,56 +59,56 @@ public class CSVManager {
         return tempFile;
     }
 
-    private File createQuestionsCSV(Session session) throws IOException {
+    private File createQuestionsCSV(DTOEntities.SessionDTO session) throws IOException {
         File tempFile = getTempCSVFile();
         FileWriter out = new FileWriter(tempFile);
         String[] headers = { "Question Id", "Message", "Rating", "Create By Participant Id", "Created", "Closed"};
         CSVPrinter printer = new CSVPrinter(out, CSVFormat.DEFAULT.withHeader(headers));
-        for (QuestionDTO question: session.getQuestions()) {
+        for (DTOEntities.QuestionDTO question: session.getQuestions().getQuestionsList()) {
             printer.printRecord(question.getId(), question.getMessage(), question.getRating(), question.getParticipant().getId(), dateFormat.format(question.getCreated()), dateFormat.format(question.getClosed()));
         }
         out.close();
         return tempFile;
     }
 
-    private File createParticipantCSV(Session session) throws IOException {
+    private File createParticipantCSV(DTOEntities.SessionDTO session) throws IOException {
         File tempFile = getTempCSVFile();
         FileWriter out = new FileWriter(tempFile);
         String[] headers = { "Participant Id", "Nickname"};
         CSVPrinter printer = new CSVPrinter(out, CSVFormat.DEFAULT.withHeader(headers));
-        for (Participant participant: session.getParticipants()) {
+        for (DTOEntities.ParticipantDTO participant: session.getParticipants().getParticipantsList()) {
             printer.printRecord(participant.getId(), participant.getNickname());
         }
         out.close();
         return tempFile;
     }
 
-    private File createMoodCSV(Session session) throws IOException {
+    private File createMoodCSV(DTOEntities.SessionDTO session) throws IOException {
         File tempFile = getTempCSVFile();
         FileWriter out = new FileWriter(tempFile);
         String[] headers = { "Timestamp", "Value"};
         CSVPrinter printer = new CSVPrinter(out, CSVFormat.DEFAULT.withHeader(headers));
-        for (MoodEntity moodEntity: session.getMoodEntities()) {
+        for (DTOEntities.MoodEntityDTO moodEntity: session.getMoodEntities().getEntriesList()) {
             printer.printRecord(dateFormat.format(moodEntity.getTimestamp()), moodEntity.getValue());
         }
         out.close();
         return tempFile;
     }
 
-    private File createSurveyCSV(Session session) throws IOException {
+    private File createSurveyCSV(DTOEntities.SessionDTO session) throws IOException {
         File tempFile = getTempCSVFile();
         FileWriter out = new FileWriter(tempFile);
         String[] headers = { "Survey Id", "Name", "Question", "Type", "Duration", "Published", "Answers", "Created"};
         CSVPrinter printer = new CSVPrinter(out, CSVFormat.DEFAULT.withHeader(headers));
-        for (Survey survey: session.getSurveys()) {
+        for (DTOEntities.SurveyDTO survey: session.getSurveys().getSurveysList()) {
             printer.printRecord(
                     survey.getId(),
                     survey.getTemplate().getName(),
                     survey.getTemplate().getQuestion(),
-                    survey.getTemplate().getType().toString(),
+                    survey.getTemplate().getSurveyType(),
                     survey.getTemplate().getDuration(),
-                    survey.getTemplate().isPublishResults(),
-                    String.join(",", survey.getAnswers()),
+                    survey.getTemplate().getPublishResults(),
+                    String.join(",", survey.getSurveyAnswersList().stream().map(DTOEntities.SurveyAnswerDTO::getValue).toString()),
                     dateFormat.format(survey.getTimestamp()));
         }
         out.close();

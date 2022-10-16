@@ -5,9 +5,11 @@ import com.nextfeed.library.core.proto.repository.QuestionRepositoryServiceGrpc;
 import com.nextfeed.library.core.proto.repository.VoteQuestionRequest;
 import com.nextfeed.library.core.utils.DTORequestUtils;
 import net.devh.boot.grpc.client.inject.GrpcClient;
+import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+@Service
 public class QuestionRepositoryServiceClient {
 
     @GrpcClient("question-repository-service")

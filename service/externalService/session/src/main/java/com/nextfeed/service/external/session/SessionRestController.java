@@ -1,11 +1,9 @@
 package com.nextfeed.service.external.session;
 
-import com.nextfeed.library.core.entity.session.Session;
 import com.nextfeed.library.core.entity.session.SessionMetadata;
 import com.nextfeed.library.core.grpc.service.manager.QuestionManagerServiceClient;
 import com.nextfeed.library.core.grpc.service.manager.SessionManagerServiceClient;
 import com.nextfeed.library.core.proto.entity.DTOEntities;
-import com.nextfeed.library.core.service.external.dto.authorization.NewQuestionRequest;
 import com.nextfeed.library.core.service.external.dto.authorization.NewSessionRequest;
 import com.nextfeed.library.core.service.external.utils.ServiceUtils;
 import lombok.RequiredArgsConstructor;

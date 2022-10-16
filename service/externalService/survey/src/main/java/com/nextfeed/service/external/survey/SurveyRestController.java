@@ -1,10 +1,13 @@
 package com.nextfeed.service.external.survey;
 
 import com.nextfeed.library.core.entity.survey.SurveyTemplate;
+import com.nextfeed.library.core.grpc.service.manager.SurveyManagerServiceClient;
+import com.nextfeed.library.core.grpc.service.manager.SurveyTemplateManagerServiceClient;
+import com.nextfeed.library.core.proto.entity.DTOEntities;
 import com.nextfeed.library.core.service.external.dto.survey.MessageRequest;
 import com.nextfeed.library.core.service.external.utils.ServiceUtils;
-import com.nextfeed.library.core.service.manager.*;
-import com.nextfeed.library.core.service.manager.dto.survey.SurveyDTO;
+import com.nextfeed.library.core.utils.DTO2EntityUtils;
+import com.nextfeed.library.core.utils.Entity2DTOUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -28,36 +31,37 @@ public class SurveyRestController {
         SpringApplication.run(SurveyRestController.class, args);
     }
 
-    private final SurveyManagerService surveyManagerService;
-    private final SurveyTemplateManagerService surveyTemplateManagerService;
+    private final SurveyManagerServiceClient surveyManagerServiceClient;
+    private final SurveyTemplateManagerServiceClient surveyTemplateManagerServiceClient;
     private final ServiceUtils serviceUtils;
     //todo: muss noch gemacht
 //    private final TokenService tokenService;
 
 
     @GetMapping("/presenter/v1/session/{sessionId}/survey/templates")
-    public Collection<SurveyTemplate> getSessionTemplates(@PathVariable int sessionId){
+    public List<DTOEntities.SurveyTemplateDTO> getSessionTemplates(@PathVariable int sessionId){
         serviceUtils.checkSessionId(sessionId);
-        return surveyTemplateManagerService.getAllTemplates();
+        return surveyTemplateManagerServiceClient.getAllTemplates().getSurveyTemplatesList();
     }
 
     @GetMapping("/presenter/v1/session/{sessionId}/surveys")
-    public List<SurveyDTO> getSessionSurveys(@PathVariable int sessionId){
+    public List<DTOEntities.SurveyDTO> getSessionSurveys(@PathVariable int sessionId){
         serviceUtils.checkSessionId(sessionId);
-        return surveyManagerService.getSurveys(sessionId);
+        return surveyManagerServiceClient.getSurveysBySessionId(sessionId).getSurveysList();
     }
 
     @GetMapping("/presenter/v1/session/{sessionId}/survey/create/{templateId}")
     public void create(@PathVariable int sessionId, @PathVariable int templateId){
         serviceUtils.checkSessionId(sessionId);
         serviceUtils.checkTemplateId(templateId);
-        surveyManagerService.createSurvey(sessionId, surveyTemplateManagerService.getTemplate(templateId));
+        surveyManagerServiceClient.createSurvey(sessionId, surveyTemplateManagerServiceClient.getTemplateById(templateId).get());
     }
 
     @PostMapping("/presenter/v1/session/{sessionId}/survey/create")
     public SurveyTemplate create(@PathVariable int sessionId, @RequestBody SurveyTemplate template){
         serviceUtils.checkSessionId(sessionId);
-        surveyManagerService.createSurvey(sessionId, surveyTemplateManagerService.createTemplate(template));
+        var dto = Entity2DTOUtils.surveyTemplate2DTO(template);
+        surveyManagerServiceClient.createSurvey(sessionId, surveyTemplateManagerServiceClient.createTemplate(dto));
         return template;
     }
 
@@ -70,7 +74,7 @@ public class SurveyRestController {
 //        SecurityContextHolderUtils.getCurrentAuthenticationId().ifPresent(id ->
 //                surveyManagerService.addAnswerToSurvey(sessionId, surveyId, id, request.getText())
 //        );
-        surveyManagerService.addAnswerToSurvey(sessionId, surveyId, 0, request.getText());
+        surveyManagerServiceClient.addAnswerToSurvey(sessionId, surveyId, 0, request.getText());
 
     }
 

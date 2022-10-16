@@ -19,13 +19,13 @@ public class QuestionSocketServices {
     private final SocketServiceUtils serviceUtils;
     private final static String INSTANCE_NAME = "question-socket-service";
 
-    @Value("#{new Integer('${nextfeed.service.question-socket-service.port}')}")
+    @Value("#{new Integer('${nextfeed.service.question-socket-service.grpc-port}')}")
     private Integer port;
 
     public void sendQuestion(Integer sessionId, DTOEntities.QuestionDTO questionDTO){
         serviceUtils.getInstanceInfoByName(INSTANCE_NAME).forEach(instance -> {
             try {
-                ManagedChannel managedChannel = ManagedChannelBuilder.forAddress(instance.getIPAddr(), port).usePlaintext().build();
+                ManagedChannel managedChannel = ManagedChannelBuilder.forTarget("static://%s:%s".formatted(instance.getIPAddr(), port)).usePlaintext().build();
                 QuestionSocketServiceGrpc.QuestionSocketServiceBlockingStub blockingStub = QuestionSocketServiceGrpc.newBlockingStub(managedChannel);
                 blockingStub.sendQuestion(SendQuestionRequest.newBuilder().setSessionId(sessionId).setQuestionDTO(questionDTO).build());
                 managedChannel.shutdown();

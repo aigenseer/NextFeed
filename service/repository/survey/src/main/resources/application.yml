@@ -26,3 +26,7 @@ spring:
 
 server:
   port: ${nextfeed.service.survey-repository-service.port}
+
+grpc:
+  server:
+    port: ${nextfeed.service.survey-repository-service.grpc-port}

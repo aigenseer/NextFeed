@@ -21,7 +21,7 @@ public class ServiceUtils {
         if(sessionId == null)
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "SessionId are not exists");
         var session = sessionManagerServiceClient.getSessionById(sessionId);
-        if (session.isPresent() || closedAllowed && session.get().getClosed() != 0L)
+        if (session.isEmpty() || closedAllowed && session.get().getClosed() != 0L)
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, String.format("SessionId %d are not exists", sessionId));
     }
 

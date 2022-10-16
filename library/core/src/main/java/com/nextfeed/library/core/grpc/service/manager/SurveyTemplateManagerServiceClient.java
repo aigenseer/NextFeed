@@ -4,9 +4,11 @@ import com.nextfeed.library.core.proto.entity.DTOEntities;
 import com.nextfeed.library.core.proto.manager.SurveyTemplateManagerServiceGrpc;
 import com.nextfeed.library.core.utils.*;
 import net.devh.boot.grpc.client.inject.GrpcClient;
+import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+@Service
 public class SurveyTemplateManagerServiceClient {
 
     @GrpcClient("survey-template-manager-service")

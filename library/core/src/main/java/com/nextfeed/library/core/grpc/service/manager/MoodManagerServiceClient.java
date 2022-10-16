@@ -3,7 +3,9 @@ package com.nextfeed.library.core.grpc.service.manager;
 import com.nextfeed.library.core.proto.entity.DTOEntities;
 import com.nextfeed.library.core.proto.manager.*;
 import net.devh.boot.grpc.client.inject.GrpcClient;
+import org.springframework.stereotype.Service;
 
+@Service
 public class MoodManagerServiceClient {
 
     @GrpcClient("mood-manager-service")

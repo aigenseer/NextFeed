@@ -46,7 +46,8 @@ public class ParticipantRepositoryGRPCService extends ParticipantRepositoryServi
     @Override
     public void findBySessionId(Requests.IDRequest request, StreamObserver<DTOEntities.ParticipantDTOList> responseObserver) {
         var pList = participantDBService.getRepo().findBySessionId(request.getId());
-        responseObserver.onNext(DTOListUtils.participantList2DTO(pList));
+        var list = DTOListUtils.participantList2DTO(pList);
+        responseObserver.onNext(list);
         responseObserver.onCompleted();
     }
 

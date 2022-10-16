@@ -11,11 +11,7 @@ import java.util.List;
 public class DTOListUtils {
 
     public static DTOEntities.ParticipantDTOList toParticipantDTOList(List<DTOEntities.ParticipantDTO> list){
-        var builder = DTOEntities.ParticipantDTOList.newBuilder();
-        for (int i = 0; i < list.size(); i++) {
-            builder.setParticipants(i, list.get(i));
-        }
-        return builder.build();
+        return DTOEntities.ParticipantDTOList.newBuilder().addAllParticipants(list).build();
     }
 
     public static DTOEntities.ParticipantDTOList participantList2DTO(List<Participant> list){
@@ -23,11 +19,7 @@ public class DTOListUtils {
     }
 
     public static DTOEntities.QuestionDTOList toQuestionDTOList(List<DTOEntities.QuestionDTO> list){
-        var builder = DTOEntities.QuestionDTOList.newBuilder();
-        for (int i = 0; i < list.size(); i++) {
-            builder.setQuestions(i, list.get(i));
-        }
-        return builder.build();
+        return DTOEntities.QuestionDTOList.newBuilder().addAllQuestions(list).build();
     }
 
     public static DTOEntities.SurveyTemplateDTOList surveyTemplateList2DTO(List<SurveyTemplate> list){
@@ -35,11 +27,7 @@ public class DTOListUtils {
     }
 
     public static DTOEntities.SurveyTemplateDTOList toSurveyTemplateDTOList(List<DTOEntities.SurveyTemplateDTO> list){
-        var builder = DTOEntities.SurveyTemplateDTOList.newBuilder();
-        for (int i = 0; i < list.size(); i++) {
-            builder.setSurveyTemplates(i, list.get(i));
-        }
-        return builder.build();
+        return DTOEntities.SurveyTemplateDTOList.newBuilder().addAllSurveyTemplates(list).build();
     }
 
     public static DTOEntities.SurveyDTOList surveyList2DTO(List<Survey> list){
@@ -47,11 +35,7 @@ public class DTOListUtils {
     }
 
     public static DTOEntities.SurveyDTOList toSurveyDTOList(List<DTOEntities.SurveyDTO> list){
-        var builder = DTOEntities.SurveyDTOList.newBuilder();
-        for (int i = 0; i < list.size(); i++) {
-            builder.setSurveys(i, list.get(i));
-        }
-        return builder.build();
+        return DTOEntities.SurveyDTOList.newBuilder().addAllSurveys(list).build();
     }
 
     public static DTOEntities.MoodEntityDTOList moodEntities2DTO(List<MoodEntity> list){
@@ -59,19 +43,11 @@ public class DTOListUtils {
     }
 
     public static DTOEntities.MoodEntityDTOList toMoodEntityList(List<DTOEntities.MoodEntityDTO> list){
-        var builder = DTOEntities.MoodEntityDTOList.newBuilder();
-        for (int i = 0; i < list.size(); i++) {
-            builder.setEntries(i, list.get(i));
-        }
-        return builder.build();
+        return DTOEntities.MoodEntityDTOList.newBuilder().addAllEntries(list).build();
     }
 
     public static DTOEntities.SessionDTOList toSessionDTOList(List<DTOEntities.SessionDTO> list){
-        var builder = DTOEntities.SessionDTOList.newBuilder();
-        for (int i = 0; i < list.size(); i++) {
-            builder.setSessions(i, list.get(i));
-        }
-        return builder.build();
+        return DTOEntities.SessionDTOList.newBuilder().addAllSessions(list).build();
     }
 
 }

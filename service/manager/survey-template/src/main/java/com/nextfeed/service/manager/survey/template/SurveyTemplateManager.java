@@ -1,7 +1,8 @@
 package com.nextfeed.service.manager.survey.template;
 
 import com.nextfeed.library.core.entity.survey.SurveyTemplate;
-import com.nextfeed.library.core.service.repository.SurveyRepositoryService;
+import com.nextfeed.library.core.grpc.service.repository.SurveyRepositoryServiceClient;
+import com.nextfeed.library.core.proto.entity.DTOEntities;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -11,18 +12,18 @@ import java.util.*;
 @RequiredArgsConstructor
 public class SurveyTemplateManager {
 
-    private final SurveyRepositoryService surveyRepositoryService;
+    private final SurveyRepositoryServiceClient surveyRepositoryServiceClient;
 
-    public SurveyTemplate createTemplate(SurveyTemplate template){
-        return surveyRepositoryService.save(template);
+    public DTOEntities.SurveyTemplateDTO createTemplate(DTOEntities.SurveyTemplateDTO template){
+        return surveyRepositoryServiceClient.saveTemplate(template);
     }
 
-    public List<SurveyTemplate> getAllTemplates(){
-        return surveyRepositoryService.findAllTemplates();
+    public DTOEntities.SurveyTemplateDTOList getAllTemplates(){
+        return surveyRepositoryServiceClient.findAllTemplates();
     }
 
-    public SurveyTemplate getTemplateById(int templateId){
-        return surveyRepositoryService.findTemplateById(templateId);
+    public Optional<DTOEntities.SurveyTemplateDTO> getTemplateById(int templateId){
+        return surveyRepositoryServiceClient.findTemplateById(templateId);
     }
 
 

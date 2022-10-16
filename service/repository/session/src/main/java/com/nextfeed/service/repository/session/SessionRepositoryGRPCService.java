@@ -22,7 +22,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 import java.util.Date;
 
-@EntityScan("com.nextfeed.library.core.entity.question")
+@EntityScan("com.nextfeed.library.core.entity.session")
 @EnableJpaRepositories
 @SpringBootApplication(scanBasePackages = "com.nextfeed")
 @RequiredArgsConstructor

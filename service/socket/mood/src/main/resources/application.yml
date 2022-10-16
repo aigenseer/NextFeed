@@ -1,6 +1,7 @@
 spring:
   config:
     import:
+      - classpath:security.config.yml
       - classpath:nextfeed.config.yml
   application:
     name: mood-socket-service
@@ -14,4 +15,8 @@ nextfeed:
   socket:
     endpoint:
       prefix: "/socket/mood-socket"
+
+grpc:
+  server:
+    port: ${nextfeed.service.mood-socket-service.grpc-port}
 

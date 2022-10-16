@@ -8,7 +8,9 @@ import com.nextfeed.library.core.utils.DTORequestUtils;
 import com.nextfeed.library.core.utils.DTOResponseUtils;
 import io.grpc.stub.StreamObserver;
 import net.devh.boot.grpc.client.inject.GrpcClient;
+import org.springframework.stereotype.Service;
 
+@Service
 public class SurveyManagerServiceClient {
 
     @GrpcClient("survey-manager-service")

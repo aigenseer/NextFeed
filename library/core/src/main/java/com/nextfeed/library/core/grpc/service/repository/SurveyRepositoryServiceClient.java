@@ -6,9 +6,11 @@ import com.nextfeed.library.core.proto.repository.SurveyRepositoryServiceGrpc;
 import com.nextfeed.library.core.proto.response.Response;
 import com.nextfeed.library.core.utils.*;
 import net.devh.boot.grpc.client.inject.GrpcClient;
+import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+@Service
 public class SurveyRepositoryServiceClient {
 
     @GrpcClient("survey-repository-service")
@@ -36,6 +38,10 @@ public class SurveyRepositoryServiceClient {
 
     public DTOEntities.SurveyTemplateDTOList findAllTemplates() {
         return rpcService.findAllTemplates(Response.Empty.newBuilder().build());
+    }
+
+    public Optional<DTOEntities.SurveyTemplateDTO> findTemplateById(Integer id){
+        return Optional.of(rpcService.findTemplateById(DTORequestUtils.createIDRequest(id)).getSurveyTemplate());
     }
 
     public DTOEntities.SurveyDTOList findBySessionId(Integer id) {

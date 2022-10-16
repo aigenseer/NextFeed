@@ -2,6 +2,7 @@ package com.nextfeed.service.socket.session;
 
 import com.nextfeed.library.core.entity.participant.Participant;
 import com.nextfeed.library.core.proto.entity.DTOEntities;
+import com.nextfeed.library.core.utils.DTO2EntityUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
@@ -60,8 +61,9 @@ public class SessionDataService {
         String presenterPath = String.format(SessionDataServicePresenterPath.sendNewParticipantToAll.toString(),sessionId);
         String participantPath = String.format(SessionDataServiceParticipantPath.sendNewParticipantToAll.toString(),sessionId);
 
-        simpMessagingTemplate.convertAndSend(presenterPath, participant);
-        simpMessagingTemplate.convertAndSend(participantPath,participant);
+        var payload = DTO2EntityUtils.dto2Participant(participant);
+        simpMessagingTemplate.convertAndSend(presenterPath,  payload);
+        simpMessagingTemplate.convertAndSend(participantPath, payload);
     }
 
     public void sendClose(int sessionId){

@@ -8,7 +8,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
-import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.stereotype.Controller;
@@ -16,8 +15,6 @@ import org.springframework.stereotype.Controller;
 import java.security.Principal;
 import java.util.Optional;
 
-
-@EnableFeignClients(basePackages = "com.nextfeed.library.core.service")
 @SpringBootApplication(scanBasePackages = "com.nextfeed", exclude={DataSourceAutoConfiguration.class})
 @RequiredArgsConstructor
 @Controller

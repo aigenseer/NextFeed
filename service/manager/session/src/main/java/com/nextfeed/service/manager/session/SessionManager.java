@@ -1,17 +1,12 @@
 package com.nextfeed.service.manager.session;
 
-import com.nextfeed.library.core.entity.session.Session;
-import com.nextfeed.library.core.entity.session.SessionEntity;
 import com.nextfeed.library.core.grpc.service.repository.SessionRepositoryServiceClient;
 import com.nextfeed.library.core.proto.entity.DTOEntities;
-import com.nextfeed.library.core.service.repository.SessionRepositoryService;
 import com.nextfeed.library.core.service.socket.SessionSocketServices;
 import com.nextfeed.library.core.utils.StringUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import java.util.Date;
-import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;

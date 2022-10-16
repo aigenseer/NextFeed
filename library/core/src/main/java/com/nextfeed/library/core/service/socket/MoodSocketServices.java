@@ -16,13 +16,13 @@ public class MoodSocketServices {
     private final SocketServiceUtils serviceUtils;
     private final static String INSTANCE_NAME = "mood-socket-service";
 
-    @Value("#{new Integer('${nextfeed.service.mood-socket-service.port}')}")
+    @Value("#{new Integer('${nextfeed.service.mood-socket-service.grpc-port}')}")
     private Integer port;
 
     public void sendMood(Integer sessionId, Double value){
         serviceUtils.getInstanceInfoByName(INSTANCE_NAME).forEach(instance -> {
             try {
-                ManagedChannel managedChannel = ManagedChannelBuilder.forAddress(instance.getIPAddr(), port).usePlaintext().build();
+                ManagedChannel managedChannel = ManagedChannelBuilder.forTarget("static://%s:%s".formatted(instance.getIPAddr(), port)).usePlaintext().build();
                 MoodSocketServiceGrpc.MoodSocketServiceBlockingStub blockingStub = MoodSocketServiceGrpc.newBlockingStub(managedChannel);
                 blockingStub.sendMood(SendMoodRequest.newBuilder().setSessionId(sessionId).setValue(value).build());
                 managedChannel.shutdown();

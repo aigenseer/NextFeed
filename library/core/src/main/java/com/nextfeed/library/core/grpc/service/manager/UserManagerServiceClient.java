@@ -3,10 +3,11 @@ package com.nextfeed.library.core.grpc.service.manager;
 import com.nextfeed.library.core.proto.entity.DTOEntities;
 import com.nextfeed.library.core.proto.manager.*;
 import net.devh.boot.grpc.client.inject.GrpcClient;
+import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
-
+@Service
 public class UserManagerServiceClient {
 
     @GrpcClient("user-manager-service")

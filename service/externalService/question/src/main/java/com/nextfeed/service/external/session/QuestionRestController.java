@@ -1,9 +1,11 @@
 package com.nextfeed.service.external.session;
 
+import com.nextfeed.library.core.entity.question.QuestionEntity;
 import com.nextfeed.library.core.grpc.service.manager.QuestionManagerServiceClient;
 import com.nextfeed.library.core.proto.entity.DTOEntities;
 import com.nextfeed.library.core.service.external.dto.authorization.NewQuestionRequest;
 import com.nextfeed.library.core.service.external.utils.ServiceUtils;
+import com.nextfeed.library.core.utils.DTO2EntityUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -28,10 +30,11 @@ public class QuestionRestController {
     private final ServiceUtils serviceUtils;
 
     @PostMapping("/v1/session/{sessionId}/question/create")
-    public DTOEntities.QuestionDTO createQuestion(@RequestBody NewQuestionRequest request, @PathVariable("sessionId") Integer sessionId){
+    public QuestionEntity createQuestion(@RequestBody NewQuestionRequest request, @PathVariable("sessionId") Integer sessionId){
         serviceUtils.checkSessionId(sessionId);
         serviceUtils.checkParticipantId(request.getParticipantId());
-        return questionManagerServiceClient.createQuestion(sessionId, request.getParticipantId(), request.getMessage(), request.getCreated(), request.getAnonymous());
+        var dto = questionManagerServiceClient.createQuestion(sessionId, request.getParticipantId(), request.getMessage(), System.currentTimeMillis(), request.getAnonymous());
+        return DTO2EntityUtils.dto2Question(dto);
     }
 
 

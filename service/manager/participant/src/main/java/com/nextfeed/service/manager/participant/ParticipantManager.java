@@ -45,12 +45,12 @@ public class ParticipantManager {
         return null;
     }
 
-    public List<DTOEntities.ParticipantDTO> getParticipantsBySessionId(Integer sessionId){
-        return participantRepositoryServiceClient.findBySessionId(sessionId).getParticipantsList();
+    public DTOEntities.ParticipantDTOList getParticipantsBySessionId(Integer sessionId){
+        return participantRepositoryServiceClient.findBySessionId(sessionId);
     }
 
     public List<DTOEntities.ParticipantDTO> getConnectedParticipantsBySessionId(Integer sessionId){
-        return getParticipantsBySessionId(sessionId).stream().filter(DTOEntities.ParticipantDTO::getConnected).toList();
+        return getParticipantsBySessionId(sessionId).getParticipantsList().stream().filter(DTOEntities.ParticipantDTO::getConnected).toList();
     }
 
     public void updateConnectionStatusByParticipantId(Integer participantId, Boolean status){

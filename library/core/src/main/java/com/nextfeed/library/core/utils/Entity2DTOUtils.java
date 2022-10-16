@@ -28,9 +28,8 @@ public class Entity2DTOUtils {
                 .setCreated(q.getCreated())
                 .setClosed(q.getClosed())
                 .setSessionId(q.getSession_id());
-        for (int i = 0; i < voterEntityList.size(); i++) {
-            builder.setVoterEntity(i, voterEntity2DTO(voterEntityList.get(i)));
-        }
+        var dtos = voterEntityList.stream().map(Entity2DTOUtils::voterEntity2DTO).toList();
+        builder.addAllVoterEntity(dtos);
         return builder.build();
     }
 
@@ -113,10 +112,8 @@ public class Entity2DTOUtils {
                 .setTemplate(surveyTemplate2DTO(e.getTemplate()))
                 .setTimestamp(e.getTimestamp())
                 .setSessionId(e.getSession_id());
-        var list = e.getSurveyAnswers().stream().toList();
-        for (int i = 0; i < list.size(); i++) {
-            builder.setSurveyAnswers(i, surveyAnswer2DTO(list.get(i)) );
-        }
+        var list = e.getSurveyAnswers().stream().map(Entity2DTOUtils::surveyAnswer2DTO).toList();
+        builder.addAllSurveyAnswers(list);
         return builder.build();
     }
 

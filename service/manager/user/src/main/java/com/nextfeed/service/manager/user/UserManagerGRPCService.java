@@ -1,18 +1,15 @@
 package com.nextfeed.service.manager.user;
 
-
 import com.nextfeed.library.core.proto.entity.DTOEntities;
 import com.nextfeed.library.core.proto.manager.*;
 import com.nextfeed.library.core.proto.response.Response;
 import com.nextfeed.library.core.utils.DTOResponseUtils;
-import com.nextfeed.library.core.utils.Entity2DTOUtils;
 import io.grpc.stub.StreamObserver;
 import lombok.RequiredArgsConstructor;
 import net.devh.boot.grpc.server.service.GrpcService;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
-import org.springframework.cloud.openfeign.EnableFeignClients;
 
 @SpringBootApplication(scanBasePackages = "com.nextfeed", exclude={DataSourceAutoConfiguration.class})
 @RequiredArgsConstructor

@@ -27,25 +27,22 @@ public class SurveyTemplateManagerGRPCService extends SurveyTemplateManagerServi
 
     @Override
     public void createTemplate(DTOEntities.SurveyTemplateDTO dto, StreamObserver<DTOEntities.SurveyTemplateDTO> responseObserver) {
-        var e = DTO2EntityUtils.dto2SurveyTemplate(dto);
-        e = surveyTemplateManager.createTemplate(e);
-        dto = Entity2DTOUtils.surveyTemplate2DTO(e);
+        dto = surveyTemplateManager.createTemplate(dto);
         responseObserver.onNext(dto);
         responseObserver.onCompleted();
     }
 
     @Override
     public void getTemplateById(Requests.IDRequest request, StreamObserver<DTOEntities.OptionalSurveyTemplateDTO> responseObserver) {
-        var e = surveyTemplateManager.getTemplateById(request.getId());
-        var dto = Entity2DTOUtils.surveyTemplate2DTO(e);
-        responseObserver.onNext(DTOEntities.OptionalSurveyTemplateDTO.newBuilder().setSurveyTemplate(dto).build());
+        var dto = surveyTemplateManager.getTemplateById(request.getId());
+        responseObserver.onNext(DTOEntities.OptionalSurveyTemplateDTO.newBuilder().setSurveyTemplate(dto.get()).build());
         responseObserver.onCompleted();
     }
 
     @Override
     public void getAllTemplates(Response.Empty e, StreamObserver<DTOEntities.SurveyTemplateDTOList> responseObserver) {
         var list = surveyTemplateManager.getAllTemplates();
-        responseObserver.onNext(DTOListUtils.surveyTemplateList2DTO(list));
+        responseObserver.onNext(list);
         responseObserver.onCompleted();
     }
 

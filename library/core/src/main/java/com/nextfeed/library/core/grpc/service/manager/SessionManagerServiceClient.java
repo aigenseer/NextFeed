@@ -10,9 +10,11 @@ import com.nextfeed.library.core.utils.DTORequestUtils;
 import com.nextfeed.library.core.utils.DTOResponseUtils;
 import io.grpc.stub.StreamObserver;
 import net.devh.boot.grpc.client.inject.GrpcClient;
+import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+@Service
 public class SessionManagerServiceClient {
 
     @GrpcClient("session-manager-service")

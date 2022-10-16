@@ -7,7 +7,9 @@ import com.nextfeed.library.core.proto.response.Response;
 import com.nextfeed.library.core.utils.*;
 import io.grpc.stub.StreamObserver;
 import net.devh.boot.grpc.client.inject.GrpcClient;
+import org.springframework.stereotype.Service;
 
+@Service
 public class MoodRepositoryServiceClient {
 
     @GrpcClient("mood-repository-service")

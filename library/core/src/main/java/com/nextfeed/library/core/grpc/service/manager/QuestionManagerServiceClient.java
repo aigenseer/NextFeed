@@ -4,7 +4,9 @@ import com.nextfeed.library.core.proto.entity.DTOEntities;
 import com.nextfeed.library.core.proto.manager.*;
 import com.nextfeed.library.core.utils.DTORequestUtils;
 import net.devh.boot.grpc.client.inject.GrpcClient;
+import org.springframework.stereotype.Service;
 
+@Service
 public class QuestionManagerServiceClient {
 
     @GrpcClient("question-manager-service")

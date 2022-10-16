@@ -9,3 +9,7 @@ spring:
 
 server:
   port: ${nextfeed.service.mood-manager-service.port}
+
+grpc:
+  server:
+    port: ${nextfeed.service.mood-manager-service.grpc-port}

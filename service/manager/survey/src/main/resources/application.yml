@@ -9,3 +9,7 @@ spring:
 
 server:
   port: ${nextfeed.service.survey-manager-service.port}
+
+grpc:
+  server:
+    port: ${nextfeed.service.survey-manager-service.grpc-port}

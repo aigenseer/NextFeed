@@ -9,3 +9,7 @@ spring:
 
 server:
   port: ${nextfeed.service.question-manager-service.port}
+
+grpc:
+  server:
+    port: ${nextfeed.service.question-manager-service.grpc-port}

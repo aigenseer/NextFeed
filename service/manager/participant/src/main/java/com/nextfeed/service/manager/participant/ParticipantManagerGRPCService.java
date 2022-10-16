@@ -38,8 +38,7 @@ public class ParticipantManagerGRPCService extends ParticipantManagerServiceGrpc
     @Override
     public void getParticipantsBySessionId(Requests.IDRequest request, StreamObserver<DTOEntities.ParticipantDTOList> responseObserver) {
         var pList = participantManager.getParticipantsBySessionId(request.getId());
-        var rely = DTOEntities.ParticipantDTOList.newBuilder().build();
-        responseObserver.onNext(rely);
+        responseObserver.onNext(pList);
         responseObserver.onCompleted();
     }
 

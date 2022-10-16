@@ -9,5 +9,5 @@ import lombok.Data;
 @AllArgsConstructor
 public class SurveyParticipantDataResponse {
     private int surveyId;
-    private DTOEntities.SurveyTemplateDTO surveyTemplate;
+    private SurveyTemplate surveyTemplate;
 }

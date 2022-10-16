@@ -1,12 +1,11 @@
 package com.nextfeed.service.manager.mood;
 
-import com.nextfeed.library.core.entity.participant.Participant;
+import com.nextfeed.library.core.grpc.service.manager.ParticipantManagerServiceClient;
+import com.nextfeed.library.core.grpc.service.manager.SessionManagerServiceClient;
 import com.nextfeed.library.core.grpc.service.repository.MoodRepositoryServiceClient;
 import com.nextfeed.library.core.proto.entity.DTOEntities;
 import com.nextfeed.library.core.proto.manager.NewCalculatedMoodRequest;
 import com.nextfeed.library.core.proto.manager.NewMoodRequest;
-import com.nextfeed.library.core.service.manager.ParticipantManagerService;
-import com.nextfeed.library.core.service.manager.SessionManagerService;
 import com.nextfeed.library.core.service.socket.MoodSocketServices;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -18,8 +17,8 @@ import java.util.*;
 public class MoodManager {
 
     private final MoodRepositoryServiceClient moodRepositoryServiceClient;
-    private final SessionManagerService sessionManagerService;
-    private final ParticipantManagerService participantManager;
+    private final SessionManagerServiceClient sessionManagerServiceClient;
+    private final ParticipantManagerServiceClient participantManagerServiceClient;
     private final MoodSocketServices moodSocketServices;
 
     private final Map<Integer, Map<Integer, Double>> sessionsParticipantMoodValueCache = new HashMap<>();
@@ -32,10 +31,10 @@ public class MoodManager {
     }
 
     private Map<Integer, Double> getParticipantMoodValueCacheBySessionId(int sessionId){
-        if(sessionManagerService.isSessionClosed(sessionId)) return null;
+        if(sessionManagerServiceClient.isSessionClosed(sessionId)) return null;
         //todo: muss noch gemacht werden
 //        List<Integer> connectedParticipantIds = participantManager.getConnectedParticipantsBySessionId(sessionId).stream().map(Participant::getId).toList();
-        List<Integer> connectedParticipantIds = participantManager.getParticipantsBySessionId(sessionId).stream().map(Participant::getId).toList();
+        List<Integer> connectedParticipantIds = participantManagerServiceClient.getParticipantsBySessionId(sessionId).getParticipantsList().stream().map(DTOEntities.ParticipantDTO::getId).toList();
         if(!sessionsParticipantMoodValueCache.containsKey(sessionId)){
             Map<Integer, Double> cache = new HashMap<>();
             connectedParticipantIds.forEach(participantId -> cache.put(participantId, 0.0));

@@ -1,7 +1,6 @@
 package com.nextfeed.service.repository.session;
 
 
-import com.nextfeed.library.core.entity.session.Session;
 import com.nextfeed.library.core.entity.session.SessionEntity;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;

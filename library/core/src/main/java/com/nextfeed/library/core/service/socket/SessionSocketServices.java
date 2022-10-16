@@ -2,6 +2,7 @@ package com.nextfeed.library.core.service.socket;
 
 import com.nextfeed.library.core.entity.participant.Participant;
 import com.nextfeed.library.core.proto.entity.DTOEntities;
+import com.nextfeed.library.core.proto.manager.MoodManagerServiceGrpc;
 import com.nextfeed.library.core.proto.repository.*;
 import com.nextfeed.library.core.utils.DTOListUtils;
 import com.nextfeed.library.core.utils.DTORequestUtils;
@@ -10,6 +11,7 @@ import com.nextfeed.library.core.utils.SocketServiceUtils;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import lombok.RequiredArgsConstructor;
+import net.devh.boot.grpc.client.inject.GrpcClient;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -22,13 +24,13 @@ public class SessionSocketServices {
     private final SocketServiceUtils serviceUtils;
     private final static String INSTANCE_NAME = "session-socket-service";
 
-    @Value("#{new Integer('${nextfeed.service.session-socket-service.port}')}")
+    @Value("#{new Integer('${nextfeed.service.session-socket-service.grpc-port}')}")
     private Integer port;
 
     public void sendNewParticipantToAll(Integer sessionId, DTOEntities.ParticipantDTO participantDTO){
         serviceUtils.getInstanceInfoByName(INSTANCE_NAME).forEach(instance -> {
             try {
-                ManagedChannel managedChannel = ManagedChannelBuilder.forAddress(instance.getIPAddr(), port).usePlaintext().build();
+                ManagedChannel managedChannel = ManagedChannelBuilder.forTarget("static://%s:%s".formatted(instance.getIPAddr(), port)).usePlaintext().build();
                 SessionSocketServiceGrpc.SessionSocketServiceBlockingStub blockingStub = SessionSocketServiceGrpc.newBlockingStub(managedChannel);
                 blockingStub.sendNewParticipantToAll(SendNewParticipantToAllRequest.newBuilder().setSessionId(sessionId).setParticipant(participantDTO).build());
                 managedChannel.shutdown();
@@ -43,7 +45,7 @@ public class SessionSocketServices {
         String path = "/api/internal/session-socket/v1/session/%d/notify/session/close".formatted(sessionId);
         serviceUtils.getInstanceInfoByName(INSTANCE_NAME).forEach(instance -> {
             try {
-                ManagedChannel managedChannel = ManagedChannelBuilder.forAddress(instance.getIPAddr(), port).usePlaintext().build();
+                ManagedChannel managedChannel = ManagedChannelBuilder.forTarget("static://%s:%s".formatted(instance.getIPAddr(), port)).usePlaintext().build();
                 SessionSocketServiceGrpc.SessionSocketServiceBlockingStub blockingStub = SessionSocketServiceGrpc.newBlockingStub(managedChannel);
                 blockingStub.sendClose(DTORequestUtils.createIDRequest(sessionId));
                 managedChannel.shutdown();
@@ -57,7 +59,7 @@ public class SessionSocketServices {
     public void sendConnectionStatus(Integer sessionId, List<DTOEntities.ParticipantDTO> participantDTOs){
         serviceUtils.getInstanceInfoByName(INSTANCE_NAME).forEach(instance -> {
             try {
-                ManagedChannel managedChannel = ManagedChannelBuilder.forAddress(instance.getIPAddr(), port).usePlaintext().build();
+                ManagedChannel managedChannel = ManagedChannelBuilder.forTarget("static://%s:%s".formatted(instance.getIPAddr(), port)).usePlaintext().build();
                 SessionSocketServiceGrpc.SessionSocketServiceBlockingStub blockingStub = SessionSocketServiceGrpc.newBlockingStub(managedChannel);
                 blockingStub.sendConnectionStatus(SendConnectionStatusRequest.newBuilder().setSessionId(sessionId).setParticipants(DTOListUtils.toParticipantDTOList(participantDTOs)).build());
                 managedChannel.shutdown();

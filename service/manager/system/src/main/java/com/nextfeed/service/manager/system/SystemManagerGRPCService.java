@@ -24,16 +24,15 @@ public class SystemManagerGRPCService extends SystemManagerServiceGrpc.SystemMan
 
     @Override
     public void create(DTOEntities.SystemConfigurationDTO dto, StreamObserver<DTOEntities.SystemConfigurationDTO> responseObserver) {
-        var e = systemManager.create(dto.getName(), dto.getValue());
-        responseObserver.onNext(Entity2DTOUtils.systemConfiguration2DTO(e));
+        dto = systemManager.create(dto.getName(), dto.getValue());
+        responseObserver.onNext(dto);
         responseObserver.onCompleted();
     }
 
     @Override
     public void get(Requests.SearchRequest request, StreamObserver<DTOEntities.OptionalSystemConfigurationDTO> responseObserver) {
-        var e = systemManager.getByName(request.getSearch());
-        var dto = Entity2DTOUtils.systemConfiguration2DTO(e);
-        responseObserver.onNext(DTOEntities.OptionalSystemConfigurationDTO.newBuilder().setSystemConfigurationDTO(dto).build());
+        var dto = systemManager.getByName(request.getSearch());
+        responseObserver.onNext(DTOEntities.OptionalSystemConfigurationDTO.newBuilder().setSystemConfigurationDTO(dto.get()).build());
         responseObserver.onCompleted();
     }
 

@@ -1,9 +1,7 @@
 package com.nextfeed.service.manager.user;
 
-import com.nextfeed.library.core.entity.user.User;
 import com.nextfeed.library.core.grpc.service.repository.UserRepositoryServiceClient;
 import com.nextfeed.library.core.proto.entity.DTOEntities;
-import com.nextfeed.library.core.service.repository.UserRepositoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;

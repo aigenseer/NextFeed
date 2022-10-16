@@ -1,6 +1,7 @@
 spring:
   config:
     import:
+      - classpath:security.config.yml
       - classpath:nextfeed.config.yml
   application:
     name: question-socket-service
@@ -14,3 +15,7 @@ nextfeed:
   socket:
     endpoint:
       prefix: "/socket/question-socket"
+
+grpc:
+  server:
+    port: ${nextfeed.service.question-socket-service.grpc-port}

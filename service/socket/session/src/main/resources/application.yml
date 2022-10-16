@@ -1,6 +1,7 @@
 spring:
   config:
     import:
+      - classpath:security.config.yml
       - classpath:nextfeed.config.yml
   application:
     name: session-socket-service
@@ -14,4 +15,8 @@ nextfeed:
   socket:
     endpoint:
       prefix: "/socket/session-socket"
+
+grpc:
+  server:
+    port: ${nextfeed.service.session-socket-service.grpc-port}
 
