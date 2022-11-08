@@ -1,0 +1,36 @@
+nextfeed:
+  datasource:
+    host: localhost
+    port: 5415
+    db: nextfeed
+    username: root
+    pw: pw
+    show-sql: true
+  socket:
+    endpoint:
+      prefix: "/socket/survey-socket"
+
+spring:
+  config:
+    import:
+      - classpath:nextfeed.config.yml
+      - classpath:db.config.yml
+      - classpath:security.config.yml
+  application:
+    name: survey-service
+  main:
+    allow-bean-definition-overriding: true
+
+  datasource:
+    url: jdbc:postgresql://${nextfeed.datasource.host}:${nextfeed.datasource.port}/${nextfeed.datasource.db}
+    username: ${nextfeed.datasource.username}
+    password: ${nextfeed.datasource.pw}
+  jpa:
+      show-sql: ${nextfeed.datasource.show-sql}
+
+server:
+  port: ${nextfeed.service.survey-service.port}
+
+grpc:
+  server:
+    port: ${nextfeed.service.survey-manager-service.grpc-port}

@@ -1,0 +1,39 @@
+nextfeed:
+  datasource:
+    host: localhost
+    port: 5413
+    db: nextfeed
+    username: root
+    pw: pw
+    show-sql: true
+
+  socket:
+    endpoint:
+      prefix: "/socket/question-socket"
+
+spring:
+  config:
+    import:
+      - classpath:nextfeed.config.yml
+      - classpath:security.config.yml
+      - classpath:db.config.yml
+  application:
+    name: question-service
+  main:
+    allow-bean-definition-overriding: true
+
+  datasource:
+    url: jdbc:postgresql://${nextfeed.datasource.host}:${nextfeed.datasource.port}/${nextfeed.datasource.db}
+    username: ${nextfeed.datasource.username}
+    password: ${nextfeed.datasource.pw}
+  jpa:
+    show-sql: ${nextfeed.datasource.show-sql}
+
+server:
+  port: ${nextfeed.service.question-service.port}
+
+grpc:
+  server:
+    port: ${nextfeed.service.question-manager-service.grpc-port}
+
+

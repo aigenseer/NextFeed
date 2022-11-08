@@ -1,9 +1,0 @@
-server:
-  port: 8080
-
-spring:
-  application:
-    name: test-service
-
-  main:
-    allow-bean-definition-overriding: true

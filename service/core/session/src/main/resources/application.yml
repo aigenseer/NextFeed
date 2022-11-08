@@ -1,0 +1,36 @@
+nextfeed:
+  datasource:
+    host: localhost
+    port: 5414
+    db: nextfeed
+    username: root
+    pw: pw
+    show-sql: true
+  socket:
+    endpoint:
+      prefix: "/socket/session-socket"
+
+spring:
+  config:
+    import:
+      - classpath:nextfeed.config.yml
+      - classpath:security.config.yml
+      - classpath:db.config.yml
+  application:
+    name: session-service
+  main:
+    allow-bean-definition-overriding: true
+
+  datasource:
+    url: jdbc:postgresql://${nextfeed.datasource.host}:${nextfeed.datasource.port}/${nextfeed.datasource.db}
+    username: ${nextfeed.datasource.username}
+    password: ${nextfeed.datasource.pw}
+    jpa:
+      show-sql: ${nextfeed.datasource.show-sql}
+
+server:
+  port: ${nextfeed.service.session-service.port}
+
+grpc:
+  server:
+    port: ${nextfeed.service.session-manager-service.grpc-port}
