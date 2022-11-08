@@ -1,17 +1,13 @@
 package com.nextfeed.library.core.service.socket;
 
-import com.nextfeed.library.core.entity.participant.Participant;
 import com.nextfeed.library.core.proto.entity.DTOEntities;
-import com.nextfeed.library.core.proto.manager.MoodManagerServiceGrpc;
 import com.nextfeed.library.core.proto.repository.*;
 import com.nextfeed.library.core.utils.DTOListUtils;
 import com.nextfeed.library.core.utils.DTORequestUtils;
-import com.nextfeed.library.core.utils.DTOResponseUtils;
 import com.nextfeed.library.core.utils.SocketServiceUtils;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import lombok.RequiredArgsConstructor;
-import net.devh.boot.grpc.client.inject.GrpcClient;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -24,7 +20,7 @@ public class SessionSocketServices {
     private final SocketServiceUtils serviceUtils;
     private final static String INSTANCE_NAME = "session-socket-service";
 
-    @Value("#{new Integer('${nextfeed.service.session-socket-service.grpc-port}')}")
+    @Value("#{new Integer('${nextfeed.service.session-service.grpc-port}')}")
     private Integer port;
 
     public void sendNewParticipantToAll(Integer sessionId, DTOEntities.ParticipantDTO participantDTO){

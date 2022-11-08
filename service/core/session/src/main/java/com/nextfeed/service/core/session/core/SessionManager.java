@@ -4,6 +4,7 @@ import com.nextfeed.library.core.grpc.service.repository.SessionRepositoryServic
 import com.nextfeed.library.core.proto.entity.DTOEntities;
 import com.nextfeed.library.core.service.socket.SessionSocketServices;
 import com.nextfeed.library.core.utils.StringUtils;
+import com.nextfeed.service.core.session.ports.incoming.ISessionManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -13,7 +14,7 @@ import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
-public class SessionManager {
+public class SessionManager implements ISessionManager {
 
     private final SessionSocketServices sessionSocketServices;
     private final SessionRepositoryServiceClient sessionRepositoryServiceClient;

@@ -16,7 +16,7 @@ public class MoodSocketServices {
     private final SocketServiceUtils serviceUtils;
     private final static String INSTANCE_NAME = "mood-socket-service";
 
-    @Value("#{new Integer('${nextfeed.service.mood-socket-service.grpc-port}')}")
+    @Value("#{new Integer('${nextfeed.service.mood-service.grpc-port}')}")
     private Integer port;
 
     public void sendMood(Integer sessionId, Double value){

@@ -1,5 +1,6 @@
-package com.nextfeed.service.core.session.adapter.primary;
+package com.nextfeed.service.core.session.adapter.primary.grpc;
 
+import com.nextfeed.library.core.entity.session.SessionEntity;
 import com.nextfeed.library.core.grpc.service.repository.MoodRepositoryServiceClient;
 import com.nextfeed.library.core.grpc.service.repository.ParticipantRepositoryServiceClient;
 import com.nextfeed.library.core.grpc.service.repository.QuestionRepositoryServiceClient;
@@ -12,7 +13,7 @@ import com.nextfeed.library.core.utils.DTO2EntityUtils;
 import com.nextfeed.library.core.utils.DTOListUtils;
 import com.nextfeed.library.core.utils.DTOResponseUtils;
 import com.nextfeed.library.core.utils.Entity2DTOUtils;
-import com.nextfeed.service.core.session.core.db.SessionDBService;
+import com.nextfeed.service.core.session.ports.incoming.ISessionDBService;
 import io.grpc.stub.StreamObserver;
 import lombok.RequiredArgsConstructor;
 import net.devh.boot.grpc.server.service.GrpcService;
@@ -29,7 +30,7 @@ public class SessionRepositoryGRPCService extends SessionRepositoryServiceGrpc.S
         SpringApplication.run(SessionRepositoryGRPCService.class, args);
     }
 
-    private final SessionDBService sessionDBService;
+    private final ISessionDBService sessionDBService;
     private final ParticipantRepositoryServiceClient participantRepositoryServiceClient;
     private final QuestionRepositoryServiceClient questionRepositoryServiceClient;
     private final SurveyRepositoryServiceClient surveyRepositoryServiceClient;

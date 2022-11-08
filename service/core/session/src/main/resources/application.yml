@@ -1,7 +1,7 @@
 nextfeed:
   datasource:
     host: localhost
-    port: 5414
+    port: 5413
     db: nextfeed
     username: root
     pw: pw
@@ -33,4 +33,4 @@ server:
 
 grpc:
   server:
-    port: ${nextfeed.service.session-manager-service.grpc-port}
+    port: ${nextfeed.service.session-service.grpc-port}

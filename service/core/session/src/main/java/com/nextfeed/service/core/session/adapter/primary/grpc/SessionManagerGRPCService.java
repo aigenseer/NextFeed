@@ -1,4 +1,4 @@
-package com.nextfeed.service.core.session.adapter.primary;
+package com.nextfeed.service.core.session.adapter.primary.grpc;
 
 import com.nextfeed.library.core.proto.entity.DTOEntities;
 import com.nextfeed.library.core.proto.repository.NewSessionRequest;

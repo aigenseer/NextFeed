@@ -1,8 +1,8 @@
 package com.nextfeed.service.core.session.core;
 
-import com.nextfeed.library.core.entity.participant.Participant;
 import com.nextfeed.library.core.proto.entity.DTOEntities;
 import com.nextfeed.library.core.utils.DTO2EntityUtils;
+import com.nextfeed.service.core.session.ports.incoming.ISessionSocketService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
@@ -54,7 +54,7 @@ enum SessionDataServiceSharedPath {
 
 @RequiredArgsConstructor
 @Service
-public class SessionDataService {
+public class SessionSocketService implements ISessionSocketService {
     private final SimpMessagingTemplate simpMessagingTemplate;
 
     public void sendNewParticipantToAll(int sessionId, DTOEntities.ParticipantDTO participant){

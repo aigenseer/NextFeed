@@ -6,178 +6,18 @@ nextfeed:
   metrics:
     enabled: false
   service:
-    authorization-service:
-      domain: "authorization-service.${nextfeed.kubernetes.namespace}"
-      port: 8010
-    question-service:
-      domain: "question-service.${nextfeed.kubernetes.namespace}"
-      port: 8020
     session-service:
       domain: "session-service.${nextfeed.kubernetes.namespace}"
       port: 8030
-    survey-service:
-      domain: "survey-service.${nextfeed.kubernetes.namespace}"
-      port: 8040
-
-    mood-manager-service:
-      domain: "mood-manager-service.${nextfeed.kubernetes.namespace}"
-      port: 8110
-      grpc-port: 8115
-    participant-manager-service:
-      domain: "participant-manager-service.${nextfeed.kubernetes.namespace}"
-      port: 8120
-      grpc-port: 8125
-    question-manager-service:
-      domain: "question-manager-service.${nextfeed.kubernetes.namespace}"
-      port: 8130
-      grpc-port: 8135
-    session-manager-service:
-      domain: "session-manager-service.${nextfeed.kubernetes.namespace}"
-      port: 8140
-      grpc-port: 8145
-    survey-manager-service:
-      domain: "survey-manager-service.${nextfeed.kubernetes.namespace}"
-      port: 8150
-      grpc-port: 8155
-    survey-template-manager-service:
-      domain: "survey-template-manager-service.${nextfeed.kubernetes.namespace}"
-      port: 8160
-      grpc-port: 8165
-    system-manager-service:
-      domain: "system-manager-service.${nextfeed.kubernetes.namespace}"
-      port: 8170
-      grpc-port: 8175
-    user-manager-service:
-      domain: "user-manager-service.${nextfeed.kubernetes.namespace}"
-      port: 8180
-      grpc-port: 8185
-
-    mood-socket-service:
-      domain: "mood-socket-service.${nextfeed.kubernetes.namespace}"
-      port: 8210
-      grpc-port: 8215
-    question-socket-service:
-      domain: "question-socket-service.${nextfeed.kubernetes.namespace}"
-      port: 8220
-      grpc-port: 8225
-    session-socket-service:
-      domain: "session-socket-service.${nextfeed.kubernetes.namespace}"
-      port: 8230
-      grpc-port: 8235
-    survey-socket-service:
-      domain: "survey-socket-service.${nextfeed.kubernetes.namespace}"
-      port: 8240
-      grpc-port: 8245
-
-
-    mood-repository-service:
-      domain: "mood-repository-service.${nextfeed.kubernetes.namespace}"
-      port: 8310
-      grpc-port: 8315
-    participant-repository-service:
-      domain: "participant-repository-service.${nextfeed.kubernetes.namespace}"
-      port: 8320
-      grpc-port: 8325
-    question-repository-service:
-      domain: "question-repository-service.${nextfeed.kubernetes.namespace}"
-      port: 8330
-      grpc-port: 8335
-    session-repository-service:
-      domain: "session-repository-service.${nextfeed.kubernetes.namespace}"
-      port: 8340
-      grpc-port: 8345
-    survey-repository-service:
-      domain: "survey-repository-service.${nextfeed.kubernetes.namespace}"
-      port: 8350
-      grpc-port: 8355
-    system-repository-service:
-      domain: "system-repository-service.${nextfeed.kubernetes.namespace}"
-      port: 8370
-      grpc-port: 8375
-    user-repository-service:
-      domain: "user-repository-service.${nextfeed.kubernetes.namespace}"
-      port: 8380
-      grpc-port: 8385
+      grpc-port: 8035
 
 grpc:
   client:
-    mood-manager-service:
-      address: "static://${nextfeed.service.mood-manager-service.domain}:${nextfeed.service.mood-manager-service.grpc-port}"
+    session-service:
+      address: "static://${nextfeed.service.session-service.domain}:${nextfeed.service.session-service.grpc-port}"
       enableKeepAlive: true
       keepAliveWithoutCalls: true
       negotiationType: plaintext
-    participant-manager-service:
-      address: "static://${nextfeed.service.participant-manager-service.domain}:${nextfeed.service.participant-manager-service.grpc-port}"
-      enableKeepAlive: true
-      keepAliveWithoutCalls: true
-      negotiationType: plaintext
-    question-manager-service:
-      address: "static://${nextfeed.service.question-manager-service.domain}:${nextfeed.service.question-manager-service.grpc-port}"
-      enableKeepAlive: true
-      keepAliveWithoutCalls: true
-      negotiationType: plaintext
-    session-manager-service:
-      address: "static://${nextfeed.service.session-manager-service.domain}:${nextfeed.service.session-manager-service.grpc-port}"
-      enableKeepAlive: true
-      keepAliveWithoutCalls: true
-      negotiationType: plaintext
-    survey-manager-service:
-      address: "static://${nextfeed.service.survey-manager-service.domain}:${nextfeed.service.survey-manager-service.grpc-port}"
-      enableKeepAlive: true
-      keepAliveWithoutCalls: true
-      negotiationType: plaintext
-    survey-template-manager-service:
-      address: "static://${nextfeed.service.survey-template-manager-service.domain}:${nextfeed.service.survey-template-manager-service.grpc-port}"
-      enableKeepAlive: true
-      keepAliveWithoutCalls: true
-      negotiationType: plaintext
-    system-manager-service:
-      address: "static://${nextfeed.service.system-manager-service.domain}:${nextfeed.service.system-manager-service.grpc-port}"
-      enableKeepAlive: true
-      keepAliveWithoutCalls: true
-      negotiationType: plaintext
-    user-manager-service:
-      address: "static://${nextfeed.service.user-manager-service.domain}:${nextfeed.service.user-manager-service.grpc-port}"
-      enableKeepAlive: true
-      keepAliveWithoutCalls: true
-      negotiationType: plaintext
-
-    mood-repository-service:
-      address: "static://${nextfeed.service.mood-repository-service.domain}:${nextfeed.service.mood-repository-service.grpc-port}"
-      enableKeepAlive: true
-      keepAliveWithoutCalls: true
-      negotiationType: plaintext
-    participant-repository-service:
-      address: "static://${nextfeed.service.participant-repository-service.domain}:${nextfeed.service.participant-repository-service.grpc-port}"
-      enableKeepAlive: true
-      keepAliveWithoutCalls: true
-      negotiationType: plaintext
-    question-repository-service:
-      address: "static://${nextfeed.service.question-repository-service.domain}:${nextfeed.service.question-repository-service.grpc-port}"
-      enableKeepAlive: true
-      keepAliveWithoutCalls: true
-      negotiationType: plaintext
-    session-repository-service:
-      address: "static://${nextfeed.service.session-repository-service.domain}:${nextfeed.service.session-repository-service.grpc-port}"
-      enableKeepAlive: true
-      keepAliveWithoutCalls: true
-      negotiationType: plaintext
-    survey-repository-service:
-      address: "static://${nextfeed.service.survey-repository-service.domain}:${nextfeed.service.survey-repository-service.grpc-port}"
-      enableKeepAlive: true
-      keepAliveWithoutCalls: true
-      negotiationType: plaintext
-    system-repository-service:
-      address: "static://${nextfeed.service.system-repository-service.domain}:${nextfeed.service.system-repository-service.grpc-port}"
-      enableKeepAlive: true
-      keepAliveWithoutCalls: true
-      negotiationType: plaintext
-    user-repository-service:
-      address: "static://${nextfeed.service.user-repository-service.domain}:${nextfeed.service.user-repository-service.grpc-port}"
-      enableKeepAlive: true
-      keepAliveWithoutCalls: true
-      negotiationType: plaintext
-
 
 management:
   endpoints:

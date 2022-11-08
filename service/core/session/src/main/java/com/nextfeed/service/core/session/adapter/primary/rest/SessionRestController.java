@@ -1,17 +1,13 @@
-package com.nextfeed.service.core.session.adapter.primary;
+package com.nextfeed.service.core.session.adapter.primary.rest;
 
 import com.nextfeed.library.core.entity.session.SessionMetadata;
-import com.nextfeed.library.core.grpc.service.manager.QuestionManagerServiceClient;
-import com.nextfeed.library.core.grpc.service.manager.SessionManagerServiceClient;
 import com.nextfeed.library.core.proto.entity.DTOEntities;
 import com.nextfeed.library.core.service.external.dto.authorization.NewSessionRequest;
 import com.nextfeed.library.core.service.external.utils.ServiceUtils;
 import com.nextfeed.service.core.session.core.CSVManager;
+import com.nextfeed.service.core.session.core.SessionManager;
+import com.nextfeed.service.core.session.ports.incoming.ISessionManager;
 import lombok.RequiredArgsConstructor;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
-import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -30,8 +26,7 @@ import java.util.stream.Collectors;
 @RequestMapping(value = "/api/session-service", produces = MediaType.APPLICATION_JSON_VALUE)
 public class SessionRestController{
 
-    private final SessionManagerServiceClient sessionManagerServiceClient;
-    private final QuestionManagerServiceClient questionManagerServiceClient;
+    private final ISessionManager sessionManager;
     private final ServiceUtils serviceUtils;
 //    private final TokenService tokenService;
 //    private final WebSocketHolderService webSocketHolderService;
@@ -40,7 +35,7 @@ public class SessionRestController{
 
     @PostMapping("/v1/session/presenter/create")
     public Map<String,Object> createNewSession(@RequestBody NewSessionRequest request) {
-        var session = sessionManagerServiceClient.createSession(request.getName());
+        var session = sessionManager.createSession(request.getName());
         Map<String,Object> sessionInformation = new HashMap<>();
         sessionInformation.put("id", session.getId());
         sessionInformation.put("sessionCode",session.getSessionCode());
@@ -50,8 +45,8 @@ public class SessionRestController{
     @GetMapping("/v1/session/presenter/{sessionId}/close")
     public void closeSession(@PathVariable("sessionId") Integer sessionId) {
         serviceUtils.checkSessionId(sessionId);
-        if(!sessionManagerServiceClient.isSessionClosed(sessionId))
-            sessionManagerServiceClient.closeSession(sessionId);
+        if(!sessionManager.isSessionClosed(sessionId))
+            sessionManager.closeSession(sessionId);
     }
 
     @GetMapping("/v1/session/{sessionId}/initial")
@@ -60,11 +55,11 @@ public class SessionRestController{
 //        if(!SecurityContextHolderUtils.isCurrentUser()) tokenService.checkSessionIdByToken(token, sessionId);
         serviceUtils.checkSessionId(sessionId);
 
-        if(sessionManagerServiceClient.isSessionClosed(sessionId)){
+        if(sessionManager.isSessionClosed(sessionId)){
             return null;
         }
 
-        var session = sessionManagerServiceClient.getSessionById(sessionId);
+        var session = sessionManager.getSessionById(sessionId);
         List<DTOEntities.ParticipantDTO> participants = session.get().getParticipants().getParticipantsList();
         List<DTOEntities.QuestionDTO> questions = session.get().getQuestions().getQuestionsList();
 
@@ -77,12 +72,12 @@ public class SessionRestController{
     @DeleteMapping("/v1/session/presenter/{sessionId}")
     public void deleteSession(@PathVariable("sessionId") Integer sessionId) {
         serviceUtils.checkSessionId(sessionId);
-        if(sessionManagerServiceClient.isSessionClosed(sessionId)) sessionManagerServiceClient.deleteSession(sessionId);
+        if(sessionManager.isSessionClosed(sessionId)) sessionManager.deleteSession(sessionId);
     }
 
     @GetMapping("/v1/session/presenter/sessions/metadata")
     public List<SessionMetadata> getSessionsMetadata() {
-        return sessionManagerServiceClient.getAllClosedSessions().getSessionsList()
+        return sessionManager.getAllClosedSessions().getSessionsList()
                 .stream()
                 .map(this::toMetadata)
                 .collect(Collectors.toList());
@@ -95,7 +90,7 @@ public class SessionRestController{
     @GetMapping("/v1/session/presenter/{sessionId}/data")
     public DTOEntities.SessionDTO getSessionData(@PathVariable("sessionId") Integer sessionId) {
         serviceUtils.checkSessionId(sessionId, false);
-        return sessionManagerServiceClient.getSessionById(sessionId).get();
+        return sessionManager.getSessionById(sessionId).get();
     }
 
     @GetMapping("/v1/session/presenter/{sessionId}/participant/{participantId}/kill/{blocked}")
