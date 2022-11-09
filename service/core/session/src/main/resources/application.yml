@@ -6,6 +6,7 @@ nextfeed:
     username: root
     pw: pw
     show-sql: true
+
   socket:
     endpoint:
       prefix: "/socket/session-socket"

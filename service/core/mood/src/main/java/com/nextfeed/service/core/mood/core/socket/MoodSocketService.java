@@ -1,5 +1,6 @@
 package com.nextfeed.service.core.mood.core.socket;
 
+import com.nextfeed.service.core.mood.ports.incoming.IMoodSocketService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
@@ -36,7 +37,8 @@ enum MoodDataServiceParticipantPath {
 
 @RequiredArgsConstructor
 @Service
-public class MoodDataService {
+public class MoodSocketService implements IMoodSocketService {
+
     private final SimpMessagingTemplate simpMessagingTemplate;
 
     public void sendMood(int sessionId, double value) {

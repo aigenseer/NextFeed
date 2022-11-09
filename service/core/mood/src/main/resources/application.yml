@@ -30,8 +30,8 @@ spring:
     show-sql: ${nextfeed.datasource.show-sql}
 
 server:
-  port: ${nextfeed.service.mood-manager-service.port}
+  port: ${nextfeed.service.mood-service.port}
 
 grpc:
   server:
-    port: ${nextfeed.service.mood-manager-service.grpc-port}
+    port: ${nextfeed.service.mood-service.grpc-port}

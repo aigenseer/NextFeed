@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 
 @EntityScan("com.nextfeed.library.core.entity.mood")
-@EnableJpaRepositories
+@EnableJpaRepositories(basePackages="com.nextfeed.service.core.mood.ports.outgoing")
 @SpringBootApplication(scanBasePackages = "com.nextfeed")
 public class MicroApplication {
 

@@ -3,7 +3,7 @@ package com.nextfeed.service.core.mood.adapter.primary;
 
 import com.nextfeed.library.core.proto.entity.DTOEntities;
 import com.nextfeed.library.core.proto.manager.*;
-import com.nextfeed.service.core.mood.core.MoodManager;
+import com.nextfeed.service.core.mood.ports.incoming.IMoodManager;
 import io.grpc.stub.StreamObserver;
 import lombok.AllArgsConstructor;
 import net.devh.boot.grpc.server.service.GrpcService;
@@ -12,7 +12,7 @@ import net.devh.boot.grpc.server.service.GrpcService;
 @GrpcService
 public class MoodManagerGRPCService extends MoodManagerServiceGrpc.MoodManagerServiceImplBase {
 
-    private final MoodManager moodManager;
+    private final IMoodManager moodManager;
 
     @Override
     public void addMoodValueToSession(AddMoodValueToSessionRequest request, StreamObserver<DTOEntities.MoodEntityDTO> responseObserver) {

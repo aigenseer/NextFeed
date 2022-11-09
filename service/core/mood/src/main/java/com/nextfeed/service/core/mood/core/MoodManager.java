@@ -7,6 +7,9 @@ import com.nextfeed.library.core.proto.entity.DTOEntities;
 import com.nextfeed.library.core.proto.manager.NewCalculatedMoodRequest;
 import com.nextfeed.library.core.proto.manager.NewMoodRequest;
 import com.nextfeed.library.core.service.socket.MoodSocketServices;
+import com.nextfeed.service.core.mood.ports.incoming.IMoodManager;
+import com.nextfeed.service.core.mood.ports.incoming.IMoodRepositoryService;
+import com.nextfeed.service.core.mood.ports.incoming.IMoodSocketService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -14,9 +17,9 @@ import java.util.*;
 
 @Component
 @RequiredArgsConstructor
-public class MoodManager {
+public class MoodManager implements IMoodManager {
 
-    private final MoodRepositoryServiceClient moodRepositoryServiceClient;
+    private final IMoodRepositoryService moodRepositoryServiceClient;
     private final SessionManagerServiceClient sessionManagerServiceClient;
     private final ParticipantManagerServiceClient participantManagerServiceClient;
     private final MoodSocketServices moodSocketServices;

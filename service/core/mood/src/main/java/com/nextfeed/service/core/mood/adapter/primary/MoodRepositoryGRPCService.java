@@ -9,6 +9,7 @@ import com.nextfeed.library.core.utils.DTOListUtils;
 import com.nextfeed.library.core.utils.DTOResponseUtils;
 import com.nextfeed.library.core.utils.Entity2DTOUtils;
 import com.nextfeed.service.core.mood.core.db.MoodDBService;
+import com.nextfeed.service.core.mood.ports.incoming.IMoodRepositoryService;
 import io.grpc.stub.StreamObserver;
 import lombok.RequiredArgsConstructor;
 import net.devh.boot.grpc.server.service.GrpcService;
@@ -21,26 +22,23 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @GrpcService
 public class MoodRepositoryGRPCService extends MoodRepositoryServiceGrpc.MoodRepositoryServiceImplBase {
 
-    private final MoodDBService moodDBService;
+    private final IMoodRepositoryService moodRepositoryService;
 
     @Override
     public void save(DTOEntities.MoodEntityDTO dto, StreamObserver<DTOEntities.MoodEntityDTO> responseObserver) {
-        var e = DTO2EntityUtils.dto2MoodEntity(dto);
-        e = moodDBService.save(e);
-        responseObserver.onNext(Entity2DTOUtils.moodEntity2DTO(e));
+        responseObserver.onNext(moodRepositoryService.save(dto));
         responseObserver.onCompleted();
     }
 
     @Override
     public void findBySessionId(Requests.IDRequest request, StreamObserver<DTOEntities.MoodEntityDTOList> responseObserver) {
-        var list = moodDBService.getRepo().findBySessionId(request.getId());
-        responseObserver.onNext(DTOListUtils.moodEntities2DTO(list));
+        responseObserver.onNext(moodRepositoryService.findBySessionId(request));
         responseObserver.onCompleted();
     }
 
     @Override
     public void deleteAllBySessionId(Requests.IDRequest request, StreamObserver<Response.Empty> responseObserver) {
-        moodDBService.getRepo().deleteAllBySessionId(request.getId());
+        moodRepositoryService.deleteAllBySessionId(request);
         responseObserver.onNext(DTOResponseUtils.createEmpty());
         responseObserver.onCompleted();
     }

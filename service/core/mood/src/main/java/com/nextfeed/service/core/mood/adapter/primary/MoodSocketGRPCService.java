@@ -4,7 +4,7 @@ import com.nextfeed.library.core.proto.repository.MoodSocketServiceGrpc;
 import com.nextfeed.library.core.proto.repository.SendMoodRequest;
 import com.nextfeed.library.core.proto.response.Response;
 import com.nextfeed.library.core.utils.DTOResponseUtils;
-import com.nextfeed.service.core.mood.core.socket.MoodDataService;
+import com.nextfeed.service.core.mood.ports.incoming.IMoodSocketService;
 import io.grpc.stub.StreamObserver;
 import lombok.RequiredArgsConstructor;
 import net.devh.boot.grpc.server.service.GrpcService;
@@ -13,11 +13,11 @@ import net.devh.boot.grpc.server.service.GrpcService;
 @GrpcService
 public class MoodSocketGRPCService extends MoodSocketServiceGrpc.MoodSocketServiceImplBase {
 
-    private final MoodDataService sessionDataService;
+    private final IMoodSocketService moodSocketService;
 
     @Override
     public void sendMood(SendMoodRequest request, StreamObserver<Response.Empty> responseObserver) {
-        sessionDataService.sendMood(request.getSessionId(), request.getValue());
+        moodSocketService.sendMood(request.getSessionId(), request.getValue());
         responseObserver.onNext(DTOResponseUtils.createEmpty());
         responseObserver.onCompleted();
     }

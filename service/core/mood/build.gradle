@@ -28,13 +28,13 @@ dependencies {
     implementation 'net.devh:grpc-client-spring-boot-starter:2.13.1.RELEASE'
 
     implementation 'org.springframework.boot:spring-boot-starter-websocket'
-
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.security:spring-security-messaging:5.7.3'
 
-    implementation project(':library:core')
-    implementation project(':library:security')
     implementation project(':library:repository')
+    implementation project(':library:core')
+    implementation project(':library:socket')
+    implementation project(':library:security')
 }
 
 apply from: '../../../gradleSettings/service-settings.gradle'
