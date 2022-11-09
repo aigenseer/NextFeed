@@ -11,7 +11,7 @@ import java.util.Optional;
 @Service
 public class SurveyTemplateManagerServiceClient {
 
-    @GrpcClient("survey-template-manager-service")
+    @GrpcClient("survey-service")
     private SurveyTemplateManagerServiceGrpc.SurveyTemplateManagerServiceBlockingStub rpcService;
 
     public DTOEntities.SurveyTemplateDTO createTemplate(DTOEntities.SurveyTemplateDTO dto) {

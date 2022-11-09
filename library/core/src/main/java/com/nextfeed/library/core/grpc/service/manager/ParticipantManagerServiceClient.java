@@ -16,7 +16,7 @@ import java.util.Optional;
 @Service
 public class ParticipantManagerServiceClient {
 
-    @GrpcClient("participant-manager-service")
+    @GrpcClient("user-management-service")
     private ParticipantManagerServiceGrpc.ParticipantManagerServiceBlockingStub rpcService;
 
     public DTOEntities.ParticipantDTO createParticipantBySessionId(Integer sessionId, DTOEntities.ParticipantDTO dto) {

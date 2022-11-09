@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class MoodRepositoryServiceClient {
 
-    @GrpcClient("mood-repository-service")
+    @GrpcClient("mood-service")
     private MoodRepositoryServiceGrpc.MoodRepositoryServiceBlockingStub rpcService;
 
 

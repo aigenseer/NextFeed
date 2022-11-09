@@ -11,7 +11,7 @@ import java.util.Optional;
 @Service
 public class ParticipantRepositoryServiceClient {
 
-    @GrpcClient("participant-repository-service")
+    @GrpcClient("user-management")
     private ParticipantRepositoryServiceGrpc.ParticipantRepositoryServiceBlockingStub rpcService;
 
 

@@ -6,15 +6,67 @@ nextfeed:
   metrics:
     enabled: false
   service:
+    mood-service:
+      domain: "mood-service.${nextfeed.kubernetes.namespace}"
+      port: 8010
+      grpc-port: 8015
+    question-service:
+      domain: "question-service.${nextfeed.kubernetes.namespace}"
+      port: 8020
+      grpc-port: 8025
     session-service:
       domain: "session-service.${nextfeed.kubernetes.namespace}"
       port: 8030
       grpc-port: 8035
+    survey-service:
+      domain: "survey-service.${nextfeed.kubernetes.namespace}"
+      port: 8040
+      grpc-port: 8045
+
+    authorization-service:
+      domain: "authorization-service.${nextfeed.kubernetes.namespace}"
+      port: 8050
+      grpc-port: 8055
+
+    user-management-service:
+      domain: "user-management-service.${nextfeed.kubernetes.namespace}"
+      port: 8060
+      grpc-port: 8065
+
+
+
 
 grpc:
   client:
+    mood-service:
+      address: "static://${nextfeed.service.mood-service.domain}:${nextfeed.service.mood-service.grpc-port}"
+      enableKeepAlive: true
+      keepAliveWithoutCalls: true
+      negotiationType: plaintext
+    question-service:
+      address: "static://${nextfeed.service.question-service.domain}:${nextfeed.service.mood-service.grpc-port}"
+      enableKeepAlive: true
+      keepAliveWithoutCalls: true
+      negotiationType: plaintext
     session-service:
       address: "static://${nextfeed.service.session-service.domain}:${nextfeed.service.session-service.grpc-port}"
+      enableKeepAlive: true
+      keepAliveWithoutCalls: true
+      negotiationType: plaintext
+    survey-service:
+      address: "static://${nextfeed.service.survey-service.domain}:${nextfeed.service.survey-service.grpc-port}"
+      enableKeepAlive: true
+      keepAliveWithoutCalls: true
+      negotiationType: plaintext
+
+    authorization-service:
+      address: "static://${nextfeed.service.authorization-service.domain}:${nextfeed.service.authorization-service.grpc-port}"
+      enableKeepAlive: true
+      keepAliveWithoutCalls: true
+      negotiationType: plaintext
+
+    user-management-service:
+      address: "static://${nextfeed.service.user-management-service.domain}:${nextfeed.service.user-management-service.grpc-port}"
       enableKeepAlive: true
       keepAliveWithoutCalls: true
       negotiationType: plaintext

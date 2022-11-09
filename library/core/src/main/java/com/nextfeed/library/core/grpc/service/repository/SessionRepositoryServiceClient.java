@@ -11,7 +11,7 @@ import java.util.Optional;
 @Service
 public class SessionRepositoryServiceClient {
 
-    @GrpcClient("session-repository-service")
+    @GrpcClient("session-service")
     private SessionRepositoryServiceGrpc.SessionRepositoryServiceBlockingStub rpcService;
 
     public DTOEntities.SessionDTO save(DTOEntities.SessionEntityDTO dto) {

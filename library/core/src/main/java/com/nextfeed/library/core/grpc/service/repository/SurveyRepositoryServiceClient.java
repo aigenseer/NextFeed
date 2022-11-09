@@ -13,7 +13,7 @@ import java.util.Optional;
 @Service
 public class SurveyRepositoryServiceClient {
 
-    @GrpcClient("survey-repository-service")
+    @GrpcClient("survey-service")
     private SurveyRepositoryServiceGrpc.SurveyRepositoryServiceBlockingStub rpcService;
 
     public DTOEntities.SurveyDTO saveSurvey(DTOEntities.SurveyDTO dto) {

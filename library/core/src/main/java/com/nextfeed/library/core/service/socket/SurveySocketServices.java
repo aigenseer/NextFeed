@@ -16,7 +16,7 @@ public class SurveySocketServices{
     private final SocketServiceUtils serviceUtils;
     private final static String INSTANCE_NAME = "survey-socket-service";
 
-    @Value("#{new Integer('${nextfeed.service.survey-socket-service.grpc-port}')}")
+    @Value("#{new Integer('${nextfeed.service.survey-service.grpc-port}')}")
     private Integer port;
 
     public void onCreateByPresenter(Integer sessionId, DTOEntities.SurveyDTO surveyDTO){

@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class MoodManagerServiceClient {
 
-    @GrpcClient("mood-manager-service")
+    @GrpcClient("mood-service")
     private MoodManagerServiceGrpc.MoodManagerServiceBlockingStub rpcService;
 
     public DTOEntities.MoodEntityDTO addMoodValueToSession(Integer sessionId, Double moodValue, Integer participantCount) {

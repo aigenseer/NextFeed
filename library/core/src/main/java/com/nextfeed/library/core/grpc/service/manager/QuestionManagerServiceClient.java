@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class QuestionManagerServiceClient {
 
-    @GrpcClient("question-manager-service")
+    @GrpcClient("question-service")
     private QuestionManagerServiceGrpc.QuestionManagerServiceBlockingStub rpcService;
 
     public boolean existsQuestionId(Integer id) {

@@ -12,7 +12,7 @@ import java.util.Optional;
 @Service
 public class QuestionRepositoryServiceClient {
 
-    @GrpcClient("question-repository-service")
+    @GrpcClient("question-service")
     private QuestionRepositoryServiceGrpc.QuestionRepositoryServiceBlockingStub rpcService;
 
     public DTOEntities.QuestionDTO save(DTOEntities.QuestionDTO dto) {

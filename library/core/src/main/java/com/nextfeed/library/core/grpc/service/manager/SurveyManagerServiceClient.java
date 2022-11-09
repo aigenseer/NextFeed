@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class SurveyManagerServiceClient {
 
-    @GrpcClient("survey-manager-service")
+    @GrpcClient("survey-service")
     private SurveyManagerServiceGrpc.SurveyManagerServiceBlockingStub rpcService;
 
     public DTOEntities.SurveyTemplateDTO createSurvey(Integer sessionId, DTOEntities.SurveyTemplateDTO template) {

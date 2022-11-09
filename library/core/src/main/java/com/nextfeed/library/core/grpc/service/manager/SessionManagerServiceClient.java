@@ -17,7 +17,7 @@ import java.util.Optional;
 @Service
 public class SessionManagerServiceClient {
 
-    @GrpcClient("session-manager-service")
+    @GrpcClient("session-service")
     private SessionManagerServiceGrpc.SessionManagerServiceBlockingStub rpcService;
 
     public DTOEntities.SessionDTO createSession(String name){

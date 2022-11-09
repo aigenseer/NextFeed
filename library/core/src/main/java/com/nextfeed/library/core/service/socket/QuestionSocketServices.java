@@ -19,7 +19,7 @@ public class QuestionSocketServices {
     private final SocketServiceUtils serviceUtils;
     private final static String INSTANCE_NAME = "question-socket-service";
 
-    @Value("#{new Integer('${nextfeed.service.question-socket-service.grpc-port}')}")
+    @Value("#{new Integer('${nextfeed.service.question-service.grpc-port}')}")
     private Integer port;
 
     public void sendQuestion(Integer sessionId, DTOEntities.QuestionDTO questionDTO){

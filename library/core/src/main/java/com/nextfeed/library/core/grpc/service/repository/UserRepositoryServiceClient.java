@@ -8,10 +8,10 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
-@Service
+//@Service
 public class UserRepositoryServiceClient {
 
-    @GrpcClient("user-repository-service")
+    //@GrpcClient("user-repository-service")
     private UserRepositoryServiceGrpc.UserRepositoryServiceBlockingStub rpcService;
 
     public DTOEntities.UserDTO save(DTOEntities.UserDTO dto) {
