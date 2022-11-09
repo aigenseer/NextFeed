@@ -11,9 +11,9 @@ public interface ISessionManager {
 
     DTOEntities.SessionDTO createSession(String name);
 
-    Optional<DTOEntities.SessionDTO> getSessionById(Integer id);
+    DTOEntities.OptionalSessionDTO getSessionById(Integer id);
 
-    Optional<DTOEntities.SessionEntityDTO> findEntityById(Integer id);
+    DTOEntities.OptionalSessionEntityDTO findEntityById(Integer id);
 
     Set<Integer> getAllSessionIds();
 

@@ -37,7 +37,7 @@ public class SessionManagerGRPCService extends SessionManagerServiceGrpc.Session
     @Override
     public void getSessionById(Requests.IDRequest request, StreamObserver<DTOEntities.OptionalSessionDTO> responseObserver) {
         var dto = sessionManager.getSessionById(request.getId());
-        responseObserver.onNext(DTOEntities.OptionalSessionDTO.newBuilder().setSession(dto.get()).build());
+        responseObserver.onNext(DTOEntities.OptionalSessionDTO.newBuilder().setSession(dto.getSession()).build());
         responseObserver.onCompleted();
     }
 

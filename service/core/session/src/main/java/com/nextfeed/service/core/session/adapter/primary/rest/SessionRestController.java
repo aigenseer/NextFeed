@@ -60,8 +60,8 @@ public class SessionRestController{
         }
 
         var session = sessionManager.getSessionById(sessionId);
-        List<DTOEntities.ParticipantDTO> participants = session.get().getParticipants().getParticipantsList();
-        List<DTOEntities.QuestionDTO> questions = session.get().getQuestions().getQuestionsList();
+        List<DTOEntities.ParticipantDTO> participants = session.getSession().getParticipants().getParticipantsList();
+        List<DTOEntities.QuestionDTO> questions = session.getSession().getQuestions().getQuestionsList();
 
         Map<String, Object> sessionData = new HashMap<>();
         sessionData.put("questions", questions);
@@ -90,7 +90,7 @@ public class SessionRestController{
     @GetMapping("/v1/session/presenter/{sessionId}/data")
     public DTOEntities.SessionDTO getSessionData(@PathVariable("sessionId") Integer sessionId) {
         serviceUtils.checkSessionId(sessionId, false);
-        return sessionManager.getSessionById(sessionId).get();
+        return sessionManager.getSessionById(sessionId).getSession();
     }
 
     @GetMapping("/v1/session/presenter/{sessionId}/participant/{participantId}/kill/{blocked}")

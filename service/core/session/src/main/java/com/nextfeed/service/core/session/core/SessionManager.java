@@ -5,6 +5,7 @@ import com.nextfeed.library.core.proto.entity.DTOEntities;
 import com.nextfeed.library.core.service.socket.SessionSocketServices;
 import com.nextfeed.library.core.utils.StringUtils;
 import com.nextfeed.service.core.session.ports.incoming.ISessionManager;
+import com.nextfeed.service.core.session.ports.incoming.ISessionRepositoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -17,13 +18,13 @@ import java.util.stream.Collectors;
 public class SessionManager implements ISessionManager {
 
     private final SessionSocketServices sessionSocketServices;
-    private final SessionRepositoryServiceClient sessionRepositoryServiceClient;
+    private final ISessionRepositoryService sessionRepositoryServiceClient;
     private static final int SESSION_CODE_LENGTH = 8;
 
     public boolean isSessionClosed(int sessionId){
         var dto = getSessionById(sessionId);
-        if (dto.isEmpty()) return true;
-        return dto.get().getClosed() != 0L;
+        if (!dto.isInitialized()) return true;
+        return dto.getSession().getClosed() != 0L;
     }
 
     private DTOEntities.SessionEntityDTO createSessionEntityDTO(String name){
@@ -39,11 +40,11 @@ public class SessionManager implements ISessionManager {
         return sessionRepositoryServiceClient.save(dto);
     }
 
-    public Optional<DTOEntities.SessionDTO> getSessionById(Integer id) {
+    public DTOEntities.OptionalSessionDTO getSessionById(Integer id) {
         return sessionRepositoryServiceClient.findById(id);
     }
 
-    public Optional<DTOEntities.SessionEntityDTO> findEntityById(Integer id) {
+    public DTOEntities.OptionalSessionEntityDTO findEntityById(Integer id) {
         return sessionRepositoryServiceClient.findEntityById(id);
     }
 
@@ -56,13 +57,13 @@ public class SessionManager implements ISessionManager {
 
     public void closeSession(int sessionId){
         var dto = sessionRepositoryServiceClient.close(sessionId);
-        if (dto.isPresent()){
+        if (dto.isInitialized()){
             sessionSocketServices.sendClose(sessionId);
         }
     }
 
     public boolean existsSessionId(int sessionId){
-        return getSessionById(sessionId).isPresent();
+        return getSessionById(sessionId).isInitialized();
     }
 
     public void deleteSession(int sessionId){
