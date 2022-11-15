@@ -1,4 +1,4 @@
-package core.db;
+package com.nextfeed.service.core.question.core.db;
 
 import com.nextfeed.library.core.entity.question.QuestionEntity;
 import com.nextfeed.library.manager.repository.service.AbstractService;

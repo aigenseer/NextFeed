@@ -12,12 +12,15 @@ ext.serverPort = "8020"
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter'
-    implementation 'org.springframework.cloud:spring-cloud-starter-task'
-    implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
     implementation 'org.springframework.boot:spring-boot-starter-web'
 
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'com.sun.jersey.contribs:jersey-apache-client4:1.19.4'
+
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+
+    runtimeOnly 'org.postgresql:postgresql'
 
     implementation 'net.devh:grpc-server-spring-boot-starter:2.13.1.RELEASE'
     implementation 'net.devh:grpc-client-spring-boot-starter:2.13.1.RELEASE'
@@ -26,14 +29,10 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.security:spring-security-messaging:5.7.3'
 
-    compileOnly 'org.projectlombok:lombok'
-    annotationProcessor 'org.projectlombok:lombok'
-
-    runtimeOnly 'org.postgresql:postgresql'
-
-    implementation project(':library:core')
-    implementation project(':library:security')
     implementation project(':library:repository')
+    implementation project(':library:core')
+    implementation project(':library:socket')
+    implementation project(':library:security')
 }
 
 apply from: '../../../gradleSettings/service-settings.gradle'

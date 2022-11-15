@@ -1,4 +1,4 @@
-package core.socket.security;
+package com.nextfeed.service.core.question.core.socket.security;
 
 import com.nextfeed.library.core.enums.UserRole;
 import org.springframework.context.annotation.Configuration;

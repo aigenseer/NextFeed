@@ -27,6 +27,7 @@ spring:
     username: ${nextfeed.datasource.username}
     password: ${nextfeed.datasource.pw}
   jpa:
+    defer-datasource-initialization: true
     show-sql: ${nextfeed.datasource.show-sql}
 
 server:
@@ -34,6 +35,4 @@ server:
 
 grpc:
   server:
-    port: ${nextfeed.service.question-manager-service.grpc-port}
-
-
+    port: ${nextfeed.service.question-service.grpc-port}

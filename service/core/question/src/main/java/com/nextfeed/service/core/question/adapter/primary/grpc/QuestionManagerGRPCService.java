@@ -1,4 +1,4 @@
-package com.nextfeed.service.core.question.adapter.primary;
+package com.nextfeed.service.core.question.adapter.primary.grpc;
 
 
 import com.nextfeed.library.core.proto.entity.DTOEntities;
@@ -6,23 +6,16 @@ import com.nextfeed.library.core.proto.manager.*;
 import com.nextfeed.library.core.proto.requests.Requests;
 import com.nextfeed.library.core.proto.response.Response;
 import com.nextfeed.library.core.utils.DTOResponseUtils;
-import core.QuestionManager;
+import com.nextfeed.service.core.question.ports.incoming.IQuestionManager;
 import io.grpc.stub.StreamObserver;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import net.devh.boot.grpc.server.service.GrpcService;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 
-@SpringBootApplication(scanBasePackages = "com.nextfeed", exclude={DataSourceAutoConfiguration.class})
-@AllArgsConstructor
+@RequiredArgsConstructor
 @GrpcService
 public class QuestionManagerGRPCService extends QuestionManagerServiceGrpc.QuestionManagerServiceImplBase {
 
-    public static void main(String[] args) {
-        SpringApplication.run(QuestionManagerGRPCService.class, args);
-    }
-    private final QuestionManager questionManager;
+    private final IQuestionManager questionManager;
 
     @Override
     public void existsQuestionId(Requests.IDRequest request, StreamObserver<Response.BooleanResponse> responseObserver) {
