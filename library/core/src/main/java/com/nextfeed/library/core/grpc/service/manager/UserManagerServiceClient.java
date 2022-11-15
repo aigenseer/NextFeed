@@ -7,10 +7,10 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
-//@Service
+@Service
 public class UserManagerServiceClient {
 
-    //@GrpcClient("user-manager-service")
+    @GrpcClient("user-management-service")
     private UserManagerServiceGrpc.UserManagerServiceBlockingStub rpcService;
 
     public DTOEntities.UserDTO createUser(String name, String mailAddress, String pw) {

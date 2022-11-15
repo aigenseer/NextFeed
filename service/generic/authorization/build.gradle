@@ -14,16 +14,15 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter'
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'org.springframework.boot:spring-boot-starter-web'
-    implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
-
     implementation 'org.springframework.boot:spring-boot-starter-security'
-    implementation project(':library:security')
-    implementation project(':library:core')
 
     implementation 'net.devh:grpc-client-spring-boot-starter:2.13.1.RELEASE'
 
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
+
+    implementation project(':library:security')
+    implementation project(':library:core')
 }
 
 apply from: '../../../gradleSettings/service-settings.gradle'

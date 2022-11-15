@@ -1,4 +1,4 @@
-package com.nextfeed.service.generic.authorization.adapter.primary;
+package com.nextfeed.service.generic.authorization.core.dto;
 
 import lombok.*;
 
