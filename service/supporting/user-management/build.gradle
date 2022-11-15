@@ -7,8 +7,9 @@ plugins {
 
 group = 'com.nextfeed'
 version = '0.0.1-SNAPSHOT'
-ext.serviceType = "external-service"
-ext.serverPort = "8010"
+ext.serviceType = "service"
+ext.dockerType = "repository"
+ext.serverPort = "8060 8065"
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter'
