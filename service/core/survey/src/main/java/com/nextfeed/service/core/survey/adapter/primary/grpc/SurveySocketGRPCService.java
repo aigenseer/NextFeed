@@ -1,25 +1,18 @@
-package com.nextfeed.service.core.survey.core.socket;
+package com.nextfeed.service.core.survey.adapter.primary.grpc;
 
 import com.nextfeed.library.core.proto.repository.*;
 import com.nextfeed.library.core.proto.response.Response;
 import com.nextfeed.library.core.utils.DTOResponseUtils;
+import com.nextfeed.service.core.survey.ports.incoming.ISurveyService;
 import io.grpc.stub.StreamObserver;
 import lombok.RequiredArgsConstructor;
 import net.devh.boot.grpc.server.service.GrpcService;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 
-@SpringBootApplication(scanBasePackages = "com.nextfeed", exclude={DataSourceAutoConfiguration.class})
 @RequiredArgsConstructor
 @GrpcService
 public class SurveySocketGRPCService extends SurveySocketServiceGrpc.SurveySocketServiceImplBase {
 
-    public static void main(String[] args) {
-        SpringApplication.run(SurveySocketGRPCService.class, args);
-    }
-
-    private final SurveyService surveyService;
+    private final ISurveyService surveyService;
 
     @Override
     public void onCreateByPresenter(CreateByPresenterRequest request, StreamObserver<Response.Empty> responseObserver) {

@@ -1,29 +1,28 @@
 package com.nextfeed.service.core.survey.core;
 
-import com.nextfeed.library.core.grpc.service.repository.SurveyRepositoryServiceClient;
 import com.nextfeed.library.core.proto.entity.DTOEntities;
 import com.nextfeed.library.core.service.socket.SurveySocketServices;
+import com.nextfeed.service.core.survey.core.db.SurveyRepositoryService;
+import com.nextfeed.service.core.survey.ports.incoming.ISurveyManager;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import java.util.*;
-
 @Component
 @RequiredArgsConstructor
-public class SurveyManager {
+public class SurveyManager implements ISurveyManager {
 
     private final SurveySocketServices surveySocketServices;
     @Getter
-    private final SurveyRepositoryServiceClient surveyRepositoryServiceClient;
+    private final SurveyRepositoryService surveyRepositoryService;
 
     public DTOEntities.SurveyDTOList getSurveysBySessionId(Integer sessionId){
-        return surveyRepositoryServiceClient.findBySessionId(sessionId);
+        return surveyRepositoryService.findBySessionId(sessionId);
     }
 
     public DTOEntities.SurveyTemplateDTO createSurvey(Integer sessionId, DTOEntities.SurveyTemplateDTO template){
         DTOEntities.SurveyDTO dto = DTOEntities.SurveyDTO.newBuilder().setTemplate(template).setSessionId(sessionId).build();
-        dto = surveyRepositoryServiceClient.saveSurvey(dto);
+        dto = surveyRepositoryService.saveSurvey(dto);
 
         //todo: muss noch gemacht werden
         surveySocketServices.onCreateByPresenter(sessionId, dto);
@@ -38,26 +37,26 @@ public class SurveyManager {
 
     public void addAnswerToSurvey(int sessionId, int surveyId, int participantId, String answer){
         var survey = getSurveyById(surveyId);
-        if(survey.isPresent()){
+        if(survey.isInitialized()){
             this.addAnswerToSurvey(surveyId, participantId, answer);
             survey = getSurveyById(surveyId);
-            surveySocketServices.onUpdate(sessionId, survey.get());
+            surveySocketServices.onUpdate(sessionId, survey.getSurvey());
         }
     }
 
     private void addAnswerToSurvey(int surveyId, int participantId, String answerValue){
-        if(!surveyRepositoryServiceClient.existsSurveyAnswerByParticipant(participantId, surveyId)){
+        if(!surveyRepositoryService.existsSurveyAnswerByParticipant(participantId, surveyId).getResult()){
             DTOEntities.SurveyAnswerDTO dto = DTOEntities.SurveyAnswerDTO.newBuilder()
                     .setSurveyId(surveyId)
                     .setParticipantId(participantId)
                     .setValue(answerValue)
                     .build();
-            surveyRepositoryServiceClient.saveAnswer(dto);
+            surveyRepositoryService.saveAnswer(dto);
         }
     }
 
-    public Optional<DTOEntities.SurveyDTO> getSurveyById(int id){
-        return surveyRepositoryServiceClient.findSurveyById(id);
+    public DTOEntities.OptionalSurveyDTO getSurveyById(int id){
+        return surveyRepositoryService.findSurveyById(id);
     }
 
 }

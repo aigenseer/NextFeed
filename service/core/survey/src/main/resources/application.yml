@@ -1,7 +1,7 @@
 nextfeed:
   datasource:
     host: localhost
-    port: 5415
+    port: 5414
     db: nextfeed
     username: root
     pw: pw
@@ -33,4 +33,4 @@ server:
 
 grpc:
   server:
-    port: ${nextfeed.service.survey-manager-service.grpc-port}
+    port: ${nextfeed.service.survey-service.grpc-port}

@@ -1,4 +1,4 @@
-package com.nextfeed.service.core.survey.core.db;
+package com.nextfeed.service.core.survey.ports.outgoing;
 
 import com.nextfeed.library.core.entity.survey.Survey;
 import org.springframework.data.jpa.repository.Query;

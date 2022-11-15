@@ -3,6 +3,7 @@ package com.nextfeed.service.core.survey.core.socket;
 import com.nextfeed.library.core.proto.entity.DTOEntities;
 import com.nextfeed.library.core.utils.DTO2EntityUtils;
 import com.nextfeed.service.core.survey.core.socket.dto.SurveyParticipantDataResponse;
+import com.nextfeed.service.core.survey.ports.incoming.ISurveyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
@@ -10,7 +11,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class SurveyService {
+public class SurveyService implements ISurveyService {
     private final SimpMessagingTemplate simpMessagingTemplate;
 
     private static final String WS_MESSAGE_CREATE_TRANSFER_DESTINATION = "/socket/survey-socket/v1/%s/session/%d/survey/oncreate";

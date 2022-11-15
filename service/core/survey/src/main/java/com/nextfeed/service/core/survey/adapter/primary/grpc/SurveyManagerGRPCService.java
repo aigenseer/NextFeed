@@ -1,4 +1,4 @@
-package com.nextfeed.service.core.survey.core;
+package com.nextfeed.service.core.survey.adapter.primary.grpc;
 
 
 import com.nextfeed.library.core.proto.entity.DTOEntities;
@@ -6,22 +6,16 @@ import com.nextfeed.library.core.proto.manager.*;
 import com.nextfeed.library.core.proto.requests.Requests;
 import com.nextfeed.library.core.proto.response.Response;
 import com.nextfeed.library.core.utils.DTOResponseUtils;
+import com.nextfeed.service.core.survey.ports.incoming.ISurveyManager;
 import io.grpc.stub.StreamObserver;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import net.devh.boot.grpc.server.service.GrpcService;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 
-@SpringBootApplication(scanBasePackages = "com.nextfeed", exclude={DataSourceAutoConfiguration.class})
-@AllArgsConstructor
+@RequiredArgsConstructor
 @GrpcService
 public class SurveyManagerGRPCService extends SurveyManagerServiceGrpc.SurveyManagerServiceImplBase {
 
-    public static void main(String[] args) {
-        SpringApplication.run(SurveyManagerGRPCService.class, args);
-    }
-    private final SurveyManager surveyManager;
+    private final ISurveyManager surveyManager;
 
     @Override
     public void createSurvey(CreateSurveyRequest request, StreamObserver<DTOEntities.SurveyTemplateDTO> responseObserver) {

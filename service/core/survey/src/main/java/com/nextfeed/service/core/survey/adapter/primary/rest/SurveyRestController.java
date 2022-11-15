@@ -1,4 +1,4 @@
-package com.nextfeed.service.core.survey.adapter.primary;
+package com.nextfeed.service.core.survey.adapter.primary.rest;
 
 import com.nextfeed.library.core.entity.survey.SurveyTemplate;
 import com.nextfeed.library.core.grpc.service.manager.SurveyManagerServiceClient;
@@ -8,27 +8,15 @@ import com.nextfeed.library.core.service.external.dto.survey.MessageRequest;
 import com.nextfeed.library.core.service.external.utils.ServiceUtils;
 import com.nextfeed.library.core.utils.Entity2DTOUtils;
 import lombok.RequiredArgsConstructor;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
-import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
 
-
-
-@EnableFeignClients(basePackages = "com.nextfeed.library.core.service")
-@SpringBootApplication(scanBasePackages = "com.nextfeed", exclude={DataSourceAutoConfiguration.class})
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(value = "/api/survey-service", produces = MediaType.APPLICATION_JSON_VALUE)
 public class SurveyRestController {
-
-    public static void main(String[] args) {
-        SpringApplication.run(SurveyRestController.class, args);
-    }
 
     private final SurveyManagerServiceClient surveyManagerServiceClient;
     private final SurveyTemplateManagerServiceClient surveyTemplateManagerServiceClient;

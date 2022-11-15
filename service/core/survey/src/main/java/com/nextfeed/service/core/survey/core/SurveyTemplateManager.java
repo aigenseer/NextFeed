@@ -1,6 +1,5 @@
 package com.nextfeed.service.core.survey.core;
 
-import com.nextfeed.library.core.entity.survey.SurveyTemplate;
 import com.nextfeed.library.core.grpc.service.repository.SurveyRepositoryServiceClient;
 import com.nextfeed.library.core.proto.entity.DTOEntities;
 import lombok.RequiredArgsConstructor;
