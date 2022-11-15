@@ -1,26 +1,19 @@
-package com.nextfeed.service.supporting.management.user.core.user;
+package com.nextfeed.service.supporting.management.user.adapter.primary;
 
 import com.nextfeed.library.core.proto.entity.DTOEntities;
 import com.nextfeed.library.core.proto.manager.*;
 import com.nextfeed.library.core.proto.response.Response;
 import com.nextfeed.library.core.utils.DTOResponseUtils;
+import com.nextfeed.service.supporting.management.user.ports.incoming.IUserManager;
 import io.grpc.stub.StreamObserver;
 import lombok.RequiredArgsConstructor;
 import net.devh.boot.grpc.server.service.GrpcService;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 
-@SpringBootApplication(scanBasePackages = "com.nextfeed", exclude={DataSourceAutoConfiguration.class})
 @RequiredArgsConstructor
 @GrpcService
 public class UserManagerGRPCService extends UserManagerServiceGrpc.UserManagerServiceImplBase {
 
-    public static void main(String[] args) {
-        SpringApplication.run(UserManagerGRPCService.class, args);
-    }
-
-    private final UserManager userManager;
+    private final IUserManager userManager;
 
     @Override
     public void createUser(NewUserRequest request, StreamObserver<DTOEntities.UserDTO> responseObserver) {

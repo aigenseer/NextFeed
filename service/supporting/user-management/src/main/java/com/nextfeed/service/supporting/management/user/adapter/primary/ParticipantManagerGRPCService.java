@@ -1,4 +1,4 @@
-package com.nextfeed.service.supporting.management.user.core.participant;
+package com.nextfeed.service.supporting.management.user.adapter.primary;
 
 
 import com.nextfeed.library.core.proto.entity.DTOEntities;
@@ -9,24 +9,16 @@ import com.nextfeed.library.core.proto.requests.Requests;
 import com.nextfeed.library.core.proto.response.Response;
 import com.nextfeed.library.core.utils.DTOListUtils;
 import com.nextfeed.library.core.utils.DTOResponseUtils;
+import com.nextfeed.service.supporting.management.user.ports.incoming.IParticipantManager;
 import io.grpc.stub.StreamObserver;
-import lombok.AllArgsConstructor;
-
+import lombok.RequiredArgsConstructor;
 import net.devh.boot.grpc.server.service.GrpcService;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 
-@SpringBootApplication(scanBasePackages = "com.nextfeed", exclude={DataSourceAutoConfiguration.class})
-@AllArgsConstructor
+@RequiredArgsConstructor
 @GrpcService
 public class ParticipantManagerGRPCService extends ParticipantManagerServiceGrpc.ParticipantManagerServiceImplBase {
 
-    public static void main(String[] args) {
-        SpringApplication.run(ParticipantManagerGRPCService.class, args);
-    }
-
-    private final ParticipantManager participantManager;
+    private final IParticipantManager participantManager;
 
     @Override
     public void createParticipantBySessionId(CreateParticipantBySessionIdRequest request, StreamObserver<DTOEntities.ParticipantDTO> responseObserver) {

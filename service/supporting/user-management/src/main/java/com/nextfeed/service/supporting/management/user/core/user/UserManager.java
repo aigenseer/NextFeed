@@ -2,6 +2,7 @@ package com.nextfeed.service.supporting.management.user.core.user;
 
 import com.nextfeed.library.core.grpc.service.repository.UserRepositoryServiceClient;
 import com.nextfeed.library.core.proto.entity.DTOEntities;
+import com.nextfeed.service.supporting.management.user.ports.incoming.IUserManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -11,7 +12,7 @@ import java.util.*;
 
 @Component
 @RequiredArgsConstructor
-public class UserManager {
+public class UserManager implements IUserManager {
 
     private final UserRepositoryServiceClient userRepositoryServiceClient;
     private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();

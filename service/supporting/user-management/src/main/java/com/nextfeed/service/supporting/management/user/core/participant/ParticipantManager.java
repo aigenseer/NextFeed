@@ -6,6 +6,7 @@ import com.nextfeed.library.core.proto.entity.DTOEntities;
 import com.nextfeed.library.core.service.socket.SessionSocketServices;
 import com.nextfeed.library.core.utils.DTO2EntityUtils;
 import com.nextfeed.library.core.utils.Entity2DTOUtils;
+import com.nextfeed.service.supporting.management.user.ports.incoming.IParticipantManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -14,7 +15,7 @@ import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
-public class ParticipantManager {
+public class ParticipantManager implements IParticipantManager {
 
     private final SessionManagerServiceClient sessionManagerServiceClient;
     private final SessionSocketServices sessionSocketServices;

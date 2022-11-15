@@ -1,4 +1,4 @@
-package com.nextfeed.service.supporting.management.user.core.user.db;
+package com.nextfeed.service.supporting.management.user.ports.outgoing;
 
 import com.nextfeed.library.core.entity.user.User;
 import org.springframework.data.jpa.repository.Query;

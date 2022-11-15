@@ -1,7 +1,7 @@
 nextfeed:
   datasource:
     host: localhost
-    port: 5411
+    port: 5415
     db: nextfeed
     username: root
     pw: pw
@@ -12,6 +12,7 @@ spring:
     import:
       - classpath:nextfeed.config.yml
       - classpath:db.config.yml
+      - classpath:security.config.yml
   application:
     name: user-management-service
   main:
