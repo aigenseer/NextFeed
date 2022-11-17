@@ -5,7 +5,7 @@ import com.nextfeed.library.core.proto.entity.DTOEntities;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import java.util.*;
+import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor

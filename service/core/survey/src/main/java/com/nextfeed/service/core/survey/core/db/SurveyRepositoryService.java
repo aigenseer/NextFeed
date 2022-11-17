@@ -1,71 +1,69 @@
 package com.nextfeed.service.core.survey.core.db;
 
-import com.nextfeed.library.core.proto.entity.DTOEntities;
+import com.nextfeed.library.core.entity.survey.Survey;
+import com.nextfeed.library.core.entity.survey.SurveyAnswer;
+import com.nextfeed.library.core.entity.survey.SurveyTemplate;
 import com.nextfeed.library.core.proto.repository.ExistsSurveyAnswerByParticipantRequest;
 import com.nextfeed.library.core.proto.requests.Requests;
-import com.nextfeed.library.core.proto.response.Response;
-import com.nextfeed.library.core.utils.*;
-import com.nextfeed.service.core.survey.ports.incoming.ISurveyRepositoryService;
+import com.nextfeed.library.core.utils.DTORequestUtils;
+import com.nextfeed.library.core.valueobject.survey.OptionalSurveyValue;
+import com.nextfeed.library.core.valueobject.survey.SurveyValue;
+import com.nextfeed.library.core.valueobject.survey.SurveyValueList;
+import com.nextfeed.library.core.valueobject.surveytemplate.OptionalSurveyTemplateValue;
+import com.nextfeed.library.core.valueobject.surveytemplate.SurveyTemplateValue;
+import com.nextfeed.library.core.valueobject.surveytemplate.SurveyTemplateValueList;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
-public class SurveyRepositoryService implements ISurveyRepositoryService {
+public class SurveyRepositoryService {
 
     private final SurveyDBService surveyDBService;
     private final SurveyAnswerDBService surveyAnswerDBService;
     private final SurveyTemplateDBService surveyTemplateDBService;
 
-    public DTOEntities.SurveyDTO saveSurvey(DTOEntities.SurveyDTO dto) {
-        var e = DTO2EntityUtils.dto2Survey(dto);
-        e =  surveyDBService.save(e);
-        return Entity2DTOUtils.survey2DTO(e);
+    public SurveyValue saveSurvey(Survey entity) {
+        return SurveyValue.builder().entity(surveyDBService.save(entity)).build();
     }
 
-    public DTOEntities.OptionalSurveyDTO findSurveyById(Requests.IDRequest request) {
+    public OptionalSurveyValue findSurveyById(Requests.IDRequest request) {
         var e = surveyDBService.findById(request.getId());
-        return DTOEntities.OptionalSurveyDTO.newBuilder().setSurvey(Entity2DTOUtils.survey2DTO(e)).build();
+        return OptionalSurveyValue.builder().optionalEntity(e).build();
     }
 
-    public DTOEntities.OptionalSurveyDTO findSurveyById(Integer id) {
+    public OptionalSurveyValue findSurveyById(Integer id) {
         return findSurveyById(DTORequestUtils.createIDRequest(id));
     }
 
-    public DTOEntities.SurveyAnswerDTO saveAnswer(DTOEntities.SurveyAnswerDTO dto) {
-        var e = DTO2EntityUtils.dto2SurveyAnswer(dto);
-        e = surveyAnswerDBService.save(e);
-        return Entity2DTOUtils.surveyAnswer2DTO(e);
+    public SurveyAnswer saveAnswer(SurveyAnswer surveyAnswer) {
+        return surveyAnswerDBService.save(surveyAnswer);
     }
 
-    public Response.BooleanResponse existsSurveyAnswerByParticipant(ExistsSurveyAnswerByParticipantRequest request) {
-        var b = surveyAnswerDBService.existsSurveyAnswerByParticipant(request.getParticipantId(), request.getSurveyId());
-        return DTOResponseUtils.createBooleanResponse(b);
+    public boolean existsSurveyAnswerByParticipant(ExistsSurveyAnswerByParticipantRequest request) {
+        return surveyAnswerDBService.existsSurveyAnswerByParticipant(request.getParticipantId(), request.getSurveyId());
     }
 
-    public Response.BooleanResponse existsSurveyAnswerByParticipant(Integer participantId, Integer surveyId) {
+    public boolean existsSurveyAnswerByParticipant(Integer participantId, Integer surveyId) {
         return existsSurveyAnswerByParticipant(ExistsSurveyAnswerByParticipantRequest.newBuilder().setParticipantId(participantId).setSurveyId(surveyId).build());
     }
 
-    public DTOEntities.SurveyTemplateDTO saveTemplate(DTOEntities.SurveyTemplateDTO dto) {
-        var e = DTO2EntityUtils.dto2SurveyTemplate(dto);
-        e = surveyTemplateDBService.save(e);
-        return Entity2DTOUtils.surveyTemplate2DTO(e);
+    public SurveyTemplateValue saveTemplate(SurveyTemplate surveyTemplate) {
+        return SurveyTemplateValue.builder().entity(surveyTemplateDBService.save(surveyTemplate)).build();
     }
 
-    public DTOEntities.SurveyTemplateDTOList findAllTemplates() {
-        var list = surveyTemplateDBService.findAll();
-        return DTOListUtils.surveyTemplateList2DTO(list);
+    public SurveyTemplateValueList findAllTemplates() {
+        return SurveyTemplateValueList.createByEntities(surveyTemplateDBService.findAll());
     }
 
-    public DTOEntities.SurveyDTOList findBySessionId(Requests.IDRequest request) {
-        var list = surveyDBService.getRepo().findBySessionId(request.getId());
-        return DTOListUtils.surveyList2DTO(list);
+    public SurveyValueList findBySessionId(Requests.IDRequest request) {
+        return SurveyValueList.createByEntities(surveyDBService.getRepo().findBySessionId(request.getId()));
     }
 
-    public DTOEntities.SurveyDTOList findBySessionId(Integer id) {
+    public SurveyValueList findBySessionId(Integer id) {
         return findBySessionId(DTORequestUtils.createIDRequest(id));
     }
 
@@ -73,30 +71,26 @@ public class SurveyRepositoryService implements ISurveyRepositoryService {
         surveyDBService.getRepo().deleteAllBySessionId(request.getId());
     }
 
-    public DTOEntities.OptionalSurveyDTO closeSurvey(Requests.IDRequest request) {
-        DTOEntities.SurveyDTO dto = null;
+    public OptionalSurveyValue closeSurvey(Requests.IDRequest request) {
         var o = surveyDBService.getRepo().findById(request.getId());
         if(o.isPresent()){
             var e = o.get();
             e.setTimestamp(new Date().getTime());
-            e = surveyDBService.save(e);
-            dto = Entity2DTOUtils.survey2DTO(e);
+            o = Optional.of(surveyDBService.save(e));
         }
-        return DTOEntities.OptionalSurveyDTO.newBuilder().setSurvey(dto).build();
+        return OptionalSurveyValue.builder().optionalEntity(o).build();
     }
 
-    public DTOEntities.OptionalSurveyTemplateDTO findTemplateById(Requests.IDRequest request) {
+    public OptionalSurveyTemplateValue findTemplateById(Requests.IDRequest request) {
         var e = surveyTemplateDBService.findById(request.getId());
-        var dto = Entity2DTOUtils.surveyTemplate2DTO(e);
-        return DTOEntities.OptionalSurveyTemplateDTO.newBuilder().setSurveyTemplate(dto).build();
+        return OptionalSurveyTemplateValue.builder().entity(e).build();
     }
 
-    @Override
-    public DTOEntities.OptionalSurveyTemplateDTO findTemplateById(Integer id) {
+    public OptionalSurveyTemplateValue findTemplateById(Integer id) {
         return findTemplateById(DTORequestUtils.createIDRequest(id));
     }
 
-    public DTOEntities.OptionalSurveyDTO closeSurvey(Integer id){
+    public OptionalSurveyValue closeSurvey(Integer id){
         return closeSurvey(DTORequestUtils.createIDRequest(id));
     }
 

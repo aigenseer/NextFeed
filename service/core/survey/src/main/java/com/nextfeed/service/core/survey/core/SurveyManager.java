@@ -1,7 +1,15 @@
 package com.nextfeed.service.core.survey.core;
 
-import com.nextfeed.library.core.proto.entity.DTOEntities;
+import com.nextfeed.library.core.entity.survey.Survey;
+import com.nextfeed.library.core.entity.survey.SurveyAnswer;
+import com.nextfeed.library.core.entity.survey.SurveyTemplate;
+import com.nextfeed.library.core.proto.requests.Requests;
 import com.nextfeed.library.core.service.socket.SurveySocketServices;
+import com.nextfeed.library.core.valueobject.survey.OptionalSurveyValue;
+import com.nextfeed.library.core.valueobject.survey.SurveyValueList;
+import com.nextfeed.library.core.valueobject.surveytemplate.OptionalSurveyTemplateValue;
+import com.nextfeed.library.core.valueobject.surveytemplate.SurveyTemplateValue;
+import com.nextfeed.library.core.valueobject.surveytemplate.SurveyTemplateValueList;
 import com.nextfeed.service.core.survey.core.db.SurveyRepositoryService;
 import com.nextfeed.service.core.survey.ports.incoming.ISurveyManager;
 import lombok.Getter;
@@ -16,46 +24,61 @@ public class SurveyManager implements ISurveyManager {
     @Getter
     private final SurveyRepositoryService surveyRepositoryService;
 
-    public DTOEntities.SurveyDTOList getSurveysBySessionId(Integer sessionId){
+    public SurveyValueList getSurveysBySessionId(Integer sessionId){
         return surveyRepositoryService.findBySessionId(sessionId);
     }
 
-    public DTOEntities.SurveyTemplateDTO createSurvey(Integer sessionId, DTOEntities.SurveyTemplateDTO template){
-        DTOEntities.SurveyDTO dto = DTOEntities.SurveyDTO.newBuilder().setTemplate(template).setSessionId(sessionId).build();
-        dto = surveyRepositoryService.saveSurvey(dto);
+    public SurveyTemplateValue createSurvey(Integer sessionId, SurveyTemplateValue template){
+        var survey = Survey.builder().session_id(sessionId).template(template.getEntity()).build();
+        var surveyValue = surveyRepositoryService.saveSurvey(survey);
 
         //todo: muss noch gemacht werden
-        surveySocketServices.onCreateByPresenter(sessionId, dto);
-        surveySocketServices.onCreateByParticipant(sessionId, dto.getId(), template);
+        surveySocketServices.onCreateByPresenter(sessionId, surveyValue);
+        surveySocketServices.onCreateByParticipant(sessionId, surveyValue.getEntity().getId(), template);
 
         //start Thread to publish survey after a given amount of time
         //todo: muss noch gemacht werden
-        new SurveyTimer(sessionId, dto.getId(), surveySocketServices, this).start();
+        new SurveyTimer(sessionId, surveyValue.getEntity().getId(), surveySocketServices, this).start();
 
         return template;
     }
 
     public void addAnswerToSurvey(int sessionId, int surveyId, int participantId, String answer){
         var survey = getSurveyById(surveyId);
-        if(survey.isInitialized()){
+        if(survey.isPresent()){
             this.addAnswerToSurvey(surveyId, participantId, answer);
             survey = getSurveyById(surveyId);
-            surveySocketServices.onUpdate(sessionId, survey.getSurvey());
+            surveySocketServices.onUpdate(sessionId, survey.get());
         }
+    }
+
+    @Override
+    public SurveyTemplateValue saveTemplate(SurveyTemplate surveyTemplate) {
+        return surveyRepositoryService.saveTemplate(surveyTemplate);
+    }
+
+    @Override
+    public OptionalSurveyTemplateValue findTemplateById(Requests.IDRequest request) {
+        return surveyRepositoryService.findTemplateById(request);
+    }
+
+    @Override
+    public SurveyTemplateValueList findAllTemplates() {
+        return surveyRepositoryService.findAllTemplates();
     }
 
     private void addAnswerToSurvey(int surveyId, int participantId, String answerValue){
-        if(!surveyRepositoryService.existsSurveyAnswerByParticipant(participantId, surveyId).getResult()){
-            DTOEntities.SurveyAnswerDTO dto = DTOEntities.SurveyAnswerDTO.newBuilder()
-                    .setSurveyId(surveyId)
-                    .setParticipantId(participantId)
-                    .setValue(answerValue)
+        if(!surveyRepositoryService.existsSurveyAnswerByParticipant(participantId, surveyId)){
+            var entity = SurveyAnswer.builder()
+                    .survey_id(surveyId)
+                    .participantId(participantId)
+                    .value(answerValue)
                     .build();
-            surveyRepositoryService.saveAnswer(dto);
+            surveyRepositoryService.saveAnswer(entity);
         }
     }
 
-    public DTOEntities.OptionalSurveyDTO getSurveyById(int id){
+    public OptionalSurveyValue getSurveyById(int id){
         return surveyRepositoryService.findSurveyById(id);
     }
 

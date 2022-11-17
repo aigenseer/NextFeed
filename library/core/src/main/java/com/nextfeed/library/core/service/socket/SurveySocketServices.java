@@ -1,8 +1,9 @@
 package com.nextfeed.library.core.service.socket;
 
-import com.nextfeed.library.core.proto.entity.DTOEntities;
 import com.nextfeed.library.core.proto.repository.*;
 import com.nextfeed.library.core.utils.SocketServiceUtils;
+import com.nextfeed.library.core.valueobject.survey.SurveyValue;
+import com.nextfeed.library.core.valueobject.surveytemplate.SurveyTemplateValue;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import lombok.RequiredArgsConstructor;
@@ -19,12 +20,12 @@ public class SurveySocketServices{
     @Value("#{new Integer('${nextfeed.service.survey-service.grpc-port}')}")
     private Integer port;
 
-    public void onCreateByPresenter(Integer sessionId, DTOEntities.SurveyDTO surveyDTO){
+    public void onCreateByPresenter(Integer sessionId, SurveyValue surveyValue){
         serviceUtils.getInstanceInfoByName(INSTANCE_NAME).forEach(instance -> {
             try {
                 ManagedChannel managedChannel = ManagedChannelBuilder.forTarget("static://%s:%s".formatted(instance.getIPAddr(), port)).usePlaintext().build();
                 SurveySocketServiceGrpc.SurveySocketServiceBlockingStub blockingStub = SurveySocketServiceGrpc.newBlockingStub(managedChannel);
-                blockingStub.onCreateByPresenter(CreateByPresenterRequest.newBuilder().setSessionId(sessionId).setSurvey(surveyDTO).build());
+                blockingStub.onCreateByPresenter(CreateByPresenterRequest.newBuilder().setSessionId(sessionId).setSurvey(surveyValue.getDTO()).build());
                 managedChannel.shutdown();
             }catch (Exception e){
                 System.err.println("Can not call instance");
@@ -34,12 +35,12 @@ public class SurveySocketServices{
     }
 
 
-    public void onCreateByParticipant(Integer sessionId, Integer surveyId, DTOEntities.SurveyTemplateDTO template){
+    public void onCreateByParticipant(Integer sessionId, Integer surveyId, SurveyTemplateValue template){
         serviceUtils.getInstanceInfoByName(INSTANCE_NAME).forEach(instance -> {
             try {
                 ManagedChannel managedChannel = ManagedChannelBuilder.forTarget("static://%s:%s".formatted(instance.getIPAddr(), port)).usePlaintext().build();
                 SurveySocketServiceGrpc.SurveySocketServiceBlockingStub blockingStub = SurveySocketServiceGrpc.newBlockingStub(managedChannel);
-                blockingStub.onCreateByParticipant(CreateByParticipantRequest.newBuilder().setSessionId(sessionId).setSurveyId(surveyId).setTemplate(template).build());
+                blockingStub.onCreateByParticipant(CreateByParticipantRequest.newBuilder().setSessionId(sessionId).setSurveyId(surveyId).setTemplate(template.getDTO()).build());
                 managedChannel.shutdown();
             }catch (Exception e){
                 System.err.println("Can not call instance");
@@ -62,12 +63,12 @@ public class SurveySocketServices{
         });
     }
 
-    public void onUpdate(Integer sessionId, DTOEntities.SurveyDTO surveyDTO){
+    public void onUpdate(Integer sessionId, SurveyValue survey){
         serviceUtils.getInstanceInfoByName(INSTANCE_NAME).forEach(instance -> {
             try {
                 ManagedChannel managedChannel = ManagedChannelBuilder.forTarget("static://%s:%s".formatted(instance.getIPAddr(), port)).usePlaintext().build();
                 SurveySocketServiceGrpc.SurveySocketServiceBlockingStub blockingStub = SurveySocketServiceGrpc.newBlockingStub(managedChannel);
-                blockingStub.onUpdate(UpdateRequest.newBuilder().setSessionId(sessionId).setSurveyDTO(surveyDTO).build());
+                blockingStub.onUpdate(UpdateRequest.newBuilder().setSessionId(sessionId).setSurveyDTO(survey.getDTO()).build());
                 managedChannel.shutdown();
             }catch (Exception e){
                 System.err.println("Can not call instance");
@@ -76,12 +77,12 @@ public class SurveySocketServices{
         });
     }
 
-    public void onResult(Integer sessionId, DTOEntities.SurveyDTO surveyDTO){
+    public void onResult(Integer sessionId, SurveyValue survey){
         serviceUtils.getInstanceInfoByName(INSTANCE_NAME).forEach(instance -> {
             try {
                 ManagedChannel managedChannel = ManagedChannelBuilder.forTarget("static://%s:%s".formatted(instance.getIPAddr(), port)).usePlaintext().build();
                 SurveySocketServiceGrpc.SurveySocketServiceBlockingStub blockingStub = SurveySocketServiceGrpc.newBlockingStub(managedChannel);
-                blockingStub.onResult(ResultRequest.newBuilder().setSessionId(sessionId).setSurveyDTO(surveyDTO).build());
+                blockingStub.onResult(ResultRequest.newBuilder().setSessionId(sessionId).setSurveyDTO(survey.getDTO()).build());
                 managedChannel.shutdown();
             }catch (Exception e){
                 System.err.println("Can not call instance");

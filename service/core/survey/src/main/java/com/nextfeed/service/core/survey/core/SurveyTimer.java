@@ -15,11 +15,11 @@ public class SurveyTimer extends Thread{
     public void run() {
         try {
             var survey = surveyManager.getSurveyById(surveyId);
-            if(survey.isInitialized()){
-                sleep(survey.getSurvey().getTemplate().getDuration() * 1000L);
-                survey = surveyManager.getSurveyRepositoryService().closeSurvey(survey.getSurvey().getId());
-                surveySocketServices.onClose(sessionId, survey.getSurvey().getId());
-                surveySocketServices.onResult(sessionId, survey.getSurvey());
+            if(survey.isPresent()){
+                sleep(survey.get().getEntity().getTemplate().getDuration() * 1000L);
+                survey = surveyManager.getSurveyRepositoryService().closeSurvey(survey.get().getEntity().getId());
+                surveySocketServices.onClose(sessionId, survey.get().getEntity().getId());
+                surveySocketServices.onResult(sessionId, survey.get());
             }
         } catch (InterruptedException e) {
             e.printStackTrace();

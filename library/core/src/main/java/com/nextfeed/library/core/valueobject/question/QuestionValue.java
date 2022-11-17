@@ -3,7 +3,6 @@ package com.nextfeed.library.core.valueobject.question;
 import com.nextfeed.library.core.entity.question.QuestionEntity;
 import com.nextfeed.library.core.entity.question.VoterEntity;
 import com.nextfeed.library.core.proto.entity.DTOEntities;
-import com.nextfeed.library.core.utils.Entity2DTOUtils;
 import com.nextfeed.library.core.valueobject.IValueObject;
 import com.nextfeed.library.core.valueobject.participant.ParticipantValue;
 import lombok.Builder;
@@ -66,9 +65,16 @@ public class QuestionValue implements IValueObject<QuestionEntity, DTOEntities.Q
                 .setCreated(entity.getCreated())
                 .setClosed(entity.getClosed())
                 .setSessionId(entity.getSession_id());
-        var dtos = voterEntityList.stream().map(Entity2DTOUtils::voterEntity2DTO).toList();
-        builder.addAllVoterEntity(dtos);
+        builder.addAllVoterEntity(voterEntityList.stream().map(this::voterEntity2DTO).toList());
         return builder.build();
+    }
+
+    public DTOEntities.VoterEntityDTO voterEntity2DTO(VoterEntity v){
+        return DTOEntities.VoterEntityDTO.newBuilder()
+                .setQuestionId(v.getQuestion_id())
+                .setParticipantId(v.getParticipant_id())
+                .setRating(v.getRating())
+                .build();
     }
 
     public QuestionEntity getEntity(){
