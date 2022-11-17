@@ -1,11 +1,10 @@
 package com.nextfeed.library.core.grpc.service.manager;
 
-import com.nextfeed.library.core.proto.entity.DTOEntities;
 import com.nextfeed.library.core.proto.manager.*;
+import com.nextfeed.library.core.valueobject.user.OptionalUserValue;
+import com.nextfeed.library.core.valueobject.user.UserValue;
 import net.devh.boot.grpc.client.inject.GrpcClient;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 @Service
 public class UserManagerServiceClient {
@@ -13,16 +12,18 @@ public class UserManagerServiceClient {
     @GrpcClient("user-management-service")
     private UserManagerServiceGrpc.UserManagerServiceBlockingStub rpcService;
 
-    public DTOEntities.UserDTO createUser(String name, String mailAddress, String pw) {
-        return rpcService.createUser(NewUserRequest.newBuilder().setName(name).setMailAddress(mailAddress).setPw(pw).build());
+    public UserValue createUser(String name, String mailAddress, String pw) {
+        return UserValue.dtoBuilder().dto(rpcService.createUser(NewUserRequest.newBuilder().setName(name).setMailAddress(mailAddress).setPw(pw).build())).build();
     }
 
-    public Optional<DTOEntities.UserDTO> getUser(Integer id) {
-        return Optional.of(rpcService.getUser(GetUserRequest.newBuilder().setId(id).build()).getUserDTO());
+    public OptionalUserValue getUser(Integer id) {
+        var optional = rpcService.getUser(GetUserRequest.newBuilder().setId(id).build());
+        return OptionalUserValue.dtoBuilder().dto(optional).build();
     }
 
-    public Optional<DTOEntities.UserDTO> getUserByMailAddress(String mailAddress) {
-        return Optional.of(rpcService.getUserByMailAddress(UserByMailAddressRequest.newBuilder().setMailAddress(mailAddress).build()).getUserDTO());
+    public OptionalUserValue getUserByMailAddress(String mailAddress) {
+        var optional = rpcService.getUserByMailAddress(UserByMailAddressRequest.newBuilder().setMailAddress(mailAddress).build());
+        return OptionalUserValue.dtoBuilder().dto(optional).build();
     }
 
     public boolean validatePasswordByMailAddress(String mailAddress, String pw) {

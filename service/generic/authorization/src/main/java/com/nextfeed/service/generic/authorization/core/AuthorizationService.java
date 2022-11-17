@@ -18,8 +18,6 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.Optional;
-
 @RequiredArgsConstructor
 @Service
 public class AuthorizationService implements IAuthorizationService {
@@ -31,27 +29,28 @@ public class AuthorizationService implements IAuthorizationService {
     private final UserManagerServiceClient userManagerServiceClient;
 
     public JwtResponse testPresenterAuthentication(){
-        var userDTO = userManagerServiceClient.getUserByMailAddress("ok@ok.de");
-        if(userDTO.isPresent()){
-            userDTO = Optional.of(userManagerServiceClient.createUser("ok@ok.de", "OK", "root"));
+        var optionalUserValue = userManagerServiceClient.getUserByMailAddress("ok@ok.de");
+        var userValue = optionalUserValue.get();
+        if(optionalUserValue.isPresent()){
+            userValue = userManagerServiceClient.createUser("ok@ok.de", "OK", "root");
         }
-        return new JwtResponse(tokenUserService.getTokenByPresenterUser(userDTO.get().getName(), userDTO.get().getHashPassword()));
+        return new JwtResponse(tokenUserService.getTokenByPresenterUser(userValue.getEntity().getName(), userValue.getEntity().getHashPassword()));
     }
 
     public JwtResponse presenterAuthentication(ValidateUserRequest request){
         if(!userManagerServiceClient.validatePasswordByMailAddress(request.getMailAddress(), request.getPw())){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Mail-Address or password wrong");
         }
-        DTOEntities.UserDTO userDTO = userManagerServiceClient.getUserByMailAddress(request.getMailAddress()).get();
-        return new JwtResponse(tokenUserService.getTokenByPresenterUser(userDTO.getName(), userDTO.getHashPassword()));
+        var userValue = userManagerServiceClient.getUserByMailAddress(request.getMailAddress()).get();
+        return new JwtResponse(tokenUserService.getTokenByPresenterUser(userValue.getEntity().getName(), userValue.getEntity().getHashPassword()));
     }
 
     public JwtResponse presenterRegistration(RegistrationRequest request){
         if(userManagerServiceClient.getUserByMailAddress(request.getMailAddress()).isPresent()){
             throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "Mail-Address are exists");
         }
-        DTOEntities.UserDTO userDTO = userManagerServiceClient.createUser(request.getName(), request.getMailAddress(), request.getPw());
-        return new JwtResponse(tokenUserService.getTokenByPresenterUser(userDTO.getName(), userDTO.getHashPassword()));
+        var userValue = userManagerServiceClient.createUser(request.getName(), request.getMailAddress(), request.getPw());
+        return new JwtResponse(tokenUserService.getTokenByPresenterUser(userValue.getEntity().getName(), userValue.getEntity().getHashPassword()));
     }
 
     private boolean isCorrectSessionCode(Integer sessionId, String sessionCode){
