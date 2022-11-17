@@ -5,6 +5,7 @@ import lombok.Getter;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 @AllArgsConstructor
 public abstract class AbstractService <TYPE,REPO extends CrudRepository<TYPE,Integer>>{
@@ -15,8 +16,8 @@ public abstract class AbstractService <TYPE,REPO extends CrudRepository<TYPE,Int
         return (List<TYPE>) repo.findAll();
     }
 
-    public TYPE findById(int id){
-        return repo.findById(id).orElse(null);
+    public Optional<TYPE> findById(int id){
+        return repo.findById(id);
     }
 
     public boolean existsById(int id){

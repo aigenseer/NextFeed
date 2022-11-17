@@ -3,6 +3,7 @@ package com.nextfeed.service.core.session.ports.incoming;
 import com.nextfeed.library.core.entity.session.SessionEntity;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface ISessionDBService {
 
@@ -18,5 +19,5 @@ public interface ISessionDBService {
 
     List<SessionEntity> findAll();
 
-    SessionEntity findById(int id);
+    Optional<SessionEntity> findById(int id);
 }

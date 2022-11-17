@@ -1,16 +1,17 @@
 package com.nextfeed.service.supporting.management.user.core.participant;
 
+import com.nextfeed.library.core.dto.participant.OptionalParticipantValue;
+import com.nextfeed.library.core.dto.participant.ParticipantValue;
+import com.nextfeed.library.core.dto.participant.ParticipantValueList;
+import com.nextfeed.library.core.entity.participant.Participant;
 import com.nextfeed.library.core.grpc.service.manager.SessionManagerServiceClient;
-import com.nextfeed.library.core.grpc.service.repository.ParticipantRepositoryServiceClient;
 import com.nextfeed.library.core.proto.entity.DTOEntities;
 import com.nextfeed.library.core.service.socket.SessionSocketServices;
-import com.nextfeed.library.core.utils.DTO2EntityUtils;
-import com.nextfeed.library.core.utils.Entity2DTOUtils;
+import com.nextfeed.service.supporting.management.user.core.participant.db.ParticipantRepositoryService;
 import com.nextfeed.service.supporting.management.user.ports.incoming.IParticipantManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
 import java.util.Optional;
 
 @Component
@@ -19,23 +20,22 @@ public class ParticipantManager implements IParticipantManager {
 
     private final SessionManagerServiceClient sessionManagerServiceClient;
     private final SessionSocketServices sessionSocketServices;
-    private final ParticipantRepositoryServiceClient participantRepositoryServiceClient;
+    private final ParticipantRepositoryService participantRepositoryServiceClient;
 
-    public DTOEntities.ParticipantDTO createParticipantBySessionId(Integer sessionId, String nickname){
+    public ParticipantValue createParticipantBySessionId(Integer sessionId, String nickname){
         var session = sessionManagerServiceClient.getSessionById(sessionId);
         if(session.isPresent()){
-            DTOEntities.ParticipantDTO participantDTO = DTOEntities.ParticipantDTO.newBuilder().setNickname(nickname).setSessionId(sessionId).build();
-            participantDTO = participantRepositoryServiceClient.save(participantDTO);
-            sessionSocketServices.sendNewParticipantToAll(sessionId, participantDTO);
-            return participantDTO;
+            var participantValue = participantRepositoryServiceClient.create(sessionId, nickname);
+            sessionSocketServices.sendNewParticipantToAll(sessionId, participantValue);
+            return participantValue;
         }
         return null;
     }
 
     public Optional<DTOEntities.SessionDTO> getSessionByParticipantId(int participantId){
-        DTOEntities.ParticipantDTO participantDTO = getParticipantById(participantId);
-        if(participantDTO != null){
-            return sessionManagerServiceClient.getSessionById(participantDTO.getSessionId());
+        var participantValue = getParticipantById(participantId);
+        if(participantValue.isPresent()){
+            return sessionManagerServiceClient.getSessionById(participantId);
         }
         return Optional.empty();
     }
@@ -46,29 +46,29 @@ public class ParticipantManager implements IParticipantManager {
         return null;
     }
 
-    public DTOEntities.ParticipantDTOList getParticipantsBySessionId(Integer sessionId){
+    public ParticipantValueList getParticipantsBySessionId(Integer sessionId){
         return participantRepositoryServiceClient.findBySessionId(sessionId);
     }
 
-    public List<DTOEntities.ParticipantDTO> getConnectedParticipantsBySessionId(Integer sessionId){
-        return getParticipantsBySessionId(sessionId).getParticipantsList().stream().filter(DTOEntities.ParticipantDTO::getConnected).toList();
+    public ParticipantValueList getConnectedParticipantsBySessionId(Integer sessionId){
+        return ParticipantValueList.createByEntities(getParticipantsBySessionId(sessionId).getEntities().stream().filter(Participant::isConnected).toList());
     }
 
     public void updateConnectionStatusByParticipantId(Integer participantId, Boolean status){
-        var participantDTO = participantRepositoryServiceClient.findById(participantId);
-        if(participantDTO.isPresent()){
-            var participant = DTO2EntityUtils.dto2Participant(participantDTO.get());
-            participant.setConnected(status);
-            participantRepositoryServiceClient.save(Entity2DTOUtils.participant2DTO(participant));
+        var participantValue = participantRepositoryServiceClient.findById(participantId);
+        if(participantValue.isPresent()){
+            var entity = participantValue.get().getEntity();
+            entity.setConnected(status);
+            participantRepositoryServiceClient.save(entity);
         }
     }
 
     public boolean existsParticipantId(int participantId){
-        return getParticipantById(participantId)!=null;
+        return getParticipantById(participantId).isPresent();
     }
 
-    public DTOEntities.ParticipantDTO getParticipantById(int participantId){
-        return participantRepositoryServiceClient.findById(participantId).orElseGet(null);
+    public OptionalParticipantValue getParticipantById(int participantId){
+        return participantRepositoryServiceClient.findById(participantId);
     }
 
 }

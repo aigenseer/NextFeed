@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
-@EntityScan({"com.nextfeed.library.core.entity.question", "com.nextfeed.library.core.entity.user"})
+@EntityScan({"com.nextfeed.library.core.entity.participant", "com.nextfeed.library.core.entity.user"})
 @EnableJpaRepositories(basePackages = "com.nextfeed.service.supporting.management.user.ports.outgoing")
 @SpringBootApplication(scanBasePackages = "com.nextfeed")
 public class MicroApplication {

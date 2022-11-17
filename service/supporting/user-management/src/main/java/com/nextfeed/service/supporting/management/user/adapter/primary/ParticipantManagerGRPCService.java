@@ -7,7 +7,6 @@ import com.nextfeed.library.core.proto.manager.ParticipantManagerServiceGrpc;
 import com.nextfeed.library.core.proto.manager.UpdateConnectionStatusByParticipantIdRequest;
 import com.nextfeed.library.core.proto.requests.Requests;
 import com.nextfeed.library.core.proto.response.Response;
-import com.nextfeed.library.core.utils.DTOListUtils;
 import com.nextfeed.library.core.utils.DTOResponseUtils;
 import com.nextfeed.service.supporting.management.user.ports.incoming.IParticipantManager;
 import io.grpc.stub.StreamObserver;
@@ -22,23 +21,22 @@ public class ParticipantManagerGRPCService extends ParticipantManagerServiceGrpc
 
     @Override
     public void createParticipantBySessionId(CreateParticipantBySessionIdRequest request, StreamObserver<DTOEntities.ParticipantDTO> responseObserver) {
-        var dto = participantManager.createParticipantBySessionId(request.getSessionId(), request.getParticipant().getNickname());
-        responseObserver.onNext(dto);
+        var participantValue = participantManager.createParticipantBySessionId(request.getSessionId(), request.getParticipant().getNickname());
+        responseObserver.onNext(participantValue.getDTO());
         responseObserver.onCompleted();
     }
 
     @Override
     public void getParticipantsBySessionId(Requests.IDRequest request, StreamObserver<DTOEntities.ParticipantDTOList> responseObserver) {
-        var pList = participantManager.getParticipantsBySessionId(request.getId());
-        responseObserver.onNext(pList);
+        var participantValueList = participantManager.getParticipantsBySessionId(request.getId());
+        responseObserver.onNext(participantValueList.getDTOs());
         responseObserver.onCompleted();
     }
 
     @Override
     public void getConnectedParticipantsBySessionId(Requests.IDRequest request, StreamObserver<DTOEntities.ParticipantDTOList> responseObserver) {
-        var pList = participantManager.getConnectedParticipantsBySessionId(request.getId());
-        var rely = DTOListUtils.toParticipantDTOList(pList);
-        responseObserver.onNext(rely);
+        var participantValueList = participantManager.getConnectedParticipantsBySessionId(request.getId());
+        responseObserver.onNext(participantValueList.getDTOs());
         responseObserver.onCompleted();
     }
 
@@ -72,8 +70,8 @@ public class ParticipantManagerGRPCService extends ParticipantManagerServiceGrpc
 
     @Override
     public void getParticipant(Requests.IDRequest request, StreamObserver<DTOEntities.OptionalParticipantDTO> responseObserver) {
-        var participantDTO = participantManager.getParticipantById(request.getId());
-        responseObserver.onNext(DTOEntities.OptionalParticipantDTO.newBuilder().setParticipant(participantDTO).build());
+        var optionalParticipantValue = participantManager.getParticipantById(request.getId());
+        responseObserver.onNext(optionalParticipantValue.getOptionalParticipantDTO());
         responseObserver.onCompleted();
     }
 
