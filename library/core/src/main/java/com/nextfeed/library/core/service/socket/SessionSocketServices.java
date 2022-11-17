@@ -1,6 +1,6 @@
 package com.nextfeed.library.core.service.socket;
 
-import com.nextfeed.library.core.dto.participant.ParticipantValue;
+import com.nextfeed.library.core.valueobject.participant.ParticipantValue;
 import com.nextfeed.library.core.proto.entity.DTOEntities;
 import com.nextfeed.library.core.proto.repository.*;
 import com.nextfeed.library.core.utils.DTOListUtils;

@@ -17,22 +17,22 @@ public class UserManagerGRPCService extends UserManagerServiceGrpc.UserManagerSe
 
     @Override
     public void createUser(NewUserRequest request, StreamObserver<DTOEntities.UserDTO> responseObserver) {
-        var dto = userManager.createUser(request.getMailAddress(), request.getName(), request.getPw());
-        responseObserver.onNext(dto);
+        var userValue = userManager.createUser(request.getMailAddress(), request.getName(), request.getPw());
+        responseObserver.onNext(userValue.getDTO());
         responseObserver.onCompleted();
     }
 
     @Override
     public void getUser(GetUserRequest request, StreamObserver<DTOEntities.OptionalUserDTO> responseObserver) {
-        var dto = userManager.getUserById(request.getId());
-        responseObserver.onNext(DTOEntities.OptionalUserDTO.newBuilder().setUserDTO(dto.orElseGet(null)).build());
+        var optionalUserValue = userManager.getUserById(request.getId());
+        responseObserver.onNext(optionalUserValue.getOptionalDTO());
         responseObserver.onCompleted();
     }
 
     @Override
     public void getUserByMailAddress(UserByMailAddressRequest request, StreamObserver<DTOEntities.OptionalUserDTO> responseObserver) {
-        var dto = userManager.getUserByMailAddress(request.getMailAddress());
-        responseObserver.onNext(DTOEntities.OptionalUserDTO.newBuilder().setUserDTO(dto.orElseGet(null)).build());
+        var optionalUserValue = userManager.getUserByMailAddress(request.getMailAddress());
+        responseObserver.onNext(optionalUserValue.getOptionalDTO());
         responseObserver.onCompleted();
     }
 

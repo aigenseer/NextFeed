@@ -1,4 +1,4 @@
-package com.nextfeed.library.core.dto.participant;
+package com.nextfeed.library.core.valueobject.participant;
 
 import com.nextfeed.library.core.entity.participant.Participant;
 import com.nextfeed.library.core.proto.entity.DTOEntities;
@@ -21,8 +21,8 @@ public class OptionalParticipantValue {
         return ParticipantValue.builder().entity(entity.get()).build();
     }
 
-    public DTOEntities.OptionalParticipantDTO getOptionalParticipantDTO() {
-        return DTOEntities.OptionalParticipantDTO.newBuilder().setParticipant(get().getDTO()).build();
+    public DTOEntities.OptionalParticipantDTO getOptionalDTO() {
+        return DTOEntities.OptionalParticipantDTO.newBuilder().setParticipant(isPresent()? get().getDTO(): null).build();
     }
 
     public boolean isPresent(){

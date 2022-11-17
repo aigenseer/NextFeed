@@ -1,8 +1,8 @@
 package com.nextfeed.service.supporting.management.user.core.participant.db;
 
-import com.nextfeed.library.core.dto.participant.OptionalParticipantValue;
-import com.nextfeed.library.core.dto.participant.ParticipantValue;
-import com.nextfeed.library.core.dto.participant.ParticipantValueList;
+import com.nextfeed.library.core.valueobject.participant.OptionalParticipantValue;
+import com.nextfeed.library.core.valueobject.participant.ParticipantValue;
+import com.nextfeed.library.core.valueobject.participant.ParticipantValueList;
 import com.nextfeed.library.core.entity.participant.Participant;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;

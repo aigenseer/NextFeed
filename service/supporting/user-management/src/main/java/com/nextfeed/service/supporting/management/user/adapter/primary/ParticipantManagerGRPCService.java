@@ -71,7 +71,7 @@ public class ParticipantManagerGRPCService extends ParticipantManagerServiceGrpc
     @Override
     public void getParticipant(Requests.IDRequest request, StreamObserver<DTOEntities.OptionalParticipantDTO> responseObserver) {
         var optionalParticipantValue = participantManager.getParticipantById(request.getId());
-        responseObserver.onNext(optionalParticipantValue.getOptionalParticipantDTO());
+        responseObserver.onNext(optionalParticipantValue.getOptionalDTO());
         responseObserver.onCompleted();
     }
 

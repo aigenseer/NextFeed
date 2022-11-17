@@ -1,7 +1,7 @@
-package com.nextfeed.library.core.dto.participant;
+package com.nextfeed.library.core.valueobject.participant;
 
-import com.nextfeed.library.core.dto.AbstractValueList;
-import com.nextfeed.library.core.dto.IValueObject;
+import com.nextfeed.library.core.valueobject.AbstractValueList;
+import com.nextfeed.library.core.valueobject.IValueObject;
 import com.nextfeed.library.core.entity.participant.Participant;
 import com.nextfeed.library.core.proto.entity.DTOEntities;
 

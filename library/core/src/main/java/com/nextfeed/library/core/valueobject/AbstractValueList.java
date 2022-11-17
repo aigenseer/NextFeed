@@ -1,4 +1,4 @@
-package com.nextfeed.library.core.dto;
+package com.nextfeed.library.core.valueobject;
 
 import lombok.RequiredArgsConstructor;
 
