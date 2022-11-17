@@ -27,47 +27,30 @@ spring:
 
 
       routes:
+        - id: mood-service
+          uri: http://mood-service.nextfeed:8010
+          predicates:
+            - Path=/api/mood-service/**,/socket/mood-socket/**
+
+        - id: question-service
+          uri: http://question-service.nextfeed:8020
+          predicates:
+            - Path=/api/question-service/**,/socket/question-socket/**
+
+        - id: session-service
+          uri: http://session-service.nextfeed:8030
+          predicates:
+            - Path=/api/session-service/**,/socket/session-socket/**
+
+        - id: survey-service
+          uri: http://survey-service.nextfeed:8040
+          predicates:
+            - Path=/api/survey-service/**,/socket/survey-socket/**
+
         - id: authorization-service
-          uri: http://authorization-external-service.nextfeed:8010
+          uri: http://authorization-service.nextfeed:8050
           predicates:
             - Path=/api/authorization-service/**
-        - id: question-service
-          uri: http://question-external-service.nextfeed:8020
-          predicates:
-            - Path=/api/question-service/**
-        - id: session-service
-          uri: http://session-external-service.nextfeed:8030
-          predicates:
-            - Path=/api/session-service/**
-        - id: survey-service
-          uri: http://survey-external-service.nextfeed:8040
-          predicates:
-            - Path=/api/survey-service/**
-
-
-        - id: mood-socket-service
-          uri: http://mood-socket-service.nextfeed:8210
-          predicates:
-            - Path=/socket/mood-socket/**
-        - id: session-socket-service
-          uri: http://session-socket-service.nextfeed:8230
-          predicates:
-            - Path=/socket/session-socket/**
-        - id: survey-socket-service
-          uri: http://survey-socket-service.nextfeed:8240
-          predicates:
-            - Path=/socket/survey-socket/**
-        - id: question-socket-service
-          uri: http://question-socket-service.nextfeed:8220
-          predicates:
-            - Path=/socket/question-socket/**
-
-        - id: test-service
-          uri: http://test-service.nextfeed:80
-          predicates:
-            - Path=/test/**
-
-
 
 
 management:
