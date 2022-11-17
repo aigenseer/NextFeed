@@ -2,35 +2,36 @@ package com.nextfeed.service.core.mood.core;
 
 import com.nextfeed.library.core.grpc.service.manager.ParticipantManagerServiceClient;
 import com.nextfeed.library.core.grpc.service.manager.SessionManagerServiceClient;
-import com.nextfeed.library.core.grpc.service.repository.MoodRepositoryServiceClient;
 import com.nextfeed.library.core.proto.entity.DTOEntities;
 import com.nextfeed.library.core.proto.manager.NewCalculatedMoodRequest;
 import com.nextfeed.library.core.proto.manager.NewMoodRequest;
 import com.nextfeed.library.core.service.socket.MoodSocketServices;
+import com.nextfeed.library.core.valueobject.mood.MoodValue;
+import com.nextfeed.service.core.mood.core.db.MoodRepositoryService;
 import com.nextfeed.service.core.mood.ports.incoming.IMoodManager;
-import com.nextfeed.service.core.mood.ports.incoming.IMoodRepositoryService;
-import com.nextfeed.service.core.mood.ports.incoming.IMoodSocketService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 @Component
 @RequiredArgsConstructor
 public class MoodManager implements IMoodManager {
 
-    private final IMoodRepositoryService moodRepositoryServiceClient;
+    private final MoodRepositoryService moodRepositoryService;
     private final SessionManagerServiceClient sessionManagerServiceClient;
     private final ParticipantManagerServiceClient participantManagerServiceClient;
     private final MoodSocketServices moodSocketServices;
 
     private final Map<Integer, Map<Integer, Double>> sessionsParticipantMoodValueCache = new HashMap<>();
 
-    public DTOEntities.MoodEntityDTO addMoodValueToSession(int sessionId, NewMoodRequest request){
-        DTOEntities.MoodEntityDTO dto = DTOEntities.MoodEntityDTO.newBuilder().setValue(request.getMoodValue()).setSessionId(sessionId).setParticipantsCount(request.getParticipantsCount()).setTimestamp(new Date().getTime()).build();
-        moodRepositoryServiceClient.save(dto);
-        moodSocketServices.sendMood(sessionId, dto.getValue());
-        return dto;
+    public MoodValue addMoodValueToSession(int sessionId, NewMoodRequest request){
+        var moodValue = moodRepositoryService.create(sessionId, request);
+        moodSocketServices.sendMood(sessionId, moodValue.getEntity().getValue());
+        return moodValue;
     }
 
     private Map<Integer, Double> getParticipantMoodValueCacheBySessionId(int sessionId){
@@ -60,7 +61,7 @@ public class MoodManager implements IMoodManager {
         return sessionsParticipantMoodValueCache.get(sessionId);
     }
 
-    public DTOEntities.MoodEntityDTO createCalculatedMoodValue(int sessionId, NewCalculatedMoodRequest request){
+    public MoodValue createCalculatedMoodValue(int sessionId, NewCalculatedMoodRequest request){
         Map<Integer, Double> cache = getParticipantMoodValueCacheBySessionId(sessionId);
         if(cache == null || !cache.containsKey(request.getParticipantId())) return null;
         cache.put(request.getParticipantId(), request.getMoodValue());

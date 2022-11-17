@@ -1,4 +1,4 @@
-package com.nextfeed.service.core.mood.core.security;
+package com.nextfeed.service.core.mood.core.socket.security;
 
 import com.nextfeed.library.core.enums.UserRole;
 import org.springframework.context.annotation.Configuration;

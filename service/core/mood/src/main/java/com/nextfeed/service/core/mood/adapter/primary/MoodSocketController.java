@@ -1,7 +1,6 @@
 package com.nextfeed.service.core.mood.adapter.primary;
 
 
-import com.nextfeed.library.core.grpc.service.manager.MoodManagerServiceClient;
 import com.nextfeed.library.core.grpc.service.manager.ParticipantManagerServiceClient;
 import com.nextfeed.library.core.proto.manager.NewCalculatedMoodRequest;
 import com.nextfeed.library.security.utils.PrincipalUtils;
