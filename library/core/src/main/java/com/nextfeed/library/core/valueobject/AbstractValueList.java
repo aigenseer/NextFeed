@@ -9,7 +9,7 @@ public abstract class AbstractValueList<E, D> {
 
     private final List<IValueObject<E, D>> list;
 
-    public List<D> getDTOList(){
+    protected List<D> getDTOList(){
         return list.stream().map(IValueObject::getDTO).toList();
     }
 

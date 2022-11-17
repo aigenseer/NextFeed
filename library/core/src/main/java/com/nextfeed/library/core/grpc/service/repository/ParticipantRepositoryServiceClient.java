@@ -3,6 +3,9 @@ package com.nextfeed.library.core.grpc.service.repository;
 import com.nextfeed.library.core.proto.entity.DTOEntities;
 import com.nextfeed.library.core.proto.repository.ParticipantRepositoryServiceGrpc;
 import com.nextfeed.library.core.utils.*;
+import com.nextfeed.library.core.valueobject.participant.OptionalParticipantValue;
+import com.nextfeed.library.core.valueobject.participant.ParticipantValue;
+import com.nextfeed.library.core.valueobject.participant.ParticipantValueList;
 import net.devh.boot.grpc.client.inject.GrpcClient;
 import org.springframework.stereotype.Service;
 
@@ -15,16 +18,16 @@ public class ParticipantRepositoryServiceClient {
     private ParticipantRepositoryServiceGrpc.ParticipantRepositoryServiceBlockingStub rpcService;
 
 
-    public DTOEntities.ParticipantDTO save(DTOEntities.ParticipantDTO dto) {
-        return rpcService.save(dto);
+    public ParticipantValue save(DTOEntities.ParticipantDTO dto) {
+        return ParticipantValue.dtoBuilder().dto(dto).build();
     }
 
-    public Optional<DTOEntities.ParticipantDTO> findById(Integer id) {
-        return Optional.of(rpcService.findById(DTORequestUtils.createIDRequest(id)).getParticipant());
+    public OptionalParticipantValue findById(Integer id) {
+        return OptionalParticipantValue.dtoBuilder().dto(rpcService.findById(DTORequestUtils.createIDRequest(id))).build();
     }
 
-    public DTOEntities.ParticipantDTOList findBySessionId(Integer id) {
-        return rpcService.findBySessionId(DTORequestUtils.createIDRequest(id));
+    public ParticipantValueList findBySessionId(Integer id) {
+        return ParticipantValueList.createByDTOs(rpcService.findBySessionId(DTORequestUtils.createIDRequest(id)).getParticipantsList());
     }
 
     public void deleteAllBySessionId(Integer id) {

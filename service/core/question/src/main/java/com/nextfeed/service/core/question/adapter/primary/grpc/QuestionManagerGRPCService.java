@@ -26,8 +26,8 @@ public class QuestionManagerGRPCService extends QuestionManagerServiceGrpc.Quest
 
     @Override
     public void createQuestion(CreateQuestionRequest request, StreamObserver<DTOEntities.QuestionDTO> responseObserver) {
-        var dto = questionManager.createQuestion(request.getSessionId(), request.getRequest());
-        responseObserver.onNext(dto);
+        var questionValue = questionManager.createQuestion(request.getSessionId(), request.getRequest());
+        responseObserver.onNext(questionValue.getDTO());
         responseObserver.onCompleted();
     }
 

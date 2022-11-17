@@ -13,6 +13,11 @@ public class OptionalParticipantValue {
 
     private final Optional<Participant> entity;
 
+    @Builder(builderMethodName = "dtoBuilder")
+    public static OptionalParticipantValue newValue(DTOEntities.OptionalParticipantDTO dto) {
+        return new OptionalParticipantValue(dto.isInitialized()? Optional.of(ParticipantValue.dtoToEntity(dto.getParticipant())): Optional.empty());
+    }
+
     public Optional<ParticipantValue> getOptional() {
         return entity.isPresent()? Optional.of(get()): Optional.empty();
     }

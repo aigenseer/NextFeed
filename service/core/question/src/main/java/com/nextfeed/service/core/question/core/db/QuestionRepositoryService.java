@@ -3,51 +3,43 @@ package com.nextfeed.service.core.question.core.db;
 import com.nextfeed.library.core.entity.question.QuestionEntity;
 import com.nextfeed.library.core.entity.question.VoterEntity;
 import com.nextfeed.library.core.grpc.service.repository.ParticipantRepositoryServiceClient;
-import com.nextfeed.library.core.proto.entity.DTOEntities;
 import com.nextfeed.library.core.proto.repository.VoteQuestionRequest;
 import com.nextfeed.library.core.proto.requests.Requests;
-import com.nextfeed.library.core.utils.DTO2EntityUtils;
-import com.nextfeed.library.core.utils.DTOListUtils;
 import com.nextfeed.library.core.utils.DTORequestUtils;
-import com.nextfeed.library.core.utils.Entity2DTOUtils;
-import com.nextfeed.service.core.question.ports.incoming.IQuestionRepositoryService;
+import com.nextfeed.library.core.valueobject.question.OptionalQuestionValue;
+import com.nextfeed.library.core.valueobject.question.QuestionValue;
+import com.nextfeed.library.core.valueobject.question.QuestionValueList;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
-public class QuestionRepositoryService implements IQuestionRepositoryService {
+public class QuestionRepositoryService {
 
     private final QuestionDBService questionDBService;
     private final VoterDBService voterDBService;
     private final ParticipantRepositoryServiceClient participantRepositoryServiceClient;
 
-    private DTOEntities.QuestionDTO toDTO(QuestionEntity e){
-        if(e == null) return null;
+    private OptionalQuestionValue toValue(QuestionEntity e){
+        if(e == null) return OptionalQuestionValue.builder().optionalEntity(Optional.empty()).build();
         var p = participantRepositoryServiceClient.findById(e.getParticipant_id());
         var voters = voterDBService.getRepo().findByQuestionId(e.getId());
-        return Entity2DTOUtils.question2DTO(e, p.get(), voters);
+        return OptionalQuestionValue.builder().optionalEntity(Optional.of(e)).participantValue(p.get()).voterEntityList(voters).build();
     }
 
-    private DTOEntities.OptionalQuestionDTO toOptionalDTO(QuestionEntity e){
-        return DTOEntities.OptionalQuestionDTO.newBuilder().setQuestion(toDTO(e)).build();
-    }
-
-    public DTOEntities.QuestionDTO save(DTOEntities.QuestionDTO dto) {
-        var e = DTO2EntityUtils.dto2Question(dto);
+    public QuestionValue save(QuestionEntity e) {
         e = questionDBService.save(e);
-        return toDTO(e);
+        return toValue(e).get();
     }
 
-    public DTOEntities.OptionalQuestionDTO findById(Requests.IDRequest request) {
+    public OptionalQuestionValue findById(Requests.IDRequest request) {
         var e = questionDBService.findById(request.getId());
-        return toOptionalDTO(e);
+        return toValue(e.orElse(null));
     }
 
-    @Override
-    public DTOEntities.OptionalQuestionDTO findById(Integer id) {
+    public OptionalQuestionValue findById(Integer id) {
         return findById(DTORequestUtils.createIDRequest(id));
     }
 
@@ -63,31 +55,28 @@ public class QuestionRepositoryService implements IQuestionRepositoryService {
         addVote(VoteQuestionRequest.newBuilder().setQuestionId(questionId).setParticipantId(participantId).setRating(rating).build());
     }
 
-    public DTOEntities.QuestionDTOList questionList2DTO(List<QuestionEntity> list){
-        return DTOListUtils.toQuestionDTOList(list.stream().map(this::toDTO).toList());
-    }
-
-    public DTOEntities.QuestionDTOList findBySessionId(Requests.IDRequest request) {
-        var list = questionDBService.getRepo().findBySessionId(request.getId());
-        return questionList2DTO(list);
+    public QuestionValueList findBySessionId(Requests.IDRequest request) {
+        var entities = questionDBService.getRepo().findBySessionId(request.getId());
+        var values = entities.stream().map(this::toValue).map(OptionalQuestionValue::get).toList();
+        return QuestionValueList.builder().list(values).build();
     }
 
     public void deleteAllBySessionId(Requests.IDRequest request) {
         questionDBService.getRepo().deleteAllBySessionId(request.getId());
     }
 
-    public DTOEntities.OptionalQuestionDTO close(Requests.IDRequest request) {
+    public OptionalQuestionValue close(Requests.IDRequest request) {
         var o = questionDBService.findById(request.getId());
         QuestionEntity e = null;
-        if(o != null){
-            o.setClosed(System.currentTimeMillis());
-            questionDBService.save(o);
+        if(o.isPresent()){
+            e = o.get();
+            e.setClosed(System.currentTimeMillis());
+            questionDBService.save(e);
         }
-        return toOptionalDTO(e);
+        return toValue(e);
     }
 
-    @Override
-    public DTOEntities.OptionalQuestionDTO close(Integer id) {
+    public OptionalQuestionValue close(Integer id) {
         return close(DTORequestUtils.createIDRequest(id));
     }
 

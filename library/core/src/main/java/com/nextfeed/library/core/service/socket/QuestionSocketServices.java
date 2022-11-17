@@ -6,6 +6,7 @@ import com.nextfeed.library.core.proto.repository.QuestionSocketServiceGrpc;
 import com.nextfeed.library.core.proto.repository.SendMoodRequest;
 import com.nextfeed.library.core.proto.repository.SendQuestionRequest;
 import com.nextfeed.library.core.utils.SocketServiceUtils;
+import com.nextfeed.library.core.valueobject.question.QuestionValue;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import lombok.RequiredArgsConstructor;
@@ -22,12 +23,12 @@ public class QuestionSocketServices {
     @Value("#{new Integer('${nextfeed.service.question-service.grpc-port}')}")
     private Integer port;
 
-    public void sendQuestion(Integer sessionId, DTOEntities.QuestionDTO questionDTO){
+    public void sendQuestion(Integer sessionId, QuestionValue questionValue){
         serviceUtils.getInstanceInfoByName(INSTANCE_NAME).forEach(instance -> {
             try {
                 ManagedChannel managedChannel = ManagedChannelBuilder.forTarget("static://%s:%s".formatted(instance.getIPAddr(), port)).usePlaintext().build();
                 QuestionSocketServiceGrpc.QuestionSocketServiceBlockingStub blockingStub = QuestionSocketServiceGrpc.newBlockingStub(managedChannel);
-                blockingStub.sendQuestion(SendQuestionRequest.newBuilder().setSessionId(sessionId).setQuestionDTO(questionDTO).build());
+                blockingStub.sendQuestion(SendQuestionRequest.newBuilder().setSessionId(sessionId).setQuestionDTO(questionValue.getDTO()).build());
                 managedChannel.shutdown();
             }catch (Exception e){
                 System.err.println("Can not call instance");
