@@ -3,7 +3,6 @@ package com.nextfeed.service.core.question.adapter.primary.rest;
 import com.nextfeed.library.core.entity.question.QuestionEntity;
 import com.nextfeed.library.core.service.external.dto.authorization.NewQuestionRequest;
 import com.nextfeed.library.core.service.external.utils.ServiceUtils;
-import com.nextfeed.library.core.utils.DTO2EntityUtils;
 import com.nextfeed.service.core.question.ports.incoming.IQuestionManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
@@ -22,8 +21,8 @@ public class QuestionRestController {
     public QuestionEntity createQuestion(@RequestBody NewQuestionRequest request, @PathVariable("sessionId") Integer sessionId){
         serviceUtils.checkSessionId(sessionId);
         serviceUtils.checkParticipantId(request.getParticipantId());
-        var dto = questionManager.createQuestion(sessionId, request.getParticipantId(), request.getMessage(), System.currentTimeMillis(), request.getAnonymous());
-        return DTO2EntityUtils.dto2Question(dto);
+        var questionValue = questionManager.createQuestion(sessionId, request.getParticipantId(), request.getMessage(), System.currentTimeMillis(), request.getAnonymous());
+        return questionValue.getEntity();
     }
 
 }

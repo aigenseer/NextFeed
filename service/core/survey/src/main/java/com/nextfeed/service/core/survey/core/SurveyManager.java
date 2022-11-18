@@ -3,7 +3,6 @@ package com.nextfeed.service.core.survey.core;
 import com.nextfeed.library.core.entity.survey.Survey;
 import com.nextfeed.library.core.entity.survey.SurveyAnswer;
 import com.nextfeed.library.core.entity.survey.SurveyTemplate;
-import com.nextfeed.library.core.proto.requests.Requests;
 import com.nextfeed.library.core.service.socket.SurveySocketServices;
 import com.nextfeed.library.core.valueobject.survey.OptionalSurveyValue;
 import com.nextfeed.library.core.valueobject.survey.SurveyValueList;
@@ -58,8 +57,8 @@ public class SurveyManager implements ISurveyManager {
     }
 
     @Override
-    public OptionalSurveyTemplateValue findTemplateById(Requests.IDRequest request) {
-        return surveyRepositoryService.findTemplateById(request);
+    public OptionalSurveyTemplateValue findTemplateById(Integer id) {
+        return surveyRepositoryService.findTemplateById(id);
     }
 
     @Override

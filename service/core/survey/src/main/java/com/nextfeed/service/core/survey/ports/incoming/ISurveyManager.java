@@ -1,7 +1,6 @@
 package com.nextfeed.service.core.survey.ports.incoming;
 
 import com.nextfeed.library.core.entity.survey.SurveyTemplate;
-import com.nextfeed.library.core.proto.requests.Requests;
 import com.nextfeed.library.core.valueobject.survey.SurveyValueList;
 import com.nextfeed.library.core.valueobject.surveytemplate.OptionalSurveyTemplateValue;
 import com.nextfeed.library.core.valueobject.surveytemplate.SurveyTemplateValue;
@@ -17,7 +16,7 @@ public interface ISurveyManager {
 
     SurveyTemplateValue saveTemplate(SurveyTemplate surveyTemplate);
 
-    OptionalSurveyTemplateValue findTemplateById(Requests.IDRequest request);
+    OptionalSurveyTemplateValue findTemplateById(Integer id);
 
     SurveyTemplateValueList findAllTemplates();
 

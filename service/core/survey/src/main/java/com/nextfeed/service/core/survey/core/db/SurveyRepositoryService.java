@@ -81,13 +81,9 @@ public class SurveyRepositoryService {
         return OptionalSurveyValue.builder().optionalEntity(o).build();
     }
 
-    public OptionalSurveyTemplateValue findTemplateById(Requests.IDRequest request) {
-        var e = surveyTemplateDBService.findById(request.getId());
-        return OptionalSurveyTemplateValue.builder().entity(e).build();
-    }
-
     public OptionalSurveyTemplateValue findTemplateById(Integer id) {
-        return findTemplateById(DTORequestUtils.createIDRequest(id));
+        var e = surveyTemplateDBService.findById(id);
+        return OptionalSurveyTemplateValue.builder().entity(e).build();
     }
 
     public OptionalSurveyValue closeSurvey(Integer id){

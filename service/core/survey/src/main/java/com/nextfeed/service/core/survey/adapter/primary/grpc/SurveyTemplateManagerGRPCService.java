@@ -27,7 +27,7 @@ public class SurveyTemplateManagerGRPCService extends SurveyTemplateManagerServi
 
     @Override
     public void getTemplateById(Requests.IDRequest request, StreamObserver<DTOEntities.OptionalSurveyTemplateDTO> responseObserver) {
-        var optionalSurveyTemplateValue = surveyManager.findTemplateById(request);
+        var optionalSurveyTemplateValue = surveyManager.findTemplateById(request.getId());
         responseObserver.onNext(optionalSurveyTemplateValue.getOptionalDTO());
         responseObserver.onCompleted();
     }
