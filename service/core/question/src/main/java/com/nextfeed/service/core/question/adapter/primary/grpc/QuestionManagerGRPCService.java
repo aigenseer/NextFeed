@@ -45,4 +45,11 @@ public class QuestionManagerGRPCService extends QuestionManagerServiceGrpc.Quest
         responseObserver.onCompleted();
     }
 
+    @Override
+    public void findBySessionId(Requests.IDRequest request, StreamObserver<DTOEntities.QuestionDTOList> responseObserver) {
+        var questionValueList = questionManager.findBySessionId(request.getId());
+        responseObserver.onNext(questionValueList.getDTOs());
+        responseObserver.onCompleted();
+    }
+
 }

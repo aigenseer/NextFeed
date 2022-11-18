@@ -5,6 +5,7 @@ import com.nextfeed.library.core.proto.entity.DTOEntities;
 import com.nextfeed.library.core.proto.manager.NewQuestionRequest;
 import com.nextfeed.library.core.service.socket.QuestionSocketServices;
 import com.nextfeed.library.core.valueobject.question.QuestionValue;
+import com.nextfeed.library.core.valueobject.question.QuestionValueList;
 import com.nextfeed.service.core.question.core.db.QuestionRepositoryService;
 import com.nextfeed.service.core.question.ports.incoming.IQuestionManager;
 import lombok.RequiredArgsConstructor;
@@ -62,6 +63,11 @@ public class QuestionManager implements IQuestionManager {
             if(optionalQuestionValue.isPresent())
                 questionSocketServices.sendQuestion(sessionId, optionalQuestionValue.get());
         }
+    }
+
+    @Override
+    public QuestionValueList findBySessionId(int sessionId) {
+        return questionRepositoryService.findBySessionId(sessionId);
     }
 
 }

@@ -1,12 +1,12 @@
 package com.nextfeed.library.core.grpc.service.manager;
 
 import com.nextfeed.library.core.proto.entity.DTOEntities;
-import com.nextfeed.library.core.proto.manager.*;
-import com.nextfeed.library.core.proto.requests.Requests;
-import com.nextfeed.library.core.proto.response.Response;
+import com.nextfeed.library.core.proto.manager.AddAnswerToSurveyRequest;
+import com.nextfeed.library.core.proto.manager.CreateSurveyRequest;
+import com.nextfeed.library.core.proto.manager.SurveyManagerServiceGrpc;
 import com.nextfeed.library.core.utils.DTORequestUtils;
-import com.nextfeed.library.core.utils.DTOResponseUtils;
-import io.grpc.stub.StreamObserver;
+import com.nextfeed.library.core.valueobject.survey.SurveyValueList;
+import com.nextfeed.library.core.valueobject.surveytemplate.SurveyTemplateValue;
 import net.devh.boot.grpc.client.inject.GrpcClient;
 import org.springframework.stereotype.Service;
 
@@ -16,12 +16,14 @@ public class SurveyManagerServiceClient {
     @GrpcClient("survey-service")
     private SurveyManagerServiceGrpc.SurveyManagerServiceBlockingStub rpcService;
 
-    public DTOEntities.SurveyTemplateDTO createSurvey(Integer sessionId, DTOEntities.SurveyTemplateDTO template) {
-        return rpcService.createSurvey(CreateSurveyRequest.newBuilder().setSessionId(sessionId).setTemplate(template).build());
+    public SurveyTemplateValue createSurvey(Integer sessionId, DTOEntities.SurveyTemplateDTO template) {
+        var dto = rpcService.createSurvey(CreateSurveyRequest.newBuilder().setSessionId(sessionId).setTemplate(template).build());
+        return SurveyTemplateValue.dtoBuilder().dto(dto).build();
     }
 
-    public DTOEntities.SurveyDTOList getSurveysBySessionId(Integer sessionId) {
-        return rpcService.getSurveysBySessionId(DTORequestUtils.createIDRequest(sessionId));
+    public SurveyValueList getSurveysBySessionId(Integer sessionId) {
+        var dto = rpcService.getSurveysBySessionId(DTORequestUtils.createIDRequest(sessionId));
+        return SurveyValueList.dtoBuilder().list(dto.getSurveysList()).build();
     }
 
     public void addAnswerToSurvey(int sessionId, int surveyId, int participantId, String answer) {

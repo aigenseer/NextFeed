@@ -2,7 +2,10 @@ package com.nextfeed.library.core.entity.question;
 
 import lombok.*;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.IdClass;
+import javax.persistence.JoinColumn;
 import java.io.Serializable;
 
 @Getter

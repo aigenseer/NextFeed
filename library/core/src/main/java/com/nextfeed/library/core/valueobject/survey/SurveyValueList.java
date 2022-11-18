@@ -4,6 +4,7 @@ import com.nextfeed.library.core.entity.survey.Survey;
 import com.nextfeed.library.core.proto.entity.DTOEntities;
 import com.nextfeed.library.core.valueobject.AbstractValueList;
 import com.nextfeed.library.core.valueobject.IValueObject;
+import lombok.Builder;
 
 import java.util.List;
 
@@ -13,11 +14,13 @@ public class SurveyValueList extends AbstractValueList<Survey, DTOEntities.Surve
         super(list.stream().map(e -> (IValueObject<Survey, DTOEntities.SurveyDTO>) e).toList());
     }
 
-    public static SurveyValueList createByEntities(List<Survey> list) {
+    @Builder(builderMethodName = "dtoBuilder")
+    public static SurveyValueList newValueDTO(List<DTOEntities.SurveyDTO> list) {
         return new SurveyValueList(list.stream().map(SurveyValue::new).toList());
     }
 
-    public static SurveyValueList createByDTOs(List<DTOEntities.SurveyDTO> list) {
+    @Builder(builderMethodName = "builder")
+    public static SurveyValueList newValue(List<Survey> list) {
         return new SurveyValueList(list.stream().map(SurveyValue::new).toList());
     }
 

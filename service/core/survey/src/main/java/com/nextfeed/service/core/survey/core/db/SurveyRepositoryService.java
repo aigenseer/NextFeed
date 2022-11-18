@@ -60,7 +60,7 @@ public class SurveyRepositoryService {
     }
 
     public SurveyValueList findBySessionId(Requests.IDRequest request) {
-        return SurveyValueList.createByEntities(surveyDBService.getRepo().findBySessionId(request.getId()));
+        return SurveyValueList.builder().list(surveyDBService.getRepo().findBySessionId(request.getId())).build();
     }
 
     public SurveyValueList findBySessionId(Integer id) {

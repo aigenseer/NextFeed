@@ -6,6 +6,8 @@ import com.nextfeed.library.core.proto.entity.DTOEntities;
 import com.nextfeed.library.core.valueobject.AbstractValueList;
 import com.nextfeed.library.core.valueobject.IValueObject;
 import com.nextfeed.library.core.valueobject.participant.ParticipantValue;
+import com.nextfeed.library.core.valueobject.participant.ParticipantValueList;
+import lombok.Builder;
 
 import java.util.List;
 
@@ -15,11 +17,13 @@ public class MoodValueList extends AbstractValueList<MoodEntity, DTOEntities.Moo
         super(list.stream().map(e -> (IValueObject<MoodEntity, DTOEntities.MoodEntityDTO>) e).toList());
     }
 
-    public static MoodValueList createByEntities(List<MoodEntity> list) {
+    @Builder(builderMethodName = "dtoBuilder")
+    public static MoodValueList newValueDTO(List<DTOEntities.MoodEntityDTO> list) {
         return new MoodValueList(list.stream().map(MoodValue::new).toList());
     }
 
-    public static MoodValueList createByDTOs(List<DTOEntities.MoodEntityDTO> list) {
+    @Builder(builderMethodName = "builder")
+    public static MoodValueList newValue(List<MoodEntity> list) {
         return new MoodValueList(list.stream().map(MoodValue::new).toList());
     }
 

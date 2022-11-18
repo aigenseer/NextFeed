@@ -11,6 +11,7 @@ option java_outer_classname = "MoodManagerServiceProto";
 service MoodManagerService {
   rpc addMoodValueToSession (AddMoodValueToSessionRequest) returns (MoodEntityDTO) {}
   rpc createCalculatedMoodValue (CreateCalculatedMoodValueRequest) returns (MoodEntityDTO) {}
+  rpc findBySessionId (IDRequest) returns (MoodEntityDTOList) {}
 }
 
 message AddMoodValueToSessionRequest {

@@ -1,11 +1,13 @@
 package com.nextfeed.library.core.service.socket;
 
-import com.nextfeed.library.core.valueobject.participant.ParticipantValue;
 import com.nextfeed.library.core.proto.entity.DTOEntities;
-import com.nextfeed.library.core.proto.repository.*;
+import com.nextfeed.library.core.proto.repository.SendConnectionStatusRequest;
+import com.nextfeed.library.core.proto.repository.SendNewParticipantToAllRequest;
+import com.nextfeed.library.core.proto.repository.SessionSocketServiceGrpc;
 import com.nextfeed.library.core.utils.DTOListUtils;
 import com.nextfeed.library.core.utils.DTORequestUtils;
 import com.nextfeed.library.core.utils.SocketServiceUtils;
+import com.nextfeed.library.core.valueobject.participant.ParticipantValue;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import lombok.RequiredArgsConstructor;

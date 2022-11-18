@@ -2,7 +2,7 @@ package com.nextfeed.service.core.question.core.db;
 
 import com.nextfeed.library.core.entity.question.QuestionEntity;
 import com.nextfeed.library.core.entity.question.VoterEntity;
-import com.nextfeed.library.core.grpc.service.repository.ParticipantRepositoryServiceClient;
+import com.nextfeed.library.core.grpc.service.manager.ParticipantManagerServiceClient;
 import com.nextfeed.library.core.proto.repository.VoteQuestionRequest;
 import com.nextfeed.library.core.proto.requests.Requests;
 import com.nextfeed.library.core.utils.DTORequestUtils;
@@ -20,11 +20,11 @@ public class QuestionRepositoryService {
 
     private final QuestionDBService questionDBService;
     private final VoterDBService voterDBService;
-    private final ParticipantRepositoryServiceClient participantRepositoryServiceClient;
+    private final ParticipantManagerServiceClient participantManagerServiceClient;
 
     private OptionalQuestionValue toValue(QuestionEntity e){
         if(e == null) return OptionalQuestionValue.builder().optionalEntity(Optional.empty()).build();
-        var p = participantRepositoryServiceClient.findById(e.getParticipant_id());
+        var p = participantManagerServiceClient.getParticipant(e.getParticipant_id());
         var voters = voterDBService.getRepo().findByQuestionId(e.getId());
         return OptionalQuestionValue.builder().optionalEntity(Optional.of(e)).participantValue(p.get()).voterEntityList(voters).build();
     }
@@ -55,8 +55,8 @@ public class QuestionRepositoryService {
         addVote(VoteQuestionRequest.newBuilder().setQuestionId(questionId).setParticipantId(participantId).setRating(rating).build());
     }
 
-    public QuestionValueList findBySessionId(Requests.IDRequest request) {
-        var entities = questionDBService.getRepo().findBySessionId(request.getId());
+    public QuestionValueList findBySessionId(int sessionId) {
+        var entities = questionDBService.getRepo().findBySessionId(sessionId);
         var values = entities.stream().map(this::toValue).map(OptionalQuestionValue::get).toList();
         return QuestionValueList.builder().list(values).build();
     }

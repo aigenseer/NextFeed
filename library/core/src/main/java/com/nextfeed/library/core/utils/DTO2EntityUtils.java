@@ -47,15 +47,6 @@ public class DTO2EntityUtils {
                 .build();
     }
 
-    public static SystemConfiguration dto2SystemConfiguration(DTOEntities.SystemConfigurationDTO dto){
-        if (dto == null) return null;
-        return SystemConfiguration.builder()
-                .id(dto.getId())
-                .name(dto.getName())
-                .value(dto.getValue())
-                .build();
-    }
-
     public static QuestionEntity dto2Question(DTOEntities.QuestionDTO dto){
         if (dto == null) return null;
         return QuestionEntity.builder()
@@ -100,15 +91,6 @@ public class DTO2EntityUtils {
                 .build();
     }
 
-    public static SessionEntity dto2SessionEntity(DTOEntities.SessionEntityDTO dto){
-        if (dto == null) return null;
-        return SessionEntity.builder()
-                .id(dto.getId())
-                .name(dto.getName())
-                .closed(dto.getClosed())
-                .sessionCode(dto.getSessionCode())
-                .build();
-    }
 
 
 

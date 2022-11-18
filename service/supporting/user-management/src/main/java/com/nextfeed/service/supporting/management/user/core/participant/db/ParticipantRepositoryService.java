@@ -30,7 +30,7 @@ public class ParticipantRepositoryService{
     }
 
     public ParticipantValueList findBySessionId(Integer session_id) {
-        return ParticipantValueList.createByEntities(participantDBService.getRepo().findBySessionId(session_id));
+        return ParticipantValueList.builder().list(participantDBService.getRepo().findBySessionId(session_id)).build();
     }
 
     public void deleteAllBySessionId(Integer session_id) {

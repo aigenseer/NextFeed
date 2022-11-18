@@ -7,6 +7,7 @@ import com.nextfeed.library.core.proto.manager.NewCalculatedMoodRequest;
 import com.nextfeed.library.core.proto.manager.NewMoodRequest;
 import com.nextfeed.library.core.service.socket.MoodSocketServices;
 import com.nextfeed.library.core.valueobject.mood.MoodValue;
+import com.nextfeed.library.core.valueobject.mood.MoodValueList;
 import com.nextfeed.service.core.mood.core.db.MoodRepositoryService;
 import com.nextfeed.service.core.mood.ports.incoming.IMoodManager;
 import lombok.RequiredArgsConstructor;
@@ -38,7 +39,7 @@ public class MoodManager implements IMoodManager {
         if(sessionManagerServiceClient.isSessionClosed(sessionId)) return null;
         //todo: muss noch gemacht werden
 //        List<Integer> connectedParticipantIds = participantManager.getConnectedParticipantsBySessionId(sessionId).stream().map(Participant::getId).toList();
-        List<Integer> connectedParticipantIds = participantManagerServiceClient.getParticipantsBySessionId(sessionId).getParticipantsList().stream().map(DTOEntities.ParticipantDTO::getId).toList();
+        List<Integer> connectedParticipantIds = participantManagerServiceClient.getParticipantsBySessionId(sessionId).getDTOs().getParticipantsList().stream().map(DTOEntities.ParticipantDTO::getId).toList();
         if(!sessionsParticipantMoodValueCache.containsKey(sessionId)){
             Map<Integer, Double> cache = new HashMap<>();
             connectedParticipantIds.forEach(participantId -> cache.put(participantId, 0.0));
@@ -69,6 +70,11 @@ public class MoodManager implements IMoodManager {
         if(cache.size() == 0) return addMoodValueToSession(sessionId, NewMoodRequest.newBuilder().setMoodValue(0).setParticipantsCount(0).build());
         var averageValue = ((double) cache.values().stream().mapToInt(Double::intValue).sum()) / cache.size();
         return addMoodValueToSession(sessionId, NewMoodRequest.newBuilder().setMoodValue(averageValue).setParticipantsCount(cache.size()).build());
+    }
+
+    @Override
+    public MoodValueList findBySessionId(int sessionId) {
+        return moodRepositoryService.findBySessionId(sessionId);
     }
 
 }

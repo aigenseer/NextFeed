@@ -5,6 +5,7 @@ import com.nextfeed.library.core.proto.entity.DTOEntities;
 import com.nextfeed.library.core.proto.manager.AddMoodValueToSessionRequest;
 import com.nextfeed.library.core.proto.manager.CreateCalculatedMoodValueRequest;
 import com.nextfeed.library.core.proto.manager.MoodManagerServiceGrpc;
+import com.nextfeed.library.core.proto.requests.Requests;
 import com.nextfeed.service.core.mood.ports.incoming.IMoodManager;
 import io.grpc.stub.StreamObserver;
 import lombok.AllArgsConstructor;
@@ -27,6 +28,13 @@ public class MoodManagerGRPCService extends MoodManagerServiceGrpc.MoodManagerSe
     public void createCalculatedMoodValue(CreateCalculatedMoodValueRequest request, StreamObserver<DTOEntities.MoodEntityDTO> responseObserver) {
         var moodValue = moodManager.createCalculatedMoodValue(request.getSessionId(), request.getNewCalculatedMoodRequest());
         responseObserver.onNext(moodValue.getDTO());
+        responseObserver.onCompleted();
+    }
+
+    @Override
+    public void findBySessionId(Requests.IDRequest request, StreamObserver<DTOEntities.MoodEntityDTOList> responseObserver) {
+        var list = moodManager.findBySessionId(request.getId());
+        responseObserver.onNext(list.getDTOs());
         responseObserver.onCompleted();
     }
 

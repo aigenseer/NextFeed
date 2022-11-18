@@ -51,7 +51,7 @@ public class ParticipantManager implements IParticipantManager {
     }
 
     public ParticipantValueList getConnectedParticipantsBySessionId(Integer sessionId){
-        return ParticipantValueList.createByEntities(getParticipantsBySessionId(sessionId).getEntities().stream().filter(Participant::isConnected).toList());
+        return ParticipantValueList.builder().list(getParticipantsBySessionId(sessionId).getEntities().stream().filter(Participant::isConnected).toList()).build();
     }
 
     public void updateConnectionStatusByParticipantId(Integer participantId, Boolean status){

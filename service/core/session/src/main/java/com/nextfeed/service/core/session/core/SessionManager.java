@@ -1,15 +1,17 @@
 package com.nextfeed.service.core.session.core;
 
-import com.nextfeed.library.core.grpc.service.repository.SessionRepositoryServiceClient;
-import com.nextfeed.library.core.proto.entity.DTOEntities;
+import com.nextfeed.library.core.entity.session.SessionContainer;
+import com.nextfeed.library.core.entity.session.SessionEntity;
 import com.nextfeed.library.core.service.socket.SessionSocketServices;
 import com.nextfeed.library.core.utils.StringUtils;
+import com.nextfeed.library.core.valueobject.session.OptionalSessionValue;
+import com.nextfeed.library.core.valueobject.session.SessionValue;
+import com.nextfeed.library.core.valueobject.session.SessionValueList;
+import com.nextfeed.service.core.session.core.db.SessionRepositoryService;
 import com.nextfeed.service.core.session.ports.incoming.ISessionManager;
-import com.nextfeed.service.core.session.ports.incoming.ISessionRepositoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -18,72 +20,68 @@ import java.util.stream.Collectors;
 public class SessionManager implements ISessionManager {
 
     private final SessionSocketServices sessionSocketServices;
-    private final ISessionRepositoryService sessionRepositoryServiceClient;
+    private final SessionRepositoryService sessionRepositoryService;
     private static final int SESSION_CODE_LENGTH = 8;
 
     public boolean isSessionClosed(int sessionId){
-        var dto = getSessionById(sessionId);
-        if (!dto.isInitialized()) return true;
-        return dto.getSession().getClosed() != 0L;
+        var optionalSessionValue = getSessionById(sessionId);
+        if (!optionalSessionValue.isPresent()) return true;
+        return optionalSessionValue.get().getEntity().getClosed() != 0L;
     }
 
-    private DTOEntities.SessionEntityDTO createSessionEntityDTO(String name){
-        return DTOEntities.SessionEntityDTO.newBuilder()
-                .setName(name)
-                .setClosed(0)
-                .setSessionCode(StringUtils.randomString(SESSION_CODE_LENGTH))
+    private SessionEntity createSessionEntityDTO(String name){
+        return SessionEntity.builder()
+                .name(name)
+                .closed(0)
+                .sessionCode(StringUtils.randomString(SESSION_CODE_LENGTH))
                 .build();
     }
 
-    public DTOEntities.SessionDTO createSession(String name){
-        var dto = createSessionEntityDTO(name);
-        return sessionRepositoryServiceClient.save(dto);
+    public SessionValue createSession(String name){
+        return sessionRepositoryService.save(createSessionEntityDTO(name));
     }
 
-    public DTOEntities.OptionalSessionDTO getSessionById(Integer id) {
-        return sessionRepositoryServiceClient.findById(id);
+    public OptionalSessionValue getSessionById(Integer id) {
+        return sessionRepositoryService.findById(id);
     }
 
-    public DTOEntities.OptionalSessionEntityDTO findEntityById(Integer id) {
-        return sessionRepositoryServiceClient.findEntityById(id);
+    public boolean existSessionById(Integer id) {
+        return sessionRepositoryService.existsById(id);
     }
 
     public Set<Integer> getAllSessionIds(){
-        return sessionRepositoryServiceClient.findAll().getSessionsList()
+        return sessionRepositoryService.findAll().getEntities()
                 .stream()
-                .map(DTOEntities.SessionDTO::getId)
+                .map(SessionContainer::getId)
                 .collect(Collectors.toSet());
     }
 
     public void closeSession(int sessionId){
-        var dto = sessionRepositoryServiceClient.close(sessionId);
-        if (dto.isInitialized()){
+        var optionalSessionValue = sessionRepositoryService.findById(sessionId);
+        if (optionalSessionValue.isPresent()){
+            var entity = optionalSessionValue.get().getEntity();
             sessionSocketServices.sendClose(sessionId);
         }
     }
 
-    public boolean existsSessionId(int sessionId){
-        return getSessionById(sessionId).isInitialized();
-    }
-
     public void deleteSession(int sessionId){
-        sessionRepositoryServiceClient.deleteById(sessionId);
+        sessionRepositoryService.deleteById(sessionId);
     }
 
-    public DTOEntities.SessionDTOList getAllSessions(){
-        return sessionRepositoryServiceClient.findAll();
+    public SessionValueList getAllSessions(){
+        return sessionRepositoryService.findAll();
     }
 
-    public DTOEntities.SessionDTOList getAllOpenSessions(){
-        return sessionRepositoryServiceClient.findAllOpen();
+    public SessionValueList getAllOpenSessions(){
+        return sessionRepositoryService.findAllOpen();
     }
 
-    public DTOEntities.SessionDTOList getAllClosedSessions(){
-        return sessionRepositoryServiceClient.findAllClosed();
+    public SessionValueList getAllClosedSessions(){
+        return sessionRepositoryService.findAllClosed();
     }
 
     public void closeAllOpenSessions(){
-        sessionRepositoryServiceClient.findAllOpen().getSessionsList().forEach(session ->  closeSession(session.getId()));
+        sessionRepositoryService.findAllOpen().getEntities().forEach(session ->  closeSession(session.getId()));
     }
 
 

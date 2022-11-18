@@ -1,11 +1,12 @@
 package com.nextfeed.service.core.session.adapter.primary.rest;
 
+import com.nextfeed.library.core.entity.participant.Participant;
+import com.nextfeed.library.core.entity.question.QuestionEntity;
+import com.nextfeed.library.core.entity.session.SessionContainer;
 import com.nextfeed.library.core.entity.session.SessionMetadata;
-import com.nextfeed.library.core.proto.entity.DTOEntities;
 import com.nextfeed.library.core.service.external.dto.authorization.NewSessionRequest;
 import com.nextfeed.library.core.service.external.utils.ServiceUtils;
 import com.nextfeed.service.core.session.core.CSVManager;
-import com.nextfeed.service.core.session.core.SessionManager;
 import com.nextfeed.service.core.session.ports.incoming.ISessionManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.FileSystemResource;
@@ -37,8 +38,8 @@ public class SessionRestController{
     public Map<String,Object> createNewSession(@RequestBody NewSessionRequest request) {
         var session = sessionManager.createSession(request.getName());
         Map<String,Object> sessionInformation = new HashMap<>();
-        sessionInformation.put("id", session.getId());
-        sessionInformation.put("sessionCode",session.getSessionCode());
+        sessionInformation.put("id", session.getEntity().getId());
+        sessionInformation.put("sessionCode",session.getEntity().getSessionCode());
         return sessionInformation;
     }
 
@@ -60,8 +61,8 @@ public class SessionRestController{
         }
 
         var session = sessionManager.getSessionById(sessionId);
-        List<DTOEntities.ParticipantDTO> participants = session.getSession().getParticipants().getParticipantsList();
-        List<DTOEntities.QuestionDTO> questions = session.getSession().getQuestions().getQuestionsList();
+        List<Participant> participants = session.get().getEntity().getParticipants();
+        List<QuestionEntity> questions = session.get().getEntity().getQuestions();
 
         Map<String, Object> sessionData = new HashMap<>();
         sessionData.put("questions", questions);
@@ -77,20 +78,20 @@ public class SessionRestController{
 
     @GetMapping("/v1/session/presenter/sessions/metadata")
     public List<SessionMetadata> getSessionsMetadata() {
-        return sessionManager.getAllClosedSessions().getSessionsList()
+        return sessionManager.getAllClosedSessions().getEntities()
                 .stream()
                 .map(this::toMetadata)
                 .collect(Collectors.toList());
     }
 
-    private SessionMetadata toMetadata(DTOEntities.SessionDTO session){
+    private SessionMetadata toMetadata(SessionContainer session){
         return new SessionMetadata(session.getId(),session.getName(),session.getClosed());
     }
 
     @GetMapping("/v1/session/presenter/{sessionId}/data")
-    public DTOEntities.SessionDTO getSessionData(@PathVariable("sessionId") Integer sessionId) {
+    public SessionContainer getSessionData(@PathVariable("sessionId") Integer sessionId) {
         serviceUtils.checkSessionId(sessionId, false);
-        return sessionManager.getSessionById(sessionId).getSession();
+        return sessionManager.getSessionById(sessionId).get().getEntity();
     }
 
     @GetMapping("/v1/session/presenter/{sessionId}/participant/{participantId}/kill/{blocked}")

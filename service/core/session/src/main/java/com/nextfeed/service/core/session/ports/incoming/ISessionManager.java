@@ -1,33 +1,28 @@
 package com.nextfeed.service.core.session.ports.incoming;
 
-import com.nextfeed.library.core.proto.entity.DTOEntities;
-
-import java.util.Optional;
-import java.util.Set;
+import com.nextfeed.library.core.valueobject.session.OptionalSessionValue;
+import com.nextfeed.library.core.valueobject.session.SessionValue;
+import com.nextfeed.library.core.valueobject.session.SessionValueList;
 
 public interface ISessionManager {
 
     boolean isSessionClosed(int sessionId);
 
-    DTOEntities.SessionDTO createSession(String name);
+    SessionValue createSession(String name);
 
-    DTOEntities.OptionalSessionDTO getSessionById(Integer id);
-
-    DTOEntities.OptionalSessionEntityDTO findEntityById(Integer id);
-
-    Set<Integer> getAllSessionIds();
+    OptionalSessionValue getSessionById(Integer id);
 
     void closeSession(int sessionId);
 
-    boolean existsSessionId(int sessionId);
+    boolean existSessionById(Integer id);
 
     void deleteSession(int sessionId);
 
-    DTOEntities.SessionDTOList getAllSessions();
+    SessionValueList getAllSessions();
 
-    DTOEntities.SessionDTOList getAllOpenSessions();
+    SessionValueList getAllOpenSessions();
 
-    DTOEntities.SessionDTOList getAllClosedSessions();
+    SessionValueList getAllClosedSessions();
 
     void closeAllOpenSessions();
 }

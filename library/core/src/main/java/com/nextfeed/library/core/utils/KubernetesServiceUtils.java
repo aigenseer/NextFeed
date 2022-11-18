@@ -16,7 +16,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
 
-
 import javax.annotation.PostConstruct;
 import java.io.File;
 import java.io.IOException;

@@ -113,17 +113,6 @@ message MoodEntityDTOList{
   repeated MoodEntityDTO entries = 1;
 }
 
-message SessionEntityDTO{
-  int32 id = 1;
-  int64 closed = 6;
-  string sessionCode = 7;
-  string name = 8;
-}
-
-message OptionalSessionEntityDTO{
-  optional SessionEntityDTO sessionEntity = 1;
-}
-
 message SessionDTO{
   int32 id = 1;
   ParticipantDTOList participants = 2;
@@ -142,14 +131,3 @@ message OptionalSessionDTO{
 message SessionDTOList{
   repeated SessionDTO sessions = 1;
 }
-
-message SystemConfigurationDTO {
-  int32 id = 1;
-  string name = 2;
-  string value = 3;
-}
-
-message OptionalSystemConfigurationDTO {
-  optional SystemConfigurationDTO systemConfigurationDTO = 1;
-}
-

@@ -6,6 +6,7 @@ import com.nextfeed.library.core.proto.manager.NewMoodRequest;
 import com.nextfeed.library.core.proto.requests.Requests;
 import com.nextfeed.library.core.utils.DTOListUtils;
 import com.nextfeed.library.core.valueobject.mood.MoodValue;
+import com.nextfeed.library.core.valueobject.mood.MoodValueList;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -26,9 +27,9 @@ public class MoodRepositoryService {
         return save(MoodValue.builder().entity(e).build());
     }
 
-    public DTOEntities.MoodEntityDTOList findBySessionId(Requests.IDRequest request) {
-        var list = moodDBService.getRepo().findBySessionId(request.getId());
-        return DTOListUtils.moodEntities2DTO(list);
+    public MoodValueList findBySessionId(Integer sessionId) {
+        var list = moodDBService.getRepo().findBySessionId(sessionId);
+        return MoodValueList.builder().list(list).build();
     }
 
     public void deleteAllBySessionId(Requests.IDRequest request) {

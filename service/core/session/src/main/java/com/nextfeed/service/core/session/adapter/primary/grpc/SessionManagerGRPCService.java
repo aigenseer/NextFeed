@@ -6,24 +6,21 @@ import com.nextfeed.library.core.proto.repository.SessionManagerServiceGrpc;
 import com.nextfeed.library.core.proto.requests.Requests;
 import com.nextfeed.library.core.proto.response.Response;
 import com.nextfeed.library.core.utils.DTOResponseUtils;
-import com.nextfeed.service.core.session.core.SessionManager;
+import com.nextfeed.service.core.session.ports.incoming.ISessionManager;
 import io.grpc.stub.StreamObserver;
 import lombok.AllArgsConstructor;
 import net.devh.boot.grpc.server.service.GrpcService;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 
 @AllArgsConstructor
 @GrpcService
 public class SessionManagerGRPCService extends SessionManagerServiceGrpc.SessionManagerServiceImplBase {
 
-    private final SessionManager sessionManager;
+    private final ISessionManager sessionManager;
 
     @Override
     public void createSession(NewSessionRequest request, StreamObserver<DTOEntities.SessionDTO> responseObserver){
-        var e = sessionManager.createSession(request.getName());
-        responseObserver.onNext(e);
+        var sessionValue = sessionManager.createSession(request.getName());
+        responseObserver.onNext(sessionValue.getDTO());
         responseObserver.onCompleted();
     }
 
@@ -36,8 +33,8 @@ public class SessionManagerGRPCService extends SessionManagerServiceGrpc.Session
 
     @Override
     public void getSessionById(Requests.IDRequest request, StreamObserver<DTOEntities.OptionalSessionDTO> responseObserver) {
-        var dto = sessionManager.getSessionById(request.getId());
-        responseObserver.onNext(DTOEntities.OptionalSessionDTO.newBuilder().setSession(dto.getSession()).build());
+        var optionalSessionValue = sessionManager.getSessionById(request.getId());
+        responseObserver.onNext(optionalSessionValue.getOptionalDTO());
         responseObserver.onCompleted();
     }
 
@@ -57,7 +54,7 @@ public class SessionManagerGRPCService extends SessionManagerServiceGrpc.Session
 
     @Override
     public void existsSessionId(Requests.IDRequest request, StreamObserver<Response.BooleanResponse> responseObserver) {
-        var b = sessionManager.existsSessionId(request.getId());
+        var b = sessionManager.existSessionById(request.getId());
         responseObserver.onNext(DTOResponseUtils.createBooleanResponse(b));
         responseObserver.onCompleted();
     }
@@ -65,21 +62,21 @@ public class SessionManagerGRPCService extends SessionManagerServiceGrpc.Session
     @Override
     public void getAllSessions(Response.Empty e, StreamObserver<DTOEntities.SessionDTOList> responseObserver) {
         var list = sessionManager.getAllSessions();
-        responseObserver.onNext(list);
+        responseObserver.onNext(list.getDTOs());
         responseObserver.onCompleted();
     }
 
     @Override
     public void getAllOpenSessions(Response.Empty e, StreamObserver<DTOEntities.SessionDTOList> responseObserver) {
         var list = sessionManager.getAllOpenSessions();
-        responseObserver.onNext(list);
+        responseObserver.onNext(list.getDTOs());
         responseObserver.onCompleted();
     }
 
     @Override
     public void getAllClosedSessions(Response.Empty e, StreamObserver<DTOEntities.SessionDTOList> responseObserver) {
         var list = sessionManager.getAllClosedSessions();
-        responseObserver.onNext(list);
+        responseObserver.onNext(list.getDTOs());
         responseObserver.onCompleted();
     }
 
@@ -89,6 +86,9 @@ public class SessionManagerGRPCService extends SessionManagerServiceGrpc.Session
         responseObserver.onNext(DTOResponseUtils.createEmpty());
         responseObserver.onCompleted();
     }
+
+
+
 
 
 

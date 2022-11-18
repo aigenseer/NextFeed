@@ -12,6 +12,7 @@ service QuestionManagerService {
   rpc createQuestion (CreateQuestionRequest) returns (QuestionDTO) {}
   rpc ratingUpByQuestionId (RatingUpByQuestionIdRequest) returns (Empty) {}
   rpc closeQuestion (CloseQuestionRequest) returns (Empty) {}
+  rpc findBySessionId (IDRequest) returns (QuestionDTOList) {}
 }
 
 message CreateQuestionRequest {

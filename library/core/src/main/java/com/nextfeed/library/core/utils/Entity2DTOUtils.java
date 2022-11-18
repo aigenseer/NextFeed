@@ -12,7 +12,6 @@ import com.nextfeed.library.core.entity.system.SystemConfiguration;
 import com.nextfeed.library.core.entity.user.User;
 import com.nextfeed.library.core.proto.entity.DTOEntities;
 
-import java.util.HashSet;
 import java.util.List;
 
 public class Entity2DTOUtils {

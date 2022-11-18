@@ -1,14 +1,10 @@
 package com.nextfeed.library.core.grpc.service.manager;
 
 import com.nextfeed.library.core.proto.entity.DTOEntities;
-import com.nextfeed.library.core.proto.manager.*;
 import com.nextfeed.library.core.proto.repository.NewSessionRequest;
 import com.nextfeed.library.core.proto.repository.SessionManagerServiceGrpc;
 import com.nextfeed.library.core.proto.requests.Requests;
-import com.nextfeed.library.core.proto.response.Response;
-import com.nextfeed.library.core.utils.DTORequestUtils;
 import com.nextfeed.library.core.utils.DTOResponseUtils;
-import io.grpc.stub.StreamObserver;
 import net.devh.boot.grpc.client.inject.GrpcClient;
 import org.springframework.stereotype.Service;
 
