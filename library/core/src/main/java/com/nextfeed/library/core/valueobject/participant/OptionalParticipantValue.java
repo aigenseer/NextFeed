@@ -27,7 +27,9 @@ public class OptionalParticipantValue {
     }
 
     public DTOEntities.OptionalParticipantDTO getOptionalDTO() {
-        return DTOEntities.OptionalParticipantDTO.newBuilder().setParticipant(isPresent()? get().getDTO(): null).build();
+        var builder = DTOEntities.OptionalParticipantDTO.newBuilder();
+        if(isPresent()) builder.setParticipant(get().getDTO());
+        return builder.build();
     }
 
     public boolean isPresent(){

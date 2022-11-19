@@ -22,7 +22,9 @@ public class OptionalSurveyValue {
     }
 
     public DTOEntities.OptionalSurveyDTO getOptionalDTO() {
-        return DTOEntities.OptionalSurveyDTO.newBuilder().setSurvey(isPresent()? get().getDTO(): null).build();
+        var builder = DTOEntities.OptionalSurveyDTO.newBuilder();
+        if(isPresent()) builder.setSurvey(get().getDTO());
+        return builder.build();
     }
 
     public boolean isPresent(){

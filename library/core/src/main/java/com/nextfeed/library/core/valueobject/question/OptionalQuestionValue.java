@@ -27,7 +27,9 @@ public class OptionalQuestionValue {
     }
 
     public DTOEntities.OptionalQuestionDTO getOptionalDTO() {
-        return DTOEntities.OptionalQuestionDTO.newBuilder().setQuestion(isPresent()? get().getDTO(): null).build();
+        var builder = DTOEntities.OptionalQuestionDTO.newBuilder();
+        if(isPresent()) builder.setQuestion(get().getDTO());
+        return builder.build();
     }
 
     public boolean isPresent(){

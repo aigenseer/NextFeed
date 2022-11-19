@@ -19,7 +19,7 @@ public class OptionalUserValue {
 
     @Builder(builderMethodName = "dtoBuilder")
     public static OptionalUserValue newOptionalUserValue(DTOEntities.OptionalUserDTO dto) {
-        return new OptionalUserValue(dto.isInitialized()? Optional.of(UserValue.dtoBuilder().dto(dto.getUserDTO()).build().getEntity()) : null);
+        return new OptionalUserValue(dto.isInitialized()? Optional.of(UserValue.dtoBuilder().dto(dto.getUserDTO()).build().getEntity()) : Optional.empty());
     }
 
     public UserValue get() {
@@ -27,7 +27,9 @@ public class OptionalUserValue {
     }
 
     public DTOEntities.OptionalUserDTO getOptionalDTO() {
-        return DTOEntities.OptionalUserDTO.newBuilder().setUserDTO(isPresent()? get().getDTO(): null).build();
+        var builder = DTOEntities.OptionalUserDTO.newBuilder();
+        if(isPresent()) builder.setUserDTO(get().getDTO());
+        return builder.build();
     }
 
     public boolean isPresent(){

@@ -26,7 +26,9 @@ public class OptionalSessionValue {
     }
 
     public DTOEntities.OptionalSessionDTO getOptionalDTO() {
-        return DTOEntities.OptionalSessionDTO.newBuilder().setSession(source.get().getDTO()).build();
+        var builder = DTOEntities.OptionalSessionDTO.newBuilder();
+        if(isPresent()) builder.setSession(get().getDTO());
+        return builder.build();
     }
 
     public boolean isPresent(){

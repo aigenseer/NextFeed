@@ -27,7 +27,9 @@ public class OptionalSurveyTemplateValue {
     }
 
     public DTOEntities.OptionalSurveyTemplateDTO getOptionalDTO() {
-        return DTOEntities.OptionalSurveyTemplateDTO.newBuilder().setSurveyTemplate(isPresent()? get().getDTO(): null).build();
+        var builder = DTOEntities.OptionalSurveyTemplateDTO.newBuilder();
+        if(isPresent()) builder.setSurveyTemplate(get().getDTO());
+        return builder.build();
     }
 
     public boolean isPresent(){
