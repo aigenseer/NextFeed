@@ -3,7 +3,6 @@ package com.nextfeed.library.core.valueobject.mood;
 import com.nextfeed.library.core.entity.mood.MoodEntity;
 import com.nextfeed.library.core.proto.entity.DTOEntities;
 import com.nextfeed.library.core.valueobject.IValueObject;
-import lombok.Builder;
 
 public class MoodValue implements IValueObject<MoodEntity, DTOEntities.MoodEntityDTO> {
 

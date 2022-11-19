@@ -3,7 +3,6 @@ package com.nextfeed.library.core.valueobject.user;
 import com.nextfeed.library.core.entity.user.User;
 import com.nextfeed.library.core.proto.entity.DTOEntities;
 import com.nextfeed.library.core.valueobject.IValueObject;
-import lombok.Builder;
 
 public class UserValue implements IValueObject<User, DTOEntities.UserDTO> {
 
@@ -20,7 +19,7 @@ public class UserValue implements IValueObject<User, DTOEntities.UserDTO> {
     public static UserValue createByDTO(DTOEntities.UserDTO dto) {
         return new UserValue(dto);
     }
-    
+
     public static UserValue createByEntity(User entity) {
         return new UserValue(entity);
     }

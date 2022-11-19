@@ -8,7 +8,6 @@ import com.nextfeed.library.core.valueobject.mood.MoodValueList;
 import com.nextfeed.library.core.valueobject.participant.ParticipantValueList;
 import com.nextfeed.library.core.valueobject.question.QuestionValueList;
 import com.nextfeed.library.core.valueobject.survey.SurveyValueList;
-import lombok.Builder;
 
 import java.util.Optional;
 

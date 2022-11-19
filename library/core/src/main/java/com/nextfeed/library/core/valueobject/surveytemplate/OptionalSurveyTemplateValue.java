@@ -2,7 +2,6 @@ package com.nextfeed.library.core.valueobject.surveytemplate;
 
 import com.nextfeed.library.core.entity.survey.SurveyTemplate;
 import com.nextfeed.library.core.proto.entity.DTOEntities;
-import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 
 import java.util.Optional;

@@ -10,8 +10,6 @@ import com.nextfeed.library.core.valueobject.surveytemplate.SurveyTemplateValueL
 import net.devh.boot.grpc.client.inject.GrpcClient;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-
 @Service
 public class SurveyTemplateManagerServiceClient {
 

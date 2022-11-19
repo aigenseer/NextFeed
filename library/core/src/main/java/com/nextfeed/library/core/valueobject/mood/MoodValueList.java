@@ -4,7 +4,6 @@ import com.nextfeed.library.core.entity.mood.MoodEntity;
 import com.nextfeed.library.core.proto.entity.DTOEntities;
 import com.nextfeed.library.core.valueobject.AbstractValueList;
 import com.nextfeed.library.core.valueobject.IValueObject;
-import lombok.Builder;
 
 import java.util.List;
 

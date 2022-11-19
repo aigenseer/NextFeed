@@ -2,7 +2,6 @@ package com.nextfeed.library.core.valueobject.participant;
 
 import com.nextfeed.library.core.entity.participant.Participant;
 import com.nextfeed.library.core.proto.entity.DTOEntities;
-import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 
 import java.util.Optional;

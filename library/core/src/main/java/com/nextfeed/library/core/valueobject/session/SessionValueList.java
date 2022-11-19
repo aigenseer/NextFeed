@@ -2,7 +2,6 @@ package com.nextfeed.library.core.valueobject.session;
 
 import com.nextfeed.library.core.entity.session.SessionContainer;
 import com.nextfeed.library.core.proto.entity.DTOEntities;
-import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;

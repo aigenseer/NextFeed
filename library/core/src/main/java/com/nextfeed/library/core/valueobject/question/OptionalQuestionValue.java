@@ -4,7 +4,6 @@ import com.nextfeed.library.core.entity.question.QuestionEntity;
 import com.nextfeed.library.core.entity.question.VoterEntity;
 import com.nextfeed.library.core.proto.entity.DTOEntities;
 import com.nextfeed.library.core.valueobject.participant.ParticipantValue;
-import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;

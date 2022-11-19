@@ -5,7 +5,6 @@ import com.nextfeed.library.core.entity.survey.SurveyAnswer;
 import com.nextfeed.library.core.proto.entity.DTOEntities;
 import com.nextfeed.library.core.valueobject.IValueObject;
 import com.nextfeed.library.core.valueobject.surveytemplate.SurveyTemplateValue;
-import lombok.Builder;
 
 import java.util.HashSet;
 
