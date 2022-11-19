@@ -18,7 +18,7 @@ public class QuestionManagerServiceClient {
     }
 
     public QuestionValueList findBySessionId(Integer id) {
-        return QuestionValueList.DTOBuilder().dto(rpcService.findBySessionId(DTORequestUtils.createIDRequest(id))).build();
+        return QuestionValueList.createByDTO(rpcService.findBySessionId(DTORequestUtils.createIDRequest(id)));
     }
 
     public DTOEntities.QuestionDTO createQuestion(Integer sessionId, Integer participantId, String message, long created, boolean anonymous) {

@@ -20,16 +20,16 @@ public class ParticipantManagerServiceClient {
     private ParticipantManagerServiceGrpc.ParticipantManagerServiceBlockingStub rpcService;
 
     public ParticipantValue createParticipantBySessionId(Integer sessionId, DTOEntities.ParticipantDTO dto) {
-        return ParticipantValue.dtoBuilder().dto(rpcService.createParticipantBySessionId(CreateParticipantBySessionIdRequest.newBuilder().setSessionId(sessionId).setParticipant(dto).build())).build();
+        return ParticipantValue.createByDTO(rpcService.createParticipantBySessionId(CreateParticipantBySessionIdRequest.newBuilder().setSessionId(sessionId).setParticipant(dto).build()));
     }
 
     public ParticipantValueList getParticipantsBySessionId(Integer id) {
         var list = rpcService.getParticipantsBySessionId(DTORequestUtils.createIDRequest(id));
-        return ParticipantValueList.DTOBuilder().dto(list).build();
+        return ParticipantValueList.createByDTO(list);
     }
 
     public ParticipantValueList getConnectedParticipantsBySessionId(Integer id) {
-        return ParticipantValueList.DTOBuilder().dto(rpcService.getConnectedParticipantsBySessionId(DTORequestUtils.createIDRequest(id))).build();
+        return ParticipantValueList.createByDTO(rpcService.getConnectedParticipantsBySessionId(DTORequestUtils.createIDRequest(id)));
     }
 
     public Optional<DTOEntities.SessionDTO> getSessionByParticipantId(Integer id) {
@@ -49,7 +49,7 @@ public class ParticipantManagerServiceClient {
     }
 
     public OptionalParticipantValue getParticipant(Integer id) {
-        return OptionalParticipantValue.dtoBuilder().dto(rpcService.getParticipant(DTORequestUtils.createIDRequest(id))).build();
+        return OptionalParticipantValue.createByDTO(rpcService.getParticipant(DTORequestUtils.createIDRequest(id)));
     }
 
 }

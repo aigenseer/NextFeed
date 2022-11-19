@@ -18,7 +18,7 @@ public class OptionalSurveyValue {
     }
 
     public SurveyValue get() {
-        return SurveyValue.Builder().entity(optionalEntity.get()).build();
+        return SurveyValue.createByEntity(optionalEntity.get());
     }
 
     public DTOEntities.OptionalSurveyDTO getOptionalDTO() {

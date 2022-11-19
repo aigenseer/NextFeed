@@ -8,14 +8,16 @@ import lombok.RequiredArgsConstructor;
 import java.util.Optional;
 
 @RequiredArgsConstructor
-@Builder
 public class OptionalParticipantValue {
 
     private final Optional<Participant> entity;
 
-    @Builder(builderMethodName = "dtoBuilder")
-    public static OptionalParticipantValue newValue(DTOEntities.OptionalParticipantDTO dto) {
+    public static OptionalParticipantValue createByDTO(DTOEntities.OptionalParticipantDTO dto) {
         return new OptionalParticipantValue(dto.isInitialized()? Optional.of(ParticipantValue.dtoToEntity(dto.getParticipant())): Optional.empty());
+    }
+
+    public static OptionalParticipantValue createByOptionalEntity(Optional<Participant> entity) {
+        return new OptionalParticipantValue(entity);
     }
 
     public Optional<ParticipantValue> getOptional() {
@@ -23,7 +25,7 @@ public class OptionalParticipantValue {
     }
 
     public ParticipantValue get() {
-        return ParticipantValue.builder().entity(entity.get()).build();
+        return ParticipantValue.createByEntity(entity.get());
     }
 
     public DTOEntities.OptionalParticipantDTO getOptionalDTO() {

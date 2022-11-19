@@ -14,7 +14,7 @@ public class OptionalSessionValue {
 
     @Builder(builderMethodName = "dtoBuilder")
     public static OptionalSessionValue newValueDTO(DTOEntities.OptionalSessionDTO optionalDTO) {
-        return new OptionalSessionValue(optionalDTO.isInitialized()? Optional.of(SessionValue.dtoBuilder().dto(optionalDTO.getSession()).build()): Optional.empty());
+        return new OptionalSessionValue(optionalDTO.isInitialized()? Optional.of(SessionValue.createByDTO(optionalDTO.getSession())): Optional.empty());
     }
 
     public Optional<SessionValue> getOptional() {

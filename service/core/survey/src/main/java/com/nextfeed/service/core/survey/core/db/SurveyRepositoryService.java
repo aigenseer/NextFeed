@@ -27,7 +27,7 @@ public class SurveyRepositoryService {
     private final SurveyTemplateDBService surveyTemplateDBService;
 
     public SurveyValue saveSurvey(Survey entity) {
-        return SurveyValue.Builder().entity(surveyDBService.save(entity)).build();
+        return SurveyValue.createByEntity(surveyDBService.save(entity));
     }
 
     public OptionalSurveyValue findSurveyById(Requests.IDRequest request) {
@@ -52,15 +52,15 @@ public class SurveyRepositoryService {
     }
 
     public SurveyTemplateValue saveTemplate(SurveyTemplate surveyTemplate) {
-        return SurveyTemplateValue.builder().entity(surveyTemplateDBService.save(surveyTemplate)).build();
+        return SurveyTemplateValue.createByEntity(surveyTemplateDBService.save(surveyTemplate));
     }
 
     public SurveyTemplateValueList findAllTemplates() {
-        return SurveyTemplateValueList.Builder().list(surveyTemplateDBService.findAll()).build();
+        return SurveyTemplateValueList.createByValues(surveyTemplateDBService.findAll());
     }
 
     public SurveyValueList findBySessionId(Requests.IDRequest request) {
-        return SurveyValueList.Builder().list(surveyDBService.getRepo().findBySessionId(request.getId())).build();
+        return SurveyValueList.createByEntities(surveyDBService.getRepo().findBySessionId(request.getId()));
     }
 
     public SurveyValueList findBySessionId(Integer id) {
@@ -83,7 +83,7 @@ public class SurveyRepositoryService {
 
     public OptionalSurveyTemplateValue findTemplateById(Integer id) {
         var e = surveyTemplateDBService.findById(id);
-        return OptionalSurveyTemplateValue.builder().entity(e).build();
+        return OptionalSurveyTemplateValue.createByOptionalEntity(e);
     }
 
     public OptionalSurveyValue closeSurvey(Integer id){

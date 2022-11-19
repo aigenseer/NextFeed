@@ -21,13 +21,11 @@ public class SurveyValue implements IValueObject<Survey, DTOEntities.SurveyDTO> 
         this.entity = entity;
     }
 
-    @Builder(builderMethodName = "DTOBuilder")
-    public static SurveyValue newValue(DTOEntities.SurveyDTO dto) {
+    public static SurveyValue createByDTO(DTOEntities.SurveyDTO dto) {
         return new SurveyValue(dto);
     }
 
-    @Builder(builderMethodName = "Builder")
-    public static SurveyValue newValue(Survey entity) {
+    public static SurveyValue createByEntity(Survey entity) {
         return new SurveyValue(entity);
     }
 
@@ -35,7 +33,7 @@ public class SurveyValue implements IValueObject<Survey, DTOEntities.SurveyDTO> 
         return Survey.builder()
                 .id(dto.getId())
                 .surveyAnswers(new HashSet(dto.getSurveyAnswersList().stream().map(this::dto2SurveyAnswer).toList()))
-                .template(SurveyTemplateValue.DTOBuilder().dto(dto.getTemplate()).build().getEntity())
+                .template(SurveyTemplateValue.createByDTO(dto.getTemplate()).getEntity())
                 .timestamp(dto.getTimestamp())
                 .session_id(dto.getSessionId())
                 .build();
@@ -53,7 +51,7 @@ public class SurveyValue implements IValueObject<Survey, DTOEntities.SurveyDTO> 
     public DTOEntities.SurveyDTO getDTO(){
         var builder = DTOEntities.SurveyDTO.newBuilder()
                 .setId(entity.getId())
-                .setTemplate(SurveyTemplateValue.builder().entity(entity.getTemplate()).build().getDTO())
+                .setTemplate(SurveyTemplateValue.createByEntity(entity.getTemplate()).getDTO())
                 .setTimestamp(entity.getTimestamp())
                 .setSessionId(entity.getSession_id());
         var list = entity.getSurveyAnswers().stream().map(this::surveyAnswer2DTO).toList();

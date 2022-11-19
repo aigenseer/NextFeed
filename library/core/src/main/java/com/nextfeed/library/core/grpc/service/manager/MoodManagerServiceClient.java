@@ -16,17 +16,17 @@ public class MoodManagerServiceClient {
     public MoodValue addMoodValueToSession(Integer sessionId, Double moodValue, Integer participantCount) {
         var request = NewMoodRequest.newBuilder().setMoodValue(moodValue).setParticipantsCount(participantCount).build();
         var dto = rpcService.addMoodValueToSession(AddMoodValueToSessionRequest.newBuilder().setSessionId(sessionId).setNewMoodRequest(request).build());
-        return MoodValue.dtoBuilder().dto(dto).build();
+        return MoodValue.createByDTO(dto);
     }
 
     public MoodValue createCalculatedMoodValue(Integer sessionId, Double moodValue, Integer participantId) {
         var request = NewCalculatedMoodRequest.newBuilder().setMoodValue(moodValue).setParticipantId(participantId).build();
         var dto = rpcService.createCalculatedMoodValue(CreateCalculatedMoodValueRequest.newBuilder().setSessionId(sessionId).setNewCalculatedMoodRequest(request).build());
-        return MoodValue.dtoBuilder().dto(dto).build();
+        return MoodValue.createByDTO(dto);
     }
 
     public MoodValueList findBySessionId(Integer id) {
-        return MoodValueList.DTOBuilder().dto(rpcService.findBySessionId(DTORequestUtils.createIDRequest(id))).build();
+        return MoodValueList.createByDTO(rpcService.findBySessionId(DTORequestUtils.createIDRequest(id)));
     }
 
 

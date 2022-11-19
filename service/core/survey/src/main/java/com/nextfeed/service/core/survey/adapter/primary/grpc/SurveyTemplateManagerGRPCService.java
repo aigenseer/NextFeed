@@ -19,7 +19,7 @@ public class SurveyTemplateManagerGRPCService extends SurveyTemplateManagerServi
 
     @Override
     public void createTemplate(DTOEntities.SurveyTemplateDTO dto, StreamObserver<DTOEntities.SurveyTemplateDTO> responseObserver) {
-        var surveyTemplate = SurveyTemplateValue.DTOBuilder().dto(dto).build();
+        var surveyTemplate = SurveyTemplateValue.createByDTO(dto);
         surveyTemplate  = surveyManager.saveTemplate(surveyTemplate.getEntity());
         responseObserver.onNext(surveyTemplate.getDTO());
         responseObserver.onCompleted();

@@ -2,7 +2,6 @@ package com.nextfeed.library.core.valueobject.user;
 
 import com.nextfeed.library.core.entity.user.User;
 import com.nextfeed.library.core.proto.entity.DTOEntities;
-import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 
 import java.util.Optional;
@@ -16,14 +15,12 @@ public class OptionalUserValue {
         return entity.isPresent()? entity: Optional.empty();
     }
 
-    @Builder(builderMethodName = "DTOBuilder")
-    public static OptionalUserValue newOptionalUserValue(DTOEntities.OptionalUserDTO dto) {
-        return new OptionalUserValue(dto.isInitialized()? Optional.of(UserValue.DTOBuilder().dto(dto.getUserDTO()).build()) : Optional.empty());
+    public static OptionalUserValue createByEntity(Optional<User> optionalEntity) {
+        return new OptionalUserValue(optionalEntity.isPresent()? Optional.of(UserValue.createByEntity(optionalEntity.get())) : Optional.empty());
     }
 
-    @Builder(builderMethodName = "Builder")
-    public static OptionalUserValue newValue(Optional<User> optionalEntity) {
-        return new OptionalUserValue(optionalEntity.isPresent()? Optional.of(UserValue.Builder().entity(optionalEntity.get()).build()) : Optional.empty());
+    public static OptionalUserValue createByDTO(DTOEntities.OptionalUserDTO dto) {
+        return new OptionalUserValue(dto.isInitialized()? Optional.of(UserValue.createByDTO(dto.getUserDTO())) : Optional.empty());
     }
 
     public UserValue get() {

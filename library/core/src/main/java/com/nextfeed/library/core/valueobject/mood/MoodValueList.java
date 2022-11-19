@@ -14,13 +14,11 @@ public class MoodValueList extends AbstractValueList<MoodEntity, DTOEntities.Moo
         super(list.stream().map(e -> (IValueObject<MoodEntity, DTOEntities.MoodEntityDTO>) e).toList());
     }
 
-    @Builder(builderMethodName = "DTOBuilder")
-    public static MoodValueList newValueDTO(DTOEntities.MoodEntityDTOList dto) {
+    public static MoodValueList createByDTO(DTOEntities.MoodEntityDTOList dto) {
         return new MoodValueList(dto.getEntriesList().stream().map(MoodValue::new).toList());
     }
 
-    @Builder(builderMethodName = "Builder")
-    public static MoodValueList newValue(List<MoodEntity> list) {
+    public static MoodValueList createByEntities(List<MoodEntity> list) {
         return new MoodValueList(list.stream().map(MoodValue::new).toList());
     }
 

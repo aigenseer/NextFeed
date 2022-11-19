@@ -17,13 +17,11 @@ public class UserValue implements IValueObject<User, DTOEntities.UserDTO> {
         this.entity = entity;
     }
 
-    @Builder(builderMethodName = "DTOBuilder")
-    public static UserValue newValueDTO(DTOEntities.UserDTO dto) {
+    public static UserValue createByDTO(DTOEntities.UserDTO dto) {
         return new UserValue(dto);
     }
-
-    @Builder(builderMethodName = "Builder")
-    public static UserValue newValue(User entity) {
+    
+    public static UserValue createByEntity(User entity) {
         return new UserValue(entity);
     }
 

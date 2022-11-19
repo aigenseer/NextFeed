@@ -46,13 +46,11 @@ public class SessionValue implements IValueObject<SessionContainer, DTOEntities.
         this.source = createSource();
     }
 
-    @Builder(builderMethodName = "dtoBuilder")
-    public static SessionValue newValue(DTOEntities.SessionDTO dto) {
+    public static SessionValue createByDTO(DTOEntities.SessionDTO dto) {
         return new SessionValue(dto);
     }
 
-    @Builder(builderMethodName = "builder")
-    public static SessionValue newValue(SessionEntity entity,
+    public static SessionValue createByEntity(SessionEntity entity,
                                         ParticipantValueList participantValues,
                                         QuestionValueList questionValues,
                                         MoodValueList moodValues,
@@ -66,10 +64,10 @@ public class SessionValue implements IValueObject<SessionContainer, DTOEntities.
                 .closed(dto.getClosed())
                 .name(dto.getName())
                 .sessionCode(dto.getSessionCode())
-                .participants(ParticipantValueList.DTOBuilder().dto(dto.getParticipants()).build().getEntities())
-                .questions(QuestionValueList.DTOBuilder().dto(dto.getQuestions()).build().getEntities())
-                .moodEntities(MoodValueList.DTOBuilder().dto(dto.getMoodEntities()).build().getEntities())
-                .surveys(SurveyValueList.DTOBuilder().dto(dto.getSurveys()).build().getEntities())
+                .participants(ParticipantValueList.createByDTO(dto.getParticipants()).getEntities())
+                .questions(QuestionValueList.createByDTO(dto.getQuestions()).getEntities())
+                .moodEntities(MoodValueList.createByDTO(dto.getMoodEntities()).getEntities())
+                .surveys(SurveyValueList.createByDTO(dto.getSurveys()).getEntities())
                 .build();
     }
 

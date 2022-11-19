@@ -5,7 +5,6 @@ import com.nextfeed.library.core.proto.entity.DTOEntities;
 import com.nextfeed.library.core.valueobject.IValueObject;
 import lombok.Builder;
 
-@Builder
 public class MoodValue implements IValueObject<MoodEntity, DTOEntities.MoodEntityDTO> {
 
     private final MoodEntity entity;
@@ -17,9 +16,12 @@ public class MoodValue implements IValueObject<MoodEntity, DTOEntities.MoodEntit
         this.entity = entity;
     }
 
-    @Builder(builderMethodName = "dtoBuilder")
-    public static MoodValue newValue(DTOEntities.MoodEntityDTO dto) {
+    public static MoodValue createByDTO(DTOEntities.MoodEntityDTO dto) {
         return new MoodValue(dto);
+    }
+
+    public static MoodValue createByEntity(MoodEntity entity) {
+        return new MoodValue(entity);
     }
 
     private MoodEntity dtoToEntity(DTOEntities.MoodEntityDTO dto){

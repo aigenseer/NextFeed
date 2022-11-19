@@ -23,10 +23,10 @@ public class QuestionRepositoryService {
     private final ParticipantManagerServiceClient participantManagerServiceClient;
 
     private OptionalQuestionValue toValue(QuestionEntity e){
-        if(e == null) return OptionalQuestionValue.builder().optionalEntity(Optional.empty()).build();
+        if(e == null) return OptionalQuestionValue.createByOptionalEntity(Optional.empty(), null, null);
         var p = participantManagerServiceClient.getParticipant(e.getParticipant_id());
         var voters = voterDBService.getRepo().findByQuestionId(e.getId());
-        return OptionalQuestionValue.builder().optionalEntity(Optional.of(e)).participantValue(p.get()).voterEntityList(voters).build();
+        return OptionalQuestionValue.createByOptionalEntity(Optional.of(e), p.get(), voters);
     }
 
     public QuestionValue save(QuestionEntity e) {
@@ -58,7 +58,7 @@ public class QuestionRepositoryService {
     public QuestionValueList findBySessionId(int sessionId) {
         var entities = questionDBService.getRepo().findBySessionId(sessionId);
         var values = entities.stream().map(this::toValue).map(OptionalQuestionValue::get).toList();
-        return QuestionValueList.Builder().list(values).build();
+        return QuestionValueList.createByValues(values);
     }
 
     public void deleteAllBySessionId(Requests.IDRequest request) {

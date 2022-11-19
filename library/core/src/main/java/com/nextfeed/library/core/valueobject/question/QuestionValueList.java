@@ -2,7 +2,6 @@ package com.nextfeed.library.core.valueobject.question;
 
 import com.nextfeed.library.core.entity.question.QuestionEntity;
 import com.nextfeed.library.core.proto.entity.DTOEntities;
-import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
@@ -12,13 +11,11 @@ public class QuestionValueList {
 
     private final List<QuestionValue> list;
 
-    @Builder(builderMethodName = "DTOBuilder")
-    public static QuestionValueList newValueDTO(DTOEntities.QuestionDTOList dto) {
-        return new QuestionValueList(dto.getQuestionsList().stream().map(q -> QuestionValue.DTOBuilder().dto(q).build()).toList());
+    public static QuestionValueList createByDTO(DTOEntities.QuestionDTOList dto) {
+        return new QuestionValueList(dto.getQuestionsList().stream().map(QuestionValue::createByDTO).toList());
     }
 
-    @Builder(builderMethodName = "Builder")
-    public static QuestionValueList newValue(List<QuestionValue> list) {
+    public static QuestionValueList createByValues(List<QuestionValue> list) {
         return new QuestionValueList(list);
     }
 

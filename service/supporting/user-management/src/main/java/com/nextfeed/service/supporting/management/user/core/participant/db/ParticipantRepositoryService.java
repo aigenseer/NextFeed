@@ -14,23 +14,23 @@ public class ParticipantRepositoryService{
     private final ParticipantDBService participantDBService;
 
     public ParticipantValue save(ParticipantValue value) {
-        return ParticipantValue.builder().entity(participantDBService.save(value.getEntity())).build();
+        return ParticipantValue.createByEntity(participantDBService.save(value.getEntity()));
     }
 
     public ParticipantValue save(Participant value) {
-        return ParticipantValue.builder().entity(participantDBService.save(value)).build();
+        return ParticipantValue.createByEntity(participantDBService.save(value));
     }
 
     public ParticipantValue create(Integer sessionId, String nickname){
-        return save(ParticipantValue.builder().entity(Participant.builder().session_id(sessionId).nickname(nickname).build()).build());
+        return save(ParticipantValue.createByEntity(Participant.builder().session_id(sessionId).nickname(nickname).build()));
     }
 
     public OptionalParticipantValue findById(int id) {
-        return OptionalParticipantValue.builder().entity(participantDBService.findById(id)).build();
+        return OptionalParticipantValue.createByOptionalEntity(participantDBService.findById(id));
     }
 
     public ParticipantValueList findBySessionId(Integer session_id) {
-        return ParticipantValueList.Builder().list(participantDBService.getRepo().findBySessionId(session_id)).build();
+        return ParticipantValueList.createByEntities(participantDBService.getRepo().findBySessionId(session_id));
     }
 
     public void deleteAllBySessionId(Integer session_id) {

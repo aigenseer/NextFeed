@@ -18,7 +18,7 @@ public class QuestionSocketGRPCService extends QuestionSocketServiceGrpc.Questio
 
     @Override
     public void sendQuestion(SendQuestionRequest request, StreamObserver<Response.Empty> responseObserver) {
-        questionService.sendQuestion(request.getSessionId(), QuestionValue.DTOBuilder().dto(request.getQuestionDTO()).build());
+        questionService.sendQuestion(request.getSessionId(), QuestionValue.createByDTO(request.getQuestionDTO()));
         responseObserver.onNext(DTOResponseUtils.createEmpty());
         responseObserver.onCompleted();
     }

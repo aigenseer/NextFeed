@@ -12,9 +12,12 @@ public class OptionalSurveyTemplateValue {
 
     private final Optional<SurveyTemplate> entity;
 
-    @Builder(builderMethodName = "DTOBuilder")
-    public static OptionalSurveyTemplateValue newValue(DTOEntities.OptionalSurveyTemplateDTO dto) {
+    public static OptionalSurveyTemplateValue createByDTO(DTOEntities.OptionalSurveyTemplateDTO dto) {
         return new OptionalSurveyTemplateValue(dto.isInitialized()? Optional.of(SurveyTemplateValue.dtoToEntity(dto.getSurveyTemplate())): Optional.empty());
+    }
+
+    public static OptionalSurveyTemplateValue createByOptionalEntity(Optional<SurveyTemplate> optionalEntity) {
+        return new OptionalSurveyTemplateValue(optionalEntity);
     }
 
     public Optional<SurveyTemplateValue> getOptional() {
@@ -22,7 +25,7 @@ public class OptionalSurveyTemplateValue {
     }
 
     public SurveyTemplateValue get() {
-        return SurveyTemplateValue.builder().entity(entity.get()).build();
+        return SurveyTemplateValue.createByEntity(entity.get());
     }
 
     public DTOEntities.OptionalSurveyTemplateDTO getOptionalDTO() {

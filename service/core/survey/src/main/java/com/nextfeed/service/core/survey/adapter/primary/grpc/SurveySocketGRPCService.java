@@ -18,14 +18,14 @@ public class SurveySocketGRPCService extends SurveySocketServiceGrpc.SurveySocke
 
     @Override
     public void onCreateByPresenter(CreateByPresenterRequest request, StreamObserver<Response.Empty> responseObserver) {
-        surveyService.onCreateByPresenter(request.getSessionId(), SurveyValue.DTOBuilder().dto(request.getSurvey()).build());
+        surveyService.onCreateByPresenter(request.getSessionId(), SurveyValue.createByDTO(request.getSurvey()));
         responseObserver.onNext(DTOResponseUtils.createEmpty());
         responseObserver.onCompleted();
     }
 
     @Override
     public void onCreateByParticipant(CreateByParticipantRequest request, StreamObserver<Response.Empty> responseObserver) {
-        surveyService.onCreateByParticipant(request.getSessionId(), request.getSurveyId(), SurveyTemplateValue.DTOBuilder().dto(request.getTemplate()).build());
+        surveyService.onCreateByParticipant(request.getSessionId(), request.getSurveyId(), SurveyTemplateValue.createByDTO(request.getTemplate()));
         responseObserver.onNext(DTOResponseUtils.createEmpty());
         responseObserver.onCompleted();
     }
@@ -39,14 +39,14 @@ public class SurveySocketGRPCService extends SurveySocketServiceGrpc.SurveySocke
 
     @Override
     public void onUpdate(UpdateRequest request, StreamObserver<Response.Empty> responseObserver) {
-        surveyService.onUpdate(request.getSessionId(), SurveyValue.DTOBuilder().dto(request.getSurveyDTO()).build());
+        surveyService.onUpdate(request.getSessionId(), SurveyValue.createByDTO(request.getSurveyDTO()));
         responseObserver.onNext(DTOResponseUtils.createEmpty());
         responseObserver.onCompleted();
     }
 
     @Override
     public void onResult(ResultRequest request, StreamObserver<Response.Empty> responseObserver) {
-        surveyService.onResult(request.getSessionId(), SurveyValue.DTOBuilder().dto(request.getSurveyDTO()).build());
+        surveyService.onResult(request.getSessionId(), SurveyValue.createByDTO(request.getSurveyDTO()));
         responseObserver.onNext(DTOResponseUtils.createEmpty());
         responseObserver.onCompleted();
     }

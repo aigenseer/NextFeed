@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
-@Builder
 public class OptionalQuestionValue {
 
     private final Optional<QuestionEntity> optionalEntity;
@@ -22,8 +21,12 @@ public class OptionalQuestionValue {
         return optionalEntity.isPresent()? Optional.of(get()): Optional.empty();
     }
 
+    public static OptionalQuestionValue createByOptionalEntity(Optional<QuestionEntity> optionalEntity, ParticipantValue participantValue, List<VoterEntity> voterEntityList) {
+        return new OptionalQuestionValue(optionalEntity, participantValue, voterEntityList);
+    }
+
     public QuestionValue get() {
-        return QuestionValue.Builder().entity(optionalEntity.get()).participantValue(participantValue).voterEntityList(voterEntityList).build();
+        return QuestionValue.createByEntity(optionalEntity.get(), participantValue, voterEntityList);
     }
 
     public DTOEntities.OptionalQuestionDTO getOptionalDTO() {

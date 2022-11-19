@@ -31,13 +31,11 @@ public class QuestionValue implements IValueObject<QuestionEntity, DTOEntities.Q
         this.dto = Optional.empty();
     }
 
-    @Builder(builderMethodName = "DTOBuilder")
-    public static QuestionValue newValue(DTOEntities.QuestionDTO dto) {
+    public static QuestionValue createByDTO(DTOEntities.QuestionDTO dto) {
         return new QuestionValue(dto);
     }
 
-    @Builder(builderMethodName = "Builder")
-    public static QuestionValue newValue(QuestionEntity entity, ParticipantValue participantValue, List<VoterEntity> voterEntityList) {
+    public static QuestionValue createByEntity(QuestionEntity entity, ParticipantValue participantValue, List<VoterEntity> voterEntityList) {
         return new QuestionValue(entity, participantValue, voterEntityList);
     }
 

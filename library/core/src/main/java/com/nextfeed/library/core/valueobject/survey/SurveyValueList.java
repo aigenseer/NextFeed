@@ -14,13 +14,11 @@ public class SurveyValueList extends AbstractValueList<Survey, DTOEntities.Surve
         super(list.stream().map(e -> (IValueObject<Survey, DTOEntities.SurveyDTO>) e).toList());
     }
 
-    @Builder(builderMethodName = "DTOBuilder")
-    public static SurveyValueList newValueDTO(DTOEntities.SurveyDTOList dto) {
+    public static SurveyValueList createByDTO(DTOEntities.SurveyDTOList dto) {
         return new SurveyValueList(dto.getSurveysList().stream().map(SurveyValue::new).toList());
     }
 
-    @Builder(builderMethodName = "Builder")
-    public static SurveyValueList newValue(List<Survey> list) {
+    public static SurveyValueList createByEntities(List<Survey> list) {
         return new SurveyValueList(list.stream().map(SurveyValue::new).toList());
     }
 

@@ -21,16 +21,16 @@ public class UserManager implements IUserManager {
 
 
     private UserValue save(UserValue value) {
-        return UserValue.Builder().entity(userRepositoryService.save(value.getEntity())).build();
+        return UserValue.createByEntity(userRepositoryService.save(value.getEntity()));
     }
 
     private UserValue save(User value) {
-        return UserValue.Builder().entity(userRepositoryService.save(value)).build();
+        return UserValue.createByEntity(userRepositoryService.save(value));
     }
 
     private UserValue create(String mailAddress, String name, String pw){
         var user = User.builder().mailAddress(mailAddress).name(name).hashPassword(passwordEncoder.encode(pw)).registrationTime(new Date().getTime()).build();
-        return save(UserValue.Builder().entity(user).build());
+        return save(UserValue.createByEntity(user));
     }
 
     public UserValue createUser(String mailAddress, String name, String pw){
@@ -38,11 +38,11 @@ public class UserManager implements IUserManager {
     }
 
     public OptionalUserValue getUserById(Integer id){
-        return OptionalUserValue.Builder().optionalEntity(userRepositoryService.findById(id)).build();
+        return OptionalUserValue.createByEntity(userRepositoryService.findById(id));
     }
 
     public OptionalUserValue getUserByMailAddress(String mailAddress){
-        return OptionalUserValue.Builder().optionalEntity(userRepositoryService.getUsersByMailAddress(mailAddress)).build();
+        return OptionalUserValue.createByEntity(userRepositoryService.getUsersByMailAddress(mailAddress));
     }
 
     public boolean validatePasswordByMailAddress(String mailAddress, String pw){

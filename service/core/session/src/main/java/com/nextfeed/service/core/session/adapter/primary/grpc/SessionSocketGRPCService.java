@@ -21,7 +21,7 @@ public class SessionSocketGRPCService extends SessionSocketServiceGrpc.SessionSo
 
     @Override
     public void sendNewParticipantToAll(SendNewParticipantToAllRequest request, StreamObserver<Response.Empty> responseObserver) {
-        sessionSocketService.sendNewParticipantToAll(request.getSessionId(), ParticipantValue.dtoBuilder().dto(request.getParticipant()).build());
+        sessionSocketService.sendNewParticipantToAll(request.getSessionId(), ParticipantValue.createByDTO(request.getParticipant()));
         responseObserver.onNext(DTOResponseUtils.createEmpty());
         responseObserver.onCompleted();
     }
@@ -35,7 +35,7 @@ public class SessionSocketGRPCService extends SessionSocketServiceGrpc.SessionSo
 
     @Override
     public void sendConnectionStatus(SendConnectionStatusRequest request, StreamObserver<Response.Empty> responseObserver) {
-        sessionSocketService.sendConnectionStatus(request.getSessionId(), ParticipantValueList.DTOBuilder().dto(request.getParticipants()).build());
+        sessionSocketService.sendConnectionStatus(request.getSessionId(), ParticipantValueList.createByDTO(request.getParticipants()));
         responseObserver.onNext(DTOResponseUtils.createEmpty());
         responseObserver.onCompleted();
     }

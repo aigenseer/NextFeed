@@ -5,7 +5,6 @@ import com.nextfeed.library.core.proto.entity.DTOEntities;
 import com.nextfeed.library.core.valueobject.IValueObject;
 import lombok.Builder;
 
-@Builder
 public class SurveyTemplateValue implements IValueObject<SurveyTemplate, DTOEntities.SurveyTemplateDTO> {
 
     private final SurveyTemplate entity;
@@ -18,14 +17,12 @@ public class SurveyTemplateValue implements IValueObject<SurveyTemplate, DTOEnti
         this.entity = entity;
     }
 
-    @Builder(builderMethodName = "DTOBuilder")
-    public static SurveyTemplateValue newValueDTO(DTOEntities.SurveyTemplateDTO dto) {
+    public static SurveyTemplateValue createByDTO(DTOEntities.SurveyTemplateDTO dto) {
         return new SurveyTemplateValue(dto);
     }
 
-    @Builder(builderMethodName = "DTOBuilder")
-    public static SurveyTemplateValue newValue(DTOEntities.SurveyTemplateDTO dto) {
-        return new SurveyTemplateValue(dto);
+    public static SurveyTemplateValue createByEntity(SurveyTemplate entity) {
+        return new SurveyTemplateValue(entity);
     }
 
     public static SurveyTemplate dtoToEntity(DTOEntities.SurveyTemplateDTO dto){

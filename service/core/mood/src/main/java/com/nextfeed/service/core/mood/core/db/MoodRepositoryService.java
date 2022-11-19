@@ -17,17 +17,17 @@ public class MoodRepositoryService {
     private final MoodDBService moodDBService;
 
     public MoodValue save(MoodValue value) {
-        return MoodValue.builder().entity(moodDBService.save(value.getEntity())).build();
+        return MoodValue.createByEntity(moodDBService.save(value.getEntity()));
     }
 
     public MoodValue create(int sessionId, NewMoodRequest request){
         var e = MoodEntity.builder().session_id(sessionId).value(request.getMoodValue()).participantsCount(request.getParticipantsCount()).timestamp(new Date().getTime()).build();
-        return save(MoodValue.builder().entity(e).build());
+        return save(MoodValue.createByEntity(e));
     }
 
     public MoodValueList findBySessionId(Integer sessionId) {
         var list = moodDBService.getRepo().findBySessionId(sessionId);
-        return MoodValueList.Builder().list(list).build();
+        return MoodValueList.createByEntities(list);
     }
 
     public void deleteAllBySessionId(Requests.IDRequest request) {

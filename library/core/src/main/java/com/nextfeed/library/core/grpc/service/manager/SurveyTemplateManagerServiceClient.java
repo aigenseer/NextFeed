@@ -19,15 +19,15 @@ public class SurveyTemplateManagerServiceClient {
     private SurveyTemplateManagerServiceGrpc.SurveyTemplateManagerServiceBlockingStub rpcService;
 
     public SurveyTemplateValue createTemplate(DTOEntities.SurveyTemplateDTO dto) {
-        return SurveyTemplateValue.DTOBuilder().dto(rpcService.createTemplate(dto)).build();
+        return SurveyTemplateValue.createByDTO(rpcService.createTemplate(dto));
     }
 
     public OptionalSurveyTemplateValue getTemplateById(Integer id) {
-        return OptionalSurveyTemplateValue.DTOBuilder().dto(rpcService.getTemplateById(DTORequestUtils.createIDRequest(id))).build();
+        return OptionalSurveyTemplateValue.createByDTO(rpcService.getTemplateById(DTORequestUtils.createIDRequest(id)));
     }
 
     public SurveyTemplateValueList getAllTemplates() {
-        return SurveyTemplateValueList.DTOBuilder().dto(rpcService.getAllTemplates(DTOResponseUtils.createEmpty())).build();
+        return SurveyTemplateValueList.createByDTO(rpcService.getAllTemplates(DTOResponseUtils.createEmpty()));
     }
 
 }

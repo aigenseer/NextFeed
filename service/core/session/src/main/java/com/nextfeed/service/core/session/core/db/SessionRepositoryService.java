@@ -25,13 +25,13 @@ public class SessionRepositoryService {
 
     private SessionValue createValueByEntity(SessionEntity entity){
         var sessionId = entity.getId();
-        return SessionValue.builder()
-                .entity(entity)
-                .participantValues(participantManagerServiceClient.getParticipantsBySessionId(sessionId))
-                .questionValues(questionManagerServiceClient.findBySessionId(sessionId))
-                .surveyValues(surveyManagerServiceClient.getSurveysBySessionId(sessionId))
-                .moodValues(moodManagerServiceClient.findBySessionId(sessionId))
-                .build();
+        return SessionValue.createByEntity(
+                entity,
+                participantManagerServiceClient.getParticipantsBySessionId(sessionId),
+                questionManagerServiceClient.findBySessionId(sessionId),
+                moodManagerServiceClient.findBySessionId(sessionId),
+                surveyManagerServiceClient.getSurveysBySessionId(sessionId)
+                );
     }
 
     public SessionValue save(SessionEntity entity){
@@ -49,17 +49,17 @@ public class SessionRepositoryService {
 
     public SessionValueList findAll() {
         var pList = sessionDBService.findAll().stream().map(this::createValueByEntity).toList();
-        return SessionValueList.Builder().list(pList).build();
+        return SessionValueList.createByValues(pList);
     }
 
     public SessionValueList findAllOpen() {
         var pList = sessionDBService.findAllOpen().stream().map(this::createValueByEntity).toList();
-        return SessionValueList.Builder().list(pList).build();
+        return SessionValueList.createByValues(pList);
     }
 
     public SessionValueList findAllClosed() {
         var pList = sessionDBService.findAllClosed().stream().map(this::createValueByEntity).toList();
-        return SessionValueList.Builder().list(pList).build();
+        return SessionValueList.createByValues(pList);
     }
 
     public OptionalSessionValue findById(Integer id) {

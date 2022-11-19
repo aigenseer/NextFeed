@@ -42,15 +42,15 @@ public class SessionManagerServiceClient {
     }
 
     public SessionValueList getAllSessions() {
-        return SessionValueList.DTOBuilder().dto(rpcService.getAllSessions(DTOResponseUtils.createEmpty())).build();
+        return SessionValueList.createByDTO(rpcService.getAllSessions(DTOResponseUtils.createEmpty()));
     }
 
     public SessionValueList getAllOpenSessions() {
-        return SessionValueList.DTOBuilder().dto(rpcService.getAllOpenSessions(DTOResponseUtils.createEmpty())).build();
+        return SessionValueList.createByDTO(rpcService.getAllOpenSessions(DTOResponseUtils.createEmpty()));
     }
 
     public SessionValueList getAllClosedSessions() {
-        return SessionValueList.DTOBuilder().dto(rpcService.getAllClosedSessions(DTOResponseUtils.createEmpty())).build();
+        return SessionValueList.createByDTO(rpcService.getAllClosedSessions(DTOResponseUtils.createEmpty()));
     }
 
     public void closeAllOpenSessions() {

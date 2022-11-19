@@ -25,13 +25,11 @@ public class ParticipantValue implements IValueObject<Participant, DTOEntities.P
     }
 
 
-    @Builder(builderMethodName = "dtoBuilder")
-    public static ParticipantValue newValue(DTOEntities.ParticipantDTO dto) {
+    public static ParticipantValue createByDTO(DTOEntities.ParticipantDTO dto) {
         return new ParticipantValue(dto);
     }
 
-    @Builder(builderMethodName = "builder")
-    public static ParticipantValue newValue(Participant entity) {
+    public static ParticipantValue createByEntity(Participant entity) {
         return new ParticipantValue(entity);
     }
 

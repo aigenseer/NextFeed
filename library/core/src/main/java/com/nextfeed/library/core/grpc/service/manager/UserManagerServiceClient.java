@@ -13,17 +13,17 @@ public class UserManagerServiceClient {
     private UserManagerServiceGrpc.UserManagerServiceBlockingStub rpcService;
 
     public UserValue createUser(String name, String mailAddress, String pw) {
-        return UserValue.DTOBuilder().dto(rpcService.createUser(NewUserRequest.newBuilder().setName(name).setMailAddress(mailAddress).setPw(pw).build())).build();
+        return UserValue.createByDTO(rpcService.createUser(NewUserRequest.newBuilder().setName(name).setMailAddress(mailAddress).setPw(pw).build()));
     }
 
     public OptionalUserValue getUser(Integer id) {
         var optional = rpcService.getUser(GetUserRequest.newBuilder().setId(id).build());
-        return OptionalUserValue.DTOBuilder().dto(optional).build();
+        return OptionalUserValue.createByDTO(optional);
     }
 
     public OptionalUserValue getUserByMailAddress(String mailAddress) {
         var optional = rpcService.getUserByMailAddress(UserByMailAddressRequest.newBuilder().setMailAddress(mailAddress).build());
-        return OptionalUserValue.DTOBuilder().dto(optional).build();
+        return OptionalUserValue.createByDTO(optional);
     }
 
     public boolean validatePasswordByMailAddress(String mailAddress, String pw) {
