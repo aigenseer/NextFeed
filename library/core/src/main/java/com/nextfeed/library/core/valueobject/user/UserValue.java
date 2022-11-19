@@ -17,7 +17,7 @@ public class UserValue implements IValueObject<User, DTOEntities.UserDTO> {
         this.entity = entity;
     }
 
-    @Builder(builderMethodName = "dtoBuilder")
+    @Builder(builderMethodName = "DTOBuilder")
     public static UserValue newValueDTO(DTOEntities.UserDTO dto) {
         return new UserValue(dto);
     }

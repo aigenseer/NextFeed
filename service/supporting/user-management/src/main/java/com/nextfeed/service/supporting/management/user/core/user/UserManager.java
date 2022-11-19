@@ -34,15 +34,15 @@ public class UserManager implements IUserManager {
     }
 
     public UserValue createUser(String mailAddress, String name, String pw){
-        return createUser(mailAddress, name, pw);
+        return create(mailAddress, name, pw);
     }
 
     public OptionalUserValue getUserById(Integer id){
-        return OptionalUserValue.builder().entity(userRepositoryService.findById(id)).build();
+        return OptionalUserValue.Builder().optionalEntity(userRepositoryService.findById(id)).build();
     }
 
     public OptionalUserValue getUserByMailAddress(String mailAddress){
-        return OptionalUserValue.builder().entity(userRepositoryService.getUsersByMailAddress(mailAddress)).build();
+        return OptionalUserValue.Builder().optionalEntity(userRepositoryService.getUsersByMailAddress(mailAddress)).build();
     }
 
     public boolean validatePasswordByMailAddress(String mailAddress, String pw){

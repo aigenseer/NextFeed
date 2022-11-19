@@ -8,22 +8,26 @@ import lombok.RequiredArgsConstructor;
 import java.util.Optional;
 
 @RequiredArgsConstructor
-@Builder
 public class OptionalUserValue {
 
-    private final Optional<User> entity;
+    private final Optional<UserValue> entity;
 
     public Optional<UserValue> getOptional() {
-        return entity.isPresent()? Optional.of(get()): Optional.empty();
+        return entity.isPresent()? entity: Optional.empty();
     }
 
-    @Builder(builderMethodName = "dtoBuilder")
+    @Builder(builderMethodName = "DTOBuilder")
     public static OptionalUserValue newOptionalUserValue(DTOEntities.OptionalUserDTO dto) {
-        return new OptionalUserValue(dto.isInitialized()? Optional.of(UserValue.dtoBuilder().dto(dto.getUserDTO()).build().getEntity()) : Optional.empty());
+        return new OptionalUserValue(dto.isInitialized()? Optional.of(UserValue.DTOBuilder().dto(dto.getUserDTO()).build()) : Optional.empty());
+    }
+
+    @Builder(builderMethodName = "Builder")
+    public static OptionalUserValue newValue(Optional<User> optionalEntity) {
+        return new OptionalUserValue(optionalEntity.isPresent()? Optional.of(UserValue.Builder().entity(optionalEntity.get()).build()) : Optional.empty());
     }
 
     public UserValue get() {
-        return UserValue.Builder().entity(entity.get()).build();
+        return entity.get();
     }
 
     public DTOEntities.OptionalUserDTO getOptionalDTO() {

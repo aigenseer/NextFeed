@@ -8,7 +8,6 @@ import lombok.RequiredArgsConstructor;
 import java.util.Optional;
 
 @RequiredArgsConstructor
-@Builder
 public class OptionalSurveyTemplateValue {
 
     private final Optional<SurveyTemplate> entity;
