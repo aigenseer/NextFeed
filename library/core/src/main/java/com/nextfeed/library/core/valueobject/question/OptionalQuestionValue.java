@@ -23,7 +23,7 @@ public class OptionalQuestionValue {
     }
 
     public QuestionValue get() {
-        return QuestionValue.builder().entity(optionalEntity.get()).participantValue(participantValue).voterEntityList(voterEntityList).build();
+        return QuestionValue.Builder().entity(optionalEntity.get()).participantValue(participantValue).voterEntityList(voterEntityList).build();
     }
 
     public DTOEntities.OptionalQuestionDTO getOptionalDTO() {

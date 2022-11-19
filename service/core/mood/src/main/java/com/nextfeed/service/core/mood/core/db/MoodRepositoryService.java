@@ -1,10 +1,8 @@
 package com.nextfeed.service.core.mood.core.db;
 
 import com.nextfeed.library.core.entity.mood.MoodEntity;
-import com.nextfeed.library.core.proto.entity.DTOEntities;
 import com.nextfeed.library.core.proto.manager.NewMoodRequest;
 import com.nextfeed.library.core.proto.requests.Requests;
-import com.nextfeed.library.core.utils.DTOListUtils;
 import com.nextfeed.library.core.valueobject.mood.MoodValue;
 import com.nextfeed.library.core.valueobject.mood.MoodValueList;
 import lombok.RequiredArgsConstructor;
@@ -29,7 +27,7 @@ public class MoodRepositoryService {
 
     public MoodValueList findBySessionId(Integer sessionId) {
         var list = moodDBService.getRepo().findBySessionId(sessionId);
-        return MoodValueList.builder().list(list).build();
+        return MoodValueList.Builder().list(list).build();
     }
 
     public void deleteAllBySessionId(Requests.IDRequest request) {

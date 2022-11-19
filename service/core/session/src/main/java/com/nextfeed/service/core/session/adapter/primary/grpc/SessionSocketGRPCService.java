@@ -6,6 +6,8 @@ import com.nextfeed.library.core.proto.repository.SessionSocketServiceGrpc;
 import com.nextfeed.library.core.proto.requests.Requests;
 import com.nextfeed.library.core.proto.response.Response;
 import com.nextfeed.library.core.utils.DTOResponseUtils;
+import com.nextfeed.library.core.valueobject.participant.ParticipantValue;
+import com.nextfeed.library.core.valueobject.participant.ParticipantValueList;
 import com.nextfeed.service.core.session.ports.incoming.ISessionSocketService;
 import io.grpc.stub.StreamObserver;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +21,7 @@ public class SessionSocketGRPCService extends SessionSocketServiceGrpc.SessionSo
 
     @Override
     public void sendNewParticipantToAll(SendNewParticipantToAllRequest request, StreamObserver<Response.Empty> responseObserver) {
-        sessionSocketService.sendNewParticipantToAll(request.getSessionId(), request.getParticipant());
+        sessionSocketService.sendNewParticipantToAll(request.getSessionId(), ParticipantValue.dtoBuilder().dto(request.getParticipant()).build());
         responseObserver.onNext(DTOResponseUtils.createEmpty());
         responseObserver.onCompleted();
     }
@@ -33,7 +35,7 @@ public class SessionSocketGRPCService extends SessionSocketServiceGrpc.SessionSo
 
     @Override
     public void sendConnectionStatus(SendConnectionStatusRequest request, StreamObserver<Response.Empty> responseObserver) {
-        sessionSocketService.sendConnectionStatus(request.getSessionId(), request.getParticipants().getParticipantsList());
+        sessionSocketService.sendConnectionStatus(request.getSessionId(), ParticipantValueList.DTOBuilder().dto(request.getParticipants()).build());
         responseObserver.onNext(DTOResponseUtils.createEmpty());
         responseObserver.onCompleted();
     }

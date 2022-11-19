@@ -5,6 +5,7 @@ import com.nextfeed.library.core.proto.repository.NewSessionRequest;
 import com.nextfeed.library.core.proto.repository.SessionManagerServiceGrpc;
 import com.nextfeed.library.core.proto.requests.Requests;
 import com.nextfeed.library.core.utils.DTOResponseUtils;
+import com.nextfeed.library.core.valueobject.session.SessionValueList;
 import net.devh.boot.grpc.client.inject.GrpcClient;
 import org.springframework.stereotype.Service;
 
@@ -40,16 +41,16 @@ public class SessionManagerServiceClient {
         return rpcService.existsSessionId(Requests.IDRequest.newBuilder().setId(id).build()).getResult();
     }
 
-    public DTOEntities.SessionDTOList getAllSessions() {
-        return rpcService.getAllSessions(DTOResponseUtils.createEmpty());
+    public SessionValueList getAllSessions() {
+        return SessionValueList.DTOBuilder().dto(rpcService.getAllSessions(DTOResponseUtils.createEmpty())).build();
     }
 
-    public DTOEntities.SessionDTOList getAllOpenSessions() {
-        return rpcService.getAllOpenSessions(DTOResponseUtils.createEmpty());
+    public SessionValueList getAllOpenSessions() {
+        return SessionValueList.DTOBuilder().dto(rpcService.getAllOpenSessions(DTOResponseUtils.createEmpty())).build();
     }
 
-    public DTOEntities.SessionDTOList getAllClosedSessions() {
-        return rpcService.getAllClosedSessions(DTOResponseUtils.createEmpty());
+    public SessionValueList getAllClosedSessions() {
+        return SessionValueList.DTOBuilder().dto(rpcService.getAllClosedSessions(DTOResponseUtils.createEmpty())).build();
     }
 
     public void closeAllOpenSessions() {

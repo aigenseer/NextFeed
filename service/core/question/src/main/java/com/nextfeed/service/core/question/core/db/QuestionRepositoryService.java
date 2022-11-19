@@ -58,7 +58,7 @@ public class QuestionRepositoryService {
     public QuestionValueList findBySessionId(int sessionId) {
         var entities = questionDBService.getRepo().findBySessionId(sessionId);
         var values = entities.stream().map(this::toValue).map(OptionalQuestionValue::get).toList();
-        return QuestionValueList.builder().list(values).build();
+        return QuestionValueList.Builder().list(values).build();
     }
 
     public void deleteAllBySessionId(Requests.IDRequest request) {

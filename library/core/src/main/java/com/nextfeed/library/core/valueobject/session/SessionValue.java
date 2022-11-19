@@ -66,10 +66,10 @@ public class SessionValue implements IValueObject<SessionContainer, DTOEntities.
                 .closed(dto.getClosed())
                 .name(dto.getName())
                 .sessionCode(dto.getSessionCode())
-                .participants(ParticipantValueList.dtoBuilder().list(dto.getParticipants().getParticipantsList()).build().getEntities())
-                .questions(QuestionValueList.dtoBuilder().list(dto.getQuestions().getQuestionsList()).build().getEntities())
-                .moodEntities(MoodValueList.dtoBuilder().list(dto.getMoodEntities().getEntriesList()).build().getEntities())
-                .surveys(SurveyValueList.dtoBuilder().list(dto.getSurveys().getSurveysList()).build().getEntities())
+                .participants(ParticipantValueList.DTOBuilder().dto(dto.getParticipants()).build().getEntities())
+                .questions(QuestionValueList.DTOBuilder().dto(dto.getQuestions()).build().getEntities())
+                .moodEntities(MoodValueList.DTOBuilder().dto(dto.getMoodEntities()).build().getEntities())
+                .surveys(SurveyValueList.DTOBuilder().dto(dto.getSurveys()).build().getEntities())
                 .build();
     }
 

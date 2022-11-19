@@ -1,7 +1,6 @@
 package com.nextfeed.library.security;
 
 import com.nextfeed.library.core.entity.participant.Participant;
-import com.nextfeed.library.core.entity.user.User;
 import com.nextfeed.library.core.enums.UserRole;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

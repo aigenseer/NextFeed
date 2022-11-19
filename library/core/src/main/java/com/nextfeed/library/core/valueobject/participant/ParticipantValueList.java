@@ -14,14 +14,16 @@ public class ParticipantValueList extends AbstractValueList<Participant, DTOEnti
         super(list.stream().map(e -> (IValueObject<Participant, DTOEntities.ParticipantDTO>) e).toList());
     }
 
-    @Builder(builderMethodName = "builder")
-    public static ParticipantValueList newValueDTO(List<Participant> list) {
-        return new ParticipantValueList(list.stream().map(ParticipantValue::new).toList());
+    @Builder(builderMethodName = "Builder")
+    public static ParticipantValueList newValue(List<Participant> list) {
+        var participantValues = list.stream().map(ParticipantValue::new).toList();
+        return new ParticipantValueList(participantValues);
     }
 
-    @Builder(builderMethodName = "dtoBuilder")
-    public static ParticipantValueList newValue(List<DTOEntities.ParticipantDTO> list) {
-        return new ParticipantValueList(list.stream().map(ParticipantValue::new).toList());
+    @Builder(builderMethodName = "DTOBuilder")
+    public static ParticipantValueList newValueDTO(DTOEntities.ParticipantDTOList dto) {
+        var participantValues = dto.getParticipantsList().stream().map(e -> ParticipantValue.dtoBuilder().dto(e).build()).toList();
+        return new ParticipantValueList(participantValues);
     }
 
     public DTOEntities.ParticipantDTOList getDTOs(){

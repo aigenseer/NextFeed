@@ -18,7 +18,12 @@ public class SurveyTemplateValue implements IValueObject<SurveyTemplate, DTOEnti
         this.entity = entity;
     }
 
-    @Builder(builderMethodName = "dtoBuilder")
+    @Builder(builderMethodName = "DTOBuilder")
+    public static SurveyTemplateValue newValueDTO(DTOEntities.SurveyTemplateDTO dto) {
+        return new SurveyTemplateValue(dto);
+    }
+
+    @Builder(builderMethodName = "DTOBuilder")
     public static SurveyTemplateValue newValue(DTOEntities.SurveyTemplateDTO dto) {
         return new SurveyTemplateValue(dto);
     }

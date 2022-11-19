@@ -12,12 +12,12 @@ public class SessionValueList {
 
     private final List<SessionValue> list;
 
-    @Builder(builderMethodName = "dtoBuilder")
-    public static SessionValueList newValueDTO(List<DTOEntities.SessionDTO> list) {
-        return new SessionValueList(list.stream().map(q -> SessionValue.dtoBuilder().dto(q).build()).toList());
+    @Builder(builderMethodName = "DTOBuilder")
+    public static SessionValueList newValueDTO(DTOEntities.SessionDTOList dto) {
+        return new SessionValueList(dto.getSessionsList().stream().map(q -> SessionValue.dtoBuilder().dto(q).build()).toList());
     }
 
-    @Builder(builderMethodName = "builder")
+    @Builder(builderMethodName = "Builder")
     public static SessionValueList newValue(List<SessionValue> list) {
         return new SessionValueList(list);
     }

@@ -13,7 +13,7 @@ public class OptionalSurveyTemplateValue {
 
     private final Optional<SurveyTemplate> entity;
 
-    @Builder(builderMethodName = "dtoBuilder")
+    @Builder(builderMethodName = "DTOBuilder")
     public static OptionalSurveyTemplateValue newValue(DTOEntities.OptionalSurveyTemplateDTO dto) {
         return new OptionalSurveyTemplateValue(dto.isInitialized()? Optional.of(SurveyTemplateValue.dtoToEntity(dto.getSurveyTemplate())): Optional.empty());
     }

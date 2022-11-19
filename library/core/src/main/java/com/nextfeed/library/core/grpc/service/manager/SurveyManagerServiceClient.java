@@ -18,12 +18,11 @@ public class SurveyManagerServiceClient {
 
     public SurveyTemplateValue createSurvey(Integer sessionId, DTOEntities.SurveyTemplateDTO template) {
         var dto = rpcService.createSurvey(CreateSurveyRequest.newBuilder().setSessionId(sessionId).setTemplate(template).build());
-        return SurveyTemplateValue.dtoBuilder().dto(dto).build();
+        return SurveyTemplateValue.DTOBuilder().dto(dto).build();
     }
 
     public SurveyValueList getSurveysBySessionId(Integer sessionId) {
-        var dto = rpcService.getSurveysBySessionId(DTORequestUtils.createIDRequest(sessionId));
-        return SurveyValueList.dtoBuilder().list(dto.getSurveysList()).build();
+        return SurveyValueList.DTOBuilder().dto(rpcService.getSurveysBySessionId(DTORequestUtils.createIDRequest(sessionId))).build();
     }
 
     public void addAnswerToSurvey(int sessionId, int surveyId, int participantId, String answer) {

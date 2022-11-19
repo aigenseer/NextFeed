@@ -12,12 +12,12 @@ public class QuestionValueList {
 
     private final List<QuestionValue> list;
 
-    @Builder(builderMethodName = "dtoBuilder")
-    public static QuestionValueList newValueDTO(List<DTOEntities.QuestionDTO> list) {
-        return new QuestionValueList(list.stream().map(q -> QuestionValue.dtoBuilder().dto(q).build()).toList());
+    @Builder(builderMethodName = "DTOBuilder")
+    public static QuestionValueList newValueDTO(DTOEntities.QuestionDTOList dto) {
+        return new QuestionValueList(dto.getQuestionsList().stream().map(q -> QuestionValue.DTOBuilder().dto(q).build()).toList());
     }
 
-    @Builder(builderMethodName = "builder")
+    @Builder(builderMethodName = "Builder")
     public static QuestionValueList newValue(List<QuestionValue> list) {
         return new QuestionValueList(list);
     }

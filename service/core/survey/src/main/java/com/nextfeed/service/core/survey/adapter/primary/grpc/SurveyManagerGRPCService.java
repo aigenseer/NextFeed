@@ -22,7 +22,7 @@ public class SurveyManagerGRPCService extends SurveyManagerServiceGrpc.SurveyMan
 
     @Override
     public void createSurvey(CreateSurveyRequest request, StreamObserver<DTOEntities.SurveyTemplateDTO> responseObserver) {
-        var surveyTemplateValue = surveyManager.createSurvey(request.getSessionId(), SurveyTemplateValue.dtoBuilder().dto(request.getTemplate()).build());
+        var surveyTemplateValue = surveyManager.createSurvey(request.getSessionId(), SurveyTemplateValue.DTOBuilder().dto(request.getTemplate()).build());
         responseObserver.onNext(surveyTemplateValue.getDTO());
         responseObserver.onCompleted();
     }

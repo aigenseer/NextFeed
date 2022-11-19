@@ -1,11 +1,17 @@
 package com.nextfeed.library.core.valueobject.participant;
 
 import com.nextfeed.library.core.entity.participant.Participant;
+import com.nextfeed.library.core.entity.question.QuestionEntity;
+import com.nextfeed.library.core.entity.question.VoterEntity;
 import com.nextfeed.library.core.proto.entity.DTOEntities;
 import com.nextfeed.library.core.valueobject.IValueObject;
+import com.nextfeed.library.core.valueobject.question.QuestionValue;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.RequiredArgsConstructor;
 
-@Builder
+import java.util.List;
+
 public class ParticipantValue implements IValueObject<Participant, DTOEntities.ParticipantDTO> {
 
     private final Participant entity;
@@ -18,9 +24,15 @@ public class ParticipantValue implements IValueObject<Participant, DTOEntities.P
         this.entity = entity;
     }
 
+
     @Builder(builderMethodName = "dtoBuilder")
     public static ParticipantValue newValue(DTOEntities.ParticipantDTO dto) {
         return new ParticipantValue(dto);
+    }
+
+    @Builder(builderMethodName = "builder")
+    public static ParticipantValue newValue(Participant entity) {
+        return new ParticipantValue(entity);
     }
 
     public static Participant dtoToEntity(DTOEntities.ParticipantDTO dto){

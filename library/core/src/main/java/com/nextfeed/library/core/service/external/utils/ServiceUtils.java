@@ -36,7 +36,7 @@ public class ServiceUtils {
     }
 
     public void checkTemplateId(int templateId){
-        if (surveyTemplateManagerServiceClient.getTemplateById(templateId).isEmpty())
+        if (surveyTemplateManagerServiceClient.getTemplateById(templateId).isPresent())
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, String.format("Template-Id %d are not exists", templateId));
     }
 

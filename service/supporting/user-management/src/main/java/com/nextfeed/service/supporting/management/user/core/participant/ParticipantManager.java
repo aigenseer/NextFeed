@@ -1,12 +1,12 @@
 package com.nextfeed.service.supporting.management.user.core.participant;
 
-import com.nextfeed.library.core.valueobject.participant.OptionalParticipantValue;
-import com.nextfeed.library.core.valueobject.participant.ParticipantValue;
-import com.nextfeed.library.core.valueobject.participant.ParticipantValueList;
 import com.nextfeed.library.core.entity.participant.Participant;
 import com.nextfeed.library.core.grpc.service.manager.SessionManagerServiceClient;
 import com.nextfeed.library.core.proto.entity.DTOEntities;
 import com.nextfeed.library.core.service.socket.SessionSocketServices;
+import com.nextfeed.library.core.valueobject.participant.OptionalParticipantValue;
+import com.nextfeed.library.core.valueobject.participant.ParticipantValue;
+import com.nextfeed.library.core.valueobject.participant.ParticipantValueList;
 import com.nextfeed.service.supporting.management.user.core.participant.db.ParticipantRepositoryService;
 import com.nextfeed.service.supporting.management.user.ports.incoming.IParticipantManager;
 import lombok.RequiredArgsConstructor;
@@ -51,7 +51,7 @@ public class ParticipantManager implements IParticipantManager {
     }
 
     public ParticipantValueList getConnectedParticipantsBySessionId(Integer sessionId){
-        return ParticipantValueList.builder().list(getParticipantsBySessionId(sessionId).getEntities().stream().filter(Participant::isConnected).toList()).build();
+        return ParticipantValueList.Builder().list(getParticipantsBySessionId(sessionId).getEntities().stream().filter(Participant::isConnected).toList()).build();
     }
 
     public void updateConnectionStatusByParticipantId(Integer participantId, Boolean status){

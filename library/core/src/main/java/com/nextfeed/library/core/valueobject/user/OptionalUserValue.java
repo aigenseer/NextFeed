@@ -23,7 +23,7 @@ public class OptionalUserValue {
     }
 
     public UserValue get() {
-        return UserValue.builder().entity(entity.get()).build();
+        return UserValue.Builder().entity(entity.get()).build();
     }
 
     public DTOEntities.OptionalUserDTO getOptionalDTO() {

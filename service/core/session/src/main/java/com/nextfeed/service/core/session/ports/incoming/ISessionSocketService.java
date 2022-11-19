@@ -1,14 +1,13 @@
 package com.nextfeed.service.core.session.ports.incoming;
 
-import com.nextfeed.library.core.proto.entity.DTOEntities;
-
-import java.util.List;
+import com.nextfeed.library.core.valueobject.participant.ParticipantValue;
+import com.nextfeed.library.core.valueobject.participant.ParticipantValueList;
 
 public interface ISessionSocketService {
 
-    void sendNewParticipantToAll(int sessionId, DTOEntities.ParticipantDTO participant);
+    void sendNewParticipantToAll(int sessionId, ParticipantValue participant);
 
     void sendClose(int sessionId);
 
-    void sendConnectionStatus(int sessionId, List<DTOEntities.ParticipantDTO> participants);
+    void sendConnectionStatus(int sessionId, ParticipantValueList participants);
 }

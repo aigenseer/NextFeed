@@ -1,8 +1,6 @@
 package com.nextfeed.library.core.valueobject.mood;
 
 import com.nextfeed.library.core.entity.mood.MoodEntity;
-import com.nextfeed.library.core.entity.participant.Participant;
-import com.nextfeed.library.core.entity.user.User;
 import com.nextfeed.library.core.proto.entity.DTOEntities;
 import com.nextfeed.library.core.valueobject.IValueObject;
 import lombok.Builder;

@@ -1,8 +1,8 @@
 package com.nextfeed.service.supporting.management.user.core.user;
 
+import com.nextfeed.library.core.entity.user.User;
 import com.nextfeed.library.core.valueobject.user.OptionalUserValue;
 import com.nextfeed.library.core.valueobject.user.UserValue;
-import com.nextfeed.library.core.entity.user.User;
 import com.nextfeed.service.supporting.management.user.core.user.db.UserDBService;
 import com.nextfeed.service.supporting.management.user.ports.incoming.IUserManager;
 import lombok.RequiredArgsConstructor;
@@ -21,16 +21,16 @@ public class UserManager implements IUserManager {
 
 
     private UserValue save(UserValue value) {
-        return UserValue.builder().entity(userRepositoryService.save(value.getEntity())).build();
+        return UserValue.Builder().entity(userRepositoryService.save(value.getEntity())).build();
     }
 
     private UserValue save(User value) {
-        return UserValue.builder().entity(userRepositoryService.save(value)).build();
+        return UserValue.Builder().entity(userRepositoryService.save(value)).build();
     }
 
     private UserValue create(String mailAddress, String name, String pw){
         var user = User.builder().mailAddress(mailAddress).name(name).hashPassword(passwordEncoder.encode(pw)).registrationTime(new Date().getTime()).build();
-        return save(UserValue.builder().entity(user).build());
+        return save(UserValue.Builder().entity(user).build());
     }
 
     public UserValue createUser(String mailAddress, String name, String pw){

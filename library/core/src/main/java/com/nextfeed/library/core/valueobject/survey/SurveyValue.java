@@ -1,43 +1,32 @@
 package com.nextfeed.library.core.valueobject.survey;
 
-import com.nextfeed.library.core.entity.question.QuestionEntity;
-import com.nextfeed.library.core.entity.question.VoterEntity;
 import com.nextfeed.library.core.entity.survey.Survey;
 import com.nextfeed.library.core.entity.survey.SurveyAnswer;
-import com.nextfeed.library.core.entity.survey.SurveyTemplate;
 import com.nextfeed.library.core.proto.entity.DTOEntities;
-import com.nextfeed.library.core.utils.DTO2EntityUtils;
-import com.nextfeed.library.core.utils.Entity2DTOUtils;
 import com.nextfeed.library.core.valueobject.IValueObject;
-import com.nextfeed.library.core.valueobject.participant.ParticipantValue;
 import com.nextfeed.library.core.valueobject.surveytemplate.SurveyTemplateValue;
 import lombok.Builder;
 
 import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
 
 public class SurveyValue implements IValueObject<Survey, DTOEntities.SurveyDTO> {
 
     private final Survey entity;
-    private final Optional<DTOEntities.SurveyDTO> dto;
 
     SurveyValue(DTOEntities.SurveyDTO dto){
         entity = dtoToEntity(dto);
-        this.dto = Optional.of(dto);
     }
 
     SurveyValue(Survey entity){
         this.entity = entity;
-        this.dto = Optional.empty();
     }
 
-    @Builder(builderMethodName = "dtoBuilder")
+    @Builder(builderMethodName = "DTOBuilder")
     public static SurveyValue newValue(DTOEntities.SurveyDTO dto) {
         return new SurveyValue(dto);
     }
 
-    @Builder(builderMethodName = "builder")
+    @Builder(builderMethodName = "Builder")
     public static SurveyValue newValue(Survey entity) {
         return new SurveyValue(entity);
     }
@@ -45,10 +34,19 @@ public class SurveyValue implements IValueObject<Survey, DTOEntities.SurveyDTO> 
     private Survey dtoToEntity(DTOEntities.SurveyDTO dto){
         return Survey.builder()
                 .id(dto.getId())
-                .surveyAnswers(new HashSet(dto.getSurveyAnswersList().stream().map(DTO2EntityUtils::dto2SurveyAnswer).toList()))
-                .template(SurveyTemplateValue.dtoBuilder().dto(dto.getTemplate()).build().getEntity())
+                .surveyAnswers(new HashSet(dto.getSurveyAnswersList().stream().map(this::dto2SurveyAnswer).toList()))
+                .template(SurveyTemplateValue.DTOBuilder().dto(dto.getTemplate()).build().getEntity())
                 .timestamp(dto.getTimestamp())
                 .session_id(dto.getSessionId())
+                .build();
+    }
+
+    private SurveyAnswer dto2SurveyAnswer(DTOEntities.SurveyAnswerDTO dto){
+        return SurveyAnswer.builder()
+                .id(dto.getId())
+                .value(dto.getValue())
+                .survey_id(dto.getSurveyId())
+                .participantId(dto.getParticipantId())
                 .build();
     }
 

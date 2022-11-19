@@ -4,6 +4,7 @@ import com.nextfeed.library.core.proto.repository.QuestionSocketServiceGrpc;
 import com.nextfeed.library.core.proto.repository.SendQuestionRequest;
 import com.nextfeed.library.core.proto.response.Response;
 import com.nextfeed.library.core.utils.DTOResponseUtils;
+import com.nextfeed.library.core.valueobject.question.QuestionValue;
 import com.nextfeed.service.core.question.ports.incoming.IQuestionService;
 import io.grpc.stub.StreamObserver;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +18,7 @@ public class QuestionSocketGRPCService extends QuestionSocketServiceGrpc.Questio
 
     @Override
     public void sendQuestion(SendQuestionRequest request, StreamObserver<Response.Empty> responseObserver) {
-        questionService.sendQuestion(request.getSessionId(), request.getQuestionDTO());
+        questionService.sendQuestion(request.getSessionId(), QuestionValue.DTOBuilder().dto(request.getQuestionDTO()).build());
         responseObserver.onNext(DTOResponseUtils.createEmpty());
         responseObserver.onCompleted();
     }

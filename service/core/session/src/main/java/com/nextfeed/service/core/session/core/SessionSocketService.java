@@ -1,13 +1,11 @@
 package com.nextfeed.service.core.session.core;
 
-import com.nextfeed.library.core.proto.entity.DTOEntities;
-import com.nextfeed.library.core.utils.DTO2EntityUtils;
+import com.nextfeed.library.core.valueobject.participant.ParticipantValue;
+import com.nextfeed.library.core.valueobject.participant.ParticipantValueList;
 import com.nextfeed.service.core.session.ports.incoming.ISessionSocketService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 enum SessionDataServicePresenterPath {
     sendNewParticipantToAll("/socket/session-socket/v1/presenter/session/%d/user/onjoin"),
@@ -57,13 +55,12 @@ enum SessionDataServiceSharedPath {
 public class SessionSocketService implements ISessionSocketService {
     private final SimpMessagingTemplate simpMessagingTemplate;
 
-    public void sendNewParticipantToAll(int sessionId, DTOEntities.ParticipantDTO participant){
+    public void sendNewParticipantToAll(int sessionId, ParticipantValue participant){
         String presenterPath = String.format(SessionDataServicePresenterPath.sendNewParticipantToAll.toString(),sessionId);
         String participantPath = String.format(SessionDataServiceParticipantPath.sendNewParticipantToAll.toString(),sessionId);
 
-        var payload = DTO2EntityUtils.dto2Participant(participant);
-        simpMessagingTemplate.convertAndSend(presenterPath,  payload);
-        simpMessagingTemplate.convertAndSend(participantPath, payload);
+        simpMessagingTemplate.convertAndSend(presenterPath,  participant.getEntity());
+        simpMessagingTemplate.convertAndSend(participantPath, participant.getEntity());
     }
 
     public void sendClose(int sessionId){
@@ -71,9 +68,9 @@ public class SessionSocketService implements ISessionSocketService {
         simpMessagingTemplate.convertAndSend(path, "");
     }
 
-    public void sendConnectionStatus(int sessionId, List<DTOEntities.ParticipantDTO> participants){
+    public void sendConnectionStatus(int sessionId, ParticipantValueList participantValueList){
         String path = String.format(SessionDataServicePresenterPath.sendParticipantConnectionStatus.toString(),sessionId);
-        simpMessagingTemplate.convertAndSend(path, participants);
+        simpMessagingTemplate.convertAndSend(path, participantValueList.getEntities());
     }
 
 

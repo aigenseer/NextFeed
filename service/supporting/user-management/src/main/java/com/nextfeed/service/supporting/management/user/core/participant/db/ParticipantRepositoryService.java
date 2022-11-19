@@ -1,9 +1,9 @@
 package com.nextfeed.service.supporting.management.user.core.participant.db;
 
+import com.nextfeed.library.core.entity.participant.Participant;
 import com.nextfeed.library.core.valueobject.participant.OptionalParticipantValue;
 import com.nextfeed.library.core.valueobject.participant.ParticipantValue;
 import com.nextfeed.library.core.valueobject.participant.ParticipantValueList;
-import com.nextfeed.library.core.entity.participant.Participant;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -30,7 +30,7 @@ public class ParticipantRepositoryService{
     }
 
     public ParticipantValueList findBySessionId(Integer session_id) {
-        return ParticipantValueList.builder().list(participantDBService.getRepo().findBySessionId(session_id)).build();
+        return ParticipantValueList.Builder().list(participantDBService.getRepo().findBySessionId(session_id)).build();
     }
 
     public void deleteAllBySessionId(Integer session_id) {

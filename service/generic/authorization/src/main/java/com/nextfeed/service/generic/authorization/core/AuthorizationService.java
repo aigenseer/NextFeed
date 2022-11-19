@@ -6,7 +6,6 @@ import com.nextfeed.library.core.grpc.service.manager.UserManagerServiceClient;
 import com.nextfeed.library.core.proto.entity.DTOEntities;
 import com.nextfeed.library.core.proto.manager.ValidateUserRequest;
 import com.nextfeed.library.core.service.external.utils.ServiceUtils;
-import com.nextfeed.library.core.utils.DTO2EntityUtils;
 import com.nextfeed.library.security.TokenUserService;
 import com.nextfeed.service.generic.authorization.core.dto.JwtResponse;
 import com.nextfeed.service.generic.authorization.core.dto.LoginParticipantRequest;
@@ -61,9 +60,8 @@ public class AuthorizationService implements IAuthorizationService {
     public JwtResponse participantAuthentication(LoginParticipantRequest request){
         serviceUtils.checkSessionId(request.getSessionId());
         if(!isCorrectSessionCode(request.getSessionId(), request.getSessionCode())) throw new BadCredentialsException("Bad session data");
-        var dto = participantManagerService.createParticipantBySessionId(request.getSessionId(), DTOEntities.ParticipantDTO.newBuilder().setNickname(request.getNickname()).build());
-        var participant = DTO2EntityUtils.dto2Participant(dto);
-        return new JwtResponse(tokenUserService.getTokenBytParticipant(participant));
+        var participantValue = participantManagerService.createParticipantBySessionId(request.getSessionId(), DTOEntities.ParticipantDTO.newBuilder().setNickname(request.getNickname()).build());
+        return new JwtResponse(tokenUserService.getTokenBytParticipant(participantValue.getEntity()));
     }
 
 }

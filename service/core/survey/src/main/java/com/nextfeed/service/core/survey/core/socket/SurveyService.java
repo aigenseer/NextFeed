@@ -1,7 +1,7 @@
 package com.nextfeed.service.core.survey.core.socket;
 
-import com.nextfeed.library.core.proto.entity.DTOEntities;
-import com.nextfeed.library.core.utils.DTO2EntityUtils;
+import com.nextfeed.library.core.valueobject.survey.SurveyValue;
+import com.nextfeed.library.core.valueobject.surveytemplate.SurveyTemplateValue;
 import com.nextfeed.service.core.survey.core.socket.dto.SurveyParticipantDataResponse;
 import com.nextfeed.service.core.survey.ports.incoming.ISurveyService;
 import lombok.RequiredArgsConstructor;
@@ -19,16 +19,14 @@ public class SurveyService implements ISurveyService {
     private static final String WS_MESSAGE_RESULT_TRANSFER_DESTINATION = "/socket/survey-socket/v1/%s/session/%d/survey/%d/onresult";
     private static final String WS_MESSAGE_UPDATE_TRANSFER_DESTINATION = "/socket/survey-socket/v1/presenter/session/%d/survey/%d/onupdate";
 
-    public void onCreateByPresenter(int sessionId, DTOEntities.SurveyDTO surveyDTO){
-        var payload = DTO2EntityUtils.dto2Survey(surveyDTO);
+    public void onCreateByPresenter(int sessionId, SurveyValue surveyValue){
         String path = WS_MESSAGE_CREATE_TRANSFER_DESTINATION.formatted("presenter", sessionId);
-        simpMessagingTemplate.convertAndSend(path, payload);
+        simpMessagingTemplate.convertAndSend(path, surveyValue.getEntity());
     }
 
-    public void onCreateByParticipant(int sessionId, int surveyId, DTOEntities.SurveyTemplateDTO template){
-        var payload = DTO2EntityUtils.dto2SurveyTemplate(template);
+    public void onCreateByParticipant(int sessionId, int surveyId, SurveyTemplateValue surveyTemplateValue){
         String path = WS_MESSAGE_CREATE_TRANSFER_DESTINATION.formatted("participant", sessionId);
-        simpMessagingTemplate.convertAndSend(path, new SurveyParticipantDataResponse(surveyId, payload));
+        simpMessagingTemplate.convertAndSend(path, new SurveyParticipantDataResponse(surveyId, surveyTemplateValue.getEntity()));
     }
 
     public void onClose(int sessionId, int surveyId){
@@ -37,20 +35,18 @@ public class SurveyService implements ISurveyService {
         simpMessagingTemplate.convertAndSend(path,sessionId);
     }
 
-    public void onUpdate(int sessionId, DTOEntities.SurveyDTO surveyDTO){
-        var payload = DTO2EntityUtils.dto2Survey(surveyDTO);
-        String path = WS_MESSAGE_UPDATE_TRANSFER_DESTINATION.formatted(sessionId, surveyDTO.getId());
-        simpMessagingTemplate.convertAndSend(path, payload);
+    public void onUpdate(int sessionId, SurveyValue surveyValue){
+        String path = WS_MESSAGE_UPDATE_TRANSFER_DESTINATION.formatted(sessionId, surveyValue.getEntity().getId());
+        simpMessagingTemplate.convertAndSend(path, surveyValue.getEntity());
     }
 
-    public void onResult(int sessionId, DTOEntities.SurveyDTO surveyDTO){
-        String presenterPath = WS_MESSAGE_RESULT_TRANSFER_DESTINATION.formatted("presenter",sessionId, surveyDTO.getId());
+    public void onResult(int sessionId, SurveyValue surveyValue){
+        String presenterPath = WS_MESSAGE_RESULT_TRANSFER_DESTINATION.formatted("presenter",sessionId, surveyValue.getEntity().getId());
 
-        var payload = DTO2EntityUtils.dto2Survey(surveyDTO);
-        simpMessagingTemplate.convertAndSend(presenterPath, payload);
-        if(surveyDTO.getTemplate().getPublishResults()){
-            String participantPath = WS_MESSAGE_RESULT_TRANSFER_DESTINATION.formatted("participant",sessionId, surveyDTO.getId());
-            simpMessagingTemplate.convertAndSend(participantPath, payload);
+        simpMessagingTemplate.convertAndSend(presenterPath, surveyValue.getEntity());
+        if(surveyValue.getEntity().getTemplate().isPublishResults()){
+            String participantPath = WS_MESSAGE_RESULT_TRANSFER_DESTINATION.formatted("participant",sessionId, surveyValue.getEntity().getId());
+            simpMessagingTemplate.convertAndSend(participantPath, surveyValue.getEntity());
         }
     }
 }

@@ -49,17 +49,17 @@ public class SessionRepositoryService {
 
     public SessionValueList findAll() {
         var pList = sessionDBService.findAll().stream().map(this::createValueByEntity).toList();
-        return SessionValueList.builder().list(pList).build();
+        return SessionValueList.Builder().list(pList).build();
     }
 
     public SessionValueList findAllOpen() {
         var pList = sessionDBService.findAllOpen().stream().map(this::createValueByEntity).toList();
-        return SessionValueList.builder().list(pList).build();
+        return SessionValueList.Builder().list(pList).build();
     }
 
     public SessionValueList findAllClosed() {
         var pList = sessionDBService.findAllClosed().stream().map(this::createValueByEntity).toList();
-        return SessionValueList.builder().list(pList).build();
+        return SessionValueList.Builder().list(pList).build();
     }
 
     public OptionalSessionValue findById(Integer id) {

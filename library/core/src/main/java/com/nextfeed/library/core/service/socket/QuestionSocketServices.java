@@ -1,9 +1,6 @@
 package com.nextfeed.library.core.service.socket;
 
-import com.nextfeed.library.core.proto.entity.DTOEntities;
-import com.nextfeed.library.core.proto.repository.MoodSocketServiceGrpc;
 import com.nextfeed.library.core.proto.repository.QuestionSocketServiceGrpc;
-import com.nextfeed.library.core.proto.repository.SendMoodRequest;
 import com.nextfeed.library.core.proto.repository.SendQuestionRequest;
 import com.nextfeed.library.core.utils.SocketServiceUtils;
 import com.nextfeed.library.core.valueobject.question.QuestionValue;

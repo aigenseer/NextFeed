@@ -2,7 +2,10 @@ package com.nextfeed.service.core.question.adapter.primary.grpc;
 
 
 import com.nextfeed.library.core.proto.entity.DTOEntities;
-import com.nextfeed.library.core.proto.manager.*;
+import com.nextfeed.library.core.proto.manager.CloseQuestionRequest;
+import com.nextfeed.library.core.proto.manager.CreateQuestionRequest;
+import com.nextfeed.library.core.proto.manager.QuestionManagerServiceGrpc;
+import com.nextfeed.library.core.proto.manager.RatingUpByQuestionIdRequest;
 import com.nextfeed.library.core.proto.requests.Requests;
 import com.nextfeed.library.core.proto.response.Response;
 import com.nextfeed.library.core.utils.DTOResponseUtils;

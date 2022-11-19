@@ -24,11 +24,12 @@ public class ParticipantManagerServiceClient {
     }
 
     public ParticipantValueList getParticipantsBySessionId(Integer id) {
-        return ParticipantValueList.dtoBuilder().list(rpcService.getParticipantsBySessionId(DTORequestUtils.createIDRequest(id)).getParticipantsList()).build();
+        var list = rpcService.getParticipantsBySessionId(DTORequestUtils.createIDRequest(id));
+        return ParticipantValueList.DTOBuilder().dto(list).build();
     }
 
     public ParticipantValueList getConnectedParticipantsBySessionId(Integer id) {
-        return ParticipantValueList.dtoBuilder().list(rpcService.getConnectedParticipantsBySessionId(DTORequestUtils.createIDRequest(id)).getParticipantsList()).build();
+        return ParticipantValueList.DTOBuilder().dto(rpcService.getConnectedParticipantsBySessionId(DTORequestUtils.createIDRequest(id))).build();
     }
 
     public Optional<DTOEntities.SessionDTO> getSessionByParticipantId(Integer id) {

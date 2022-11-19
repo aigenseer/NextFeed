@@ -1,11 +1,10 @@
 package com.nextfeed.library.core.valueobject.user;
 
-import com.nextfeed.library.core.valueobject.IValueObject;
 import com.nextfeed.library.core.entity.user.User;
 import com.nextfeed.library.core.proto.entity.DTOEntities;
+import com.nextfeed.library.core.valueobject.IValueObject;
 import lombok.Builder;
 
-@Builder
 public class UserValue implements IValueObject<User, DTOEntities.UserDTO> {
 
     private final User entity;
@@ -14,9 +13,18 @@ public class UserValue implements IValueObject<User, DTOEntities.UserDTO> {
         entity = dtoToEntity(dto);
     }
 
+    UserValue(User entity){
+        this.entity = entity;
+    }
+
     @Builder(builderMethodName = "dtoBuilder")
-    public static UserValue newUserValue(DTOEntities.UserDTO dto) {
+    public static UserValue newValueDTO(DTOEntities.UserDTO dto) {
         return new UserValue(dto);
+    }
+
+    @Builder(builderMethodName = "Builder")
+    public static UserValue newValue(User entity) {
+        return new UserValue(entity);
     }
 
     private User dtoToEntity(DTOEntities.UserDTO dto){

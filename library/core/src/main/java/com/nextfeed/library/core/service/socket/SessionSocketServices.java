@@ -1,20 +1,17 @@
 package com.nextfeed.library.core.service.socket;
 
-import com.nextfeed.library.core.proto.entity.DTOEntities;
 import com.nextfeed.library.core.proto.repository.SendConnectionStatusRequest;
 import com.nextfeed.library.core.proto.repository.SendNewParticipantToAllRequest;
 import com.nextfeed.library.core.proto.repository.SessionSocketServiceGrpc;
-import com.nextfeed.library.core.utils.DTOListUtils;
 import com.nextfeed.library.core.utils.DTORequestUtils;
 import com.nextfeed.library.core.utils.SocketServiceUtils;
 import com.nextfeed.library.core.valueobject.participant.ParticipantValue;
+import com.nextfeed.library.core.valueobject.participant.ParticipantValueList;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @RequiredArgsConstructor
 @Service
@@ -55,12 +52,12 @@ public class SessionSocketServices {
         });
     }
 
-    public void sendConnectionStatus(Integer sessionId, List<DTOEntities.ParticipantDTO> participantDTOs){
+    public void sendConnectionStatus(Integer sessionId, ParticipantValueList participantValueList){
         serviceUtils.getInstanceInfoByName(INSTANCE_NAME).forEach(instance -> {
             try {
                 ManagedChannel managedChannel = ManagedChannelBuilder.forTarget("static://%s:%s".formatted(instance.getIPAddr(), port)).usePlaintext().build();
                 SessionSocketServiceGrpc.SessionSocketServiceBlockingStub blockingStub = SessionSocketServiceGrpc.newBlockingStub(managedChannel);
-                blockingStub.sendConnectionStatus(SendConnectionStatusRequest.newBuilder().setSessionId(sessionId).setParticipants(DTOListUtils.toParticipantDTOList(participantDTOs)).build());
+                blockingStub.sendConnectionStatus(SendConnectionStatusRequest.newBuilder().setSessionId(sessionId).setParticipants(participantValueList.getDTOs()).build());
                 managedChannel.shutdown();
             }catch (Exception e){
                 System.err.println("Can not call instance");
