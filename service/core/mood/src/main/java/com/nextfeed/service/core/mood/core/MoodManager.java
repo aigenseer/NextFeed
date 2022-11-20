@@ -36,7 +36,7 @@ public class MoodManager implements IMoodManager {
     }
 
     private Map<Integer, Double> getParticipantMoodValueCacheBySessionId(int sessionId){
-        if(sessionManagerServiceClient.isSessionClosed(sessionId)) return null;
+        if(!sessionManagerServiceClient.existsOpenSessionById(sessionId)) return null;
         //todo: muss noch gemacht werden
 //        List<Integer> connectedParticipantIds = participantManager.getConnectedParticipantsBySessionId(sessionId).stream().map(Participant::getId).toList();
         List<Integer> connectedParticipantIds = participantManagerServiceClient.getParticipantsBySessionId(sessionId).getDTOs().getParticipantsList().stream().map(DTOEntities.ParticipantDTO::getId).toList();

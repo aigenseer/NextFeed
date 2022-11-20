@@ -20,15 +20,13 @@ public class ServiceUtils {
     public void checkSessionId(Integer sessionId, boolean closedAllowed){
         if(sessionId == null)
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "SessionId are not exists");
-        var session = sessionManagerServiceClient.getSessionById(sessionId);
-        if (session.isEmpty() || closedAllowed && session.get().getClosed() != 0L)
+        if (!sessionManagerServiceClient.existsOpenSessionById(sessionId))
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, String.format("SessionId %d are not exists", sessionId));
     }
 
     public void checkSessionId(Integer sessionId){
         this.checkSessionId(sessionId, false);
     }
-
 
     public void checkParticipantId(Integer participantId){
         if (participantId == null || !participantManagerServiceClient.existsParticipantId(participantId))

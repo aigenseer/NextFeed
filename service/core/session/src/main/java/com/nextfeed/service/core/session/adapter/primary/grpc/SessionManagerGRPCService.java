@@ -60,32 +60,20 @@ public class SessionManagerGRPCService extends SessionManagerServiceGrpc.Session
     }
 
     @Override
+    public void existsOpenSessionById(Requests.IDRequest request, StreamObserver<Response.BooleanResponse> responseObserver) {
+        var b = sessionManager.existsOpenSessionById(request.getId());
+        responseObserver.onNext(DTOResponseUtils.createBooleanResponse(b));
+        responseObserver.onCompleted();
+    }
+
+    @Override
     public void getAllSessions(Response.Empty e, StreamObserver<DTOEntities.SessionDTOList> responseObserver) {
         var list = sessionManager.getAllSessions();
         responseObserver.onNext(list.getDTOs());
         responseObserver.onCompleted();
     }
 
-    @Override
-    public void getAllOpenSessions(Response.Empty e, StreamObserver<DTOEntities.SessionDTOList> responseObserver) {
-        var list = sessionManager.getAllOpenSessions();
-        responseObserver.onNext(list.getDTOs());
-        responseObserver.onCompleted();
-    }
 
-    @Override
-    public void getAllClosedSessions(Response.Empty e, StreamObserver<DTOEntities.SessionDTOList> responseObserver) {
-        var list = sessionManager.getAllClosedSessions();
-        responseObserver.onNext(list.getDTOs());
-        responseObserver.onCompleted();
-    }
-
-    @Override
-    public void closeAllOpenSessions(Response.Empty e, StreamObserver<Response.Empty> responseObserver) {
-        sessionManager.closeAllOpenSessions();
-        responseObserver.onNext(DTOResponseUtils.createEmpty());
-        responseObserver.onCompleted();
-    }
 
 
 

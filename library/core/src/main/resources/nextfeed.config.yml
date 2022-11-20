@@ -44,7 +44,7 @@ grpc:
       keepAliveWithoutCalls: true
       negotiationType: plaintext
     question-service:
-      address: "static://${nextfeed.service.question-service.domain}:${nextfeed.service.mood-service.grpc-port}"
+      address: "static://${nextfeed.service.question-service.domain}:${nextfeed.service.question-service.grpc-port}"
       enableKeepAlive: true
       keepAliveWithoutCalls: true
       negotiationType: plaintext

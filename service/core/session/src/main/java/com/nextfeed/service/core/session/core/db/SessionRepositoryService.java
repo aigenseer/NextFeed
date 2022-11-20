@@ -68,4 +68,9 @@ public class SessionRepositoryService {
         return OptionalSessionValue.builder().source(optionalValue).build();
     }
 
+    public boolean existsOpenSessionById(Integer id){
+        var optionalEntity = sessionDBService.findById(id);
+        return !(optionalEntity.isEmpty() || optionalEntity.get().getClosed() != 0L);
+    }
+
 }

@@ -37,24 +37,16 @@ public class SessionManagerServiceClient {
         return rpcService.isSessionClosed(Requests.IDRequest.newBuilder().setId(id).build()).getResult();
     }
 
+    public boolean existsOpenSessionById(Integer id) {
+        return rpcService.existsOpenSessionById(Requests.IDRequest.newBuilder().setId(id).build()).getResult();
+    }
+
     public boolean existsSessionId(Integer id) {
         return rpcService.existsSessionId(Requests.IDRequest.newBuilder().setId(id).build()).getResult();
     }
 
     public SessionValueList getAllSessions() {
         return SessionValueList.createByDTO(rpcService.getAllSessions(DTOResponseUtils.createEmpty()));
-    }
-
-    public SessionValueList getAllOpenSessions() {
-        return SessionValueList.createByDTO(rpcService.getAllOpenSessions(DTOResponseUtils.createEmpty()));
-    }
-
-    public SessionValueList getAllClosedSessions() {
-        return SessionValueList.createByDTO(rpcService.getAllClosedSessions(DTOResponseUtils.createEmpty()));
-    }
-
-    public void closeAllOpenSessions() {
-        rpcService.closeAllOpenSessions(DTOResponseUtils.createEmpty());
     }
 
 

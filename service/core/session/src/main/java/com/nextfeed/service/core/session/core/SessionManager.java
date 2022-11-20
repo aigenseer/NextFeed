@@ -49,6 +49,10 @@ public class SessionManager implements ISessionManager {
         return sessionRepositoryService.existsById(id);
     }
 
+    public boolean existsOpenSessionById(Integer id) {
+        return sessionRepositoryService.existsOpenSessionById(id);
+    }
+
     public Set<Integer> getAllSessionIds(){
         return sessionRepositoryService.findAll().getEntities()
                 .stream()

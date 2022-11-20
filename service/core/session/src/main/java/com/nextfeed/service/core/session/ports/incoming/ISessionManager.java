@@ -16,6 +16,8 @@ public interface ISessionManager {
 
     boolean existSessionById(Integer id);
 
+    boolean existsOpenSessionById(Integer id);
+
     void deleteSession(int sessionId);
 
     SessionValueList getAllSessions();

@@ -60,8 +60,9 @@ public class QuestionValue implements IValueObject<QuestionEntity, DTOEntities.Q
                 .setMessage(entity.getMessage())
                 .setRating(rating)
                 .setCreated(entity.getCreated())
-                .setClosed(entity.getClosed())
                 .setSessionId(entity.getSession_id());
+
+        if(entity.getClosed() != null) builder.setClosed(entity.getClosed());
         builder.addAllVoterEntity(voterEntityList.stream().map(this::voterEntity2DTO).toList());
         return builder.build();
     }

@@ -15,9 +15,7 @@ service SessionManagerService {
   rpc isSessionClosed (IDRequest) returns (BooleanResponse) {}
   rpc existsSessionId (IDRequest) returns (BooleanResponse) {}
   rpc getAllSessions (Empty) returns (SessionDTOList) {}
-  rpc getAllOpenSessions (Empty) returns (SessionDTOList) {}
-  rpc getAllClosedSessions (Empty) returns (SessionDTOList) {}
-  rpc closeAllOpenSessions (Empty) returns (Empty) {}
+  rpc existsOpenSessionById(IDRequest) returns (BooleanResponse) {}
 }
 
 message NewSessionRequest{

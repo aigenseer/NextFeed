@@ -3,7 +3,6 @@ package com.nextfeed.service.core.question.core.db;
 import com.nextfeed.library.core.entity.question.QuestionEntity;
 import com.nextfeed.library.core.entity.question.VoterEntity;
 import com.nextfeed.library.core.grpc.service.manager.ParticipantManagerServiceClient;
-import com.nextfeed.library.core.proto.repository.VoteQuestionRequest;
 import com.nextfeed.library.core.proto.requests.Requests;
 import com.nextfeed.library.core.utils.DTORequestUtils;
 import com.nextfeed.library.core.valueobject.question.OptionalQuestionValue;
@@ -43,16 +42,12 @@ public class QuestionRepositoryService {
         return findById(DTORequestUtils.createIDRequest(id));
     }
 
-    public void addVote(VoteQuestionRequest request) {
-        voterDBService.save(VoterEntity.builder()
-                .question_id(request.getQuestionId())
-                .participant_id(request.getParticipantId())
-                .rating(request.getRating())
-                .build());
-    }
-
     public void addVote(Integer questionId, Integer participantId, Integer rating) {
-        addVote(VoteQuestionRequest.newBuilder().setQuestionId(questionId).setParticipantId(participantId).setRating(rating).build());
+        voterDBService.save(VoterEntity.builder()
+                .question_id(questionId)
+                .participant_id(participantId)
+                .rating(rating)
+                .build());
     }
 
     public QuestionValueList findBySessionId(int sessionId) {

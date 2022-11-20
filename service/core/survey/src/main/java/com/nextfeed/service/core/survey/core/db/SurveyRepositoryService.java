@@ -3,7 +3,6 @@ package com.nextfeed.service.core.survey.core.db;
 import com.nextfeed.library.core.entity.survey.Survey;
 import com.nextfeed.library.core.entity.survey.SurveyAnswer;
 import com.nextfeed.library.core.entity.survey.SurveyTemplate;
-import com.nextfeed.library.core.proto.repository.ExistsSurveyAnswerByParticipantRequest;
 import com.nextfeed.library.core.proto.requests.Requests;
 import com.nextfeed.library.core.utils.DTORequestUtils;
 import com.nextfeed.library.core.valueobject.survey.OptionalSurveyValue;
@@ -43,12 +42,8 @@ public class SurveyRepositoryService {
         return surveyAnswerDBService.save(surveyAnswer);
     }
 
-    public boolean existsSurveyAnswerByParticipant(ExistsSurveyAnswerByParticipantRequest request) {
-        return surveyAnswerDBService.existsSurveyAnswerByParticipant(request.getParticipantId(), request.getSurveyId());
-    }
-
     public boolean existsSurveyAnswerByParticipant(Integer participantId, Integer surveyId) {
-        return existsSurveyAnswerByParticipant(ExistsSurveyAnswerByParticipantRequest.newBuilder().setParticipantId(participantId).setSurveyId(surveyId).build());
+        return surveyAnswerDBService.existsSurveyAnswerByParticipant(participantId, surveyId);
     }
 
     public SurveyTemplateValue saveTemplate(SurveyTemplate surveyTemplate) {
