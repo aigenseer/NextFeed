@@ -10,7 +10,7 @@ task copyDockerFile() {
 tasks.named("docker") { dependsOn("copyDockerFile") }
 
 docker {
-    name "nextfeed/kube-3-${project.name}${project.hasProperty("serviceType")? "-$serviceType": ""}:${project.version}"
+    name "nextfeed/kube-4-${project.name}${project.hasProperty("serviceType")? "-$serviceType": ""}:${project.version}"
     files "$buildDir/libs/${project.name}-${project.version}.jar"
     dockerfile file("$buildDir/Dockerfile")
     pull true
