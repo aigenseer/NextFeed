@@ -26,8 +26,8 @@ spring:
     url: jdbc:postgresql://${nextfeed.datasource.host}:${nextfeed.datasource.port}/${nextfeed.datasource.db}
     username: ${nextfeed.datasource.username}
     password: ${nextfeed.datasource.pw}
-    jpa:
-      show-sql: ${nextfeed.datasource.show-sql}
+  jpa:
+    show-sql: ${nextfeed.datasource.show-sql}
 
 server:
   port: ${nextfeed.service.session-service.port}
