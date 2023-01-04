@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 public class MoodSocketServices {
 
     private final SocketServiceUtils serviceUtils;
-    private final static String INSTANCE_NAME = "mood-socket-service";
+    private final static String INSTANCE_NAME = "mood-service";
 
     @Value("#{new Integer('${nextfeed.service.mood-service.grpc-port}')}")
     private Integer port;

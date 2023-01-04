@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 public class SurveySocketServices{
 
     private final SocketServiceUtils serviceUtils;
-    private final static String INSTANCE_NAME = "survey-socket-service";
+    private final static String INSTANCE_NAME = "survey-service";
 
     @Value("#{new Integer('${nextfeed.service.survey-service.grpc-port}')}")
     private Integer port;

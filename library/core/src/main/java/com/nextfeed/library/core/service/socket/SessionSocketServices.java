@@ -18,7 +18,7 @@ import org.springframework.stereotype.Service;
 public class SessionSocketServices {
 
     private final SocketServiceUtils serviceUtils;
-    private final static String INSTANCE_NAME = "session-socket-service";
+    private final static String INSTANCE_NAME = "session-service";
 
     @Value("#{new Integer('${nextfeed.service.session-service.grpc-port}')}")
     private Integer port;
@@ -38,7 +38,6 @@ public class SessionSocketServices {
     }
 
     public void sendClose(Integer sessionId){
-        String path = "/api/internal/session-socket/v1/session/%d/notify/session/close".formatted(sessionId);
         serviceUtils.getInstanceInfoByName(INSTANCE_NAME).forEach(instance -> {
             try {
                 ManagedChannel managedChannel = ManagedChannelBuilder.forTarget("static://%s:%s".formatted(instance.getIPAddr(), port)).usePlaintext().build();
