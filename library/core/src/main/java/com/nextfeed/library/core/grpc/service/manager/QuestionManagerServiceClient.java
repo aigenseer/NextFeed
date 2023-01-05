@@ -1,6 +1,5 @@
 package com.nextfeed.library.core.grpc.service.manager;
 
-import com.nextfeed.library.core.proto.manager.CloseQuestionRequest;
 import com.nextfeed.library.core.proto.manager.QuestionManagerServiceGrpc;
 import com.nextfeed.library.core.utils.DTORequestUtils;
 import com.nextfeed.library.core.valueobject.question.QuestionValueList;
@@ -15,13 +14,6 @@ public class QuestionManagerServiceClient {
 
     public QuestionValueList findBySessionId(Integer id) {
         return QuestionValueList.createByDTO(rpcService.findBySessionId(DTORequestUtils.createIDRequest(id)));
-    }
-
-    public void closeQuestion(Integer sessionId, Integer questionId) {
-        rpcService.closeQuestion(CloseQuestionRequest.newBuilder()
-                .setSessionId(sessionId)
-                .setQuestionId(questionId)
-                .build());
     }
 
 }

@@ -3,7 +3,6 @@ package com.nextfeed.service.core.question.core.db;
 import com.nextfeed.library.core.adapter.primary.grpc.sharedcore.SharedCoreCacheService;
 import com.nextfeed.library.core.entity.question.QuestionEntity;
 import com.nextfeed.library.core.entity.question.VoterEntity;
-import com.nextfeed.library.core.grpc.service.manager.ParticipantManagerServiceClient;
 import com.nextfeed.library.core.proto.requests.Requests;
 import com.nextfeed.library.core.utils.DTORequestUtils;
 import com.nextfeed.library.core.valueobject.question.OptionalQuestionValue;

@@ -8,19 +8,8 @@ option java_package = "com.nextfeed.library.core.proto.manager";
 option java_outer_classname = "SessionManagerServiceProto";
 
 service SessionManagerService {
-  rpc createSession (NewSessionRequest) returns (SessionDTO) {}
-  rpc deleteSession (IDRequest) returns (Empty) {}
-  rpc getSessionById (IDRequest) returns (OptionalSessionDTO) {}
-  rpc closeSession (IDRequest) returns (Empty) {}
-  rpc existsSessionId (IDRequest) returns (BooleanResponse) {}
   rpc getAllSessions (Empty) returns (SessionDTOList) {}
-  rpc existsOpenSessionById(IDRequest) returns (BooleanResponse) {}
 }
-
-message NewSessionRequest{
-  string name = 1;
-}
-
 
 
 

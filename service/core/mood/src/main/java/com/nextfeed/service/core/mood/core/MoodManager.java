@@ -2,10 +2,6 @@ package com.nextfeed.service.core.mood.core;
 
 import com.nextfeed.library.core.adapter.primary.grpc.sharedcore.SharedCoreCacheService;
 import com.nextfeed.library.core.entity.participant.Participant;
-import com.nextfeed.library.core.grpc.service.manager.ParticipantManagerServiceClient;
-import com.nextfeed.library.core.grpc.service.manager.SessionManagerServiceClient;
-import com.nextfeed.library.core.proto.entity.DTOEntities;
-import com.nextfeed.library.core.proto.manager.NewCalculatedMoodRequest;
 import com.nextfeed.library.core.proto.manager.NewMoodRequest;
 import com.nextfeed.library.core.service.socket.MoodSocketServices;
 import com.nextfeed.library.core.valueobject.mood.MoodValue;
@@ -63,15 +59,18 @@ public class MoodManager implements IMoodManager {
         return sessionsParticipantMoodValueCache.get(sessionId);
     }
 
-    public MoodValue createCalculatedMoodValue(int sessionId, NewCalculatedMoodRequest request){
+    @Override
+    public MoodValue createCalculatedMoodValue(int sessionId, double moodValue, int participantId) {
         Map<Integer, Double> cache = getParticipantMoodValueCacheBySessionId(sessionId);
-        if(cache == null || !cache.containsKey(request.getParticipantId())) return null;
-        cache.put(request.getParticipantId(), request.getMoodValue());
+        if(cache == null || !cache.containsKey(participantId)) return null;
+        cache.put(participantId, moodValue);
         sessionsParticipantMoodValueCache.put(sessionId, cache);
         if(cache.size() == 0) return addMoodValueToSession(sessionId, NewMoodRequest.newBuilder().setMoodValue(0).setParticipantsCount(0).build());
         var averageValue = ((double) cache.values().stream().mapToInt(Double::intValue).sum()) / cache.size();
         return addMoodValueToSession(sessionId, NewMoodRequest.newBuilder().setMoodValue(averageValue).setParticipantsCount(cache.size()).build());
     }
+
+
 
     @Override
     public MoodValueList findBySessionId(int sessionId) {

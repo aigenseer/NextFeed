@@ -2,8 +2,6 @@ package com.nextfeed.service.core.mood.adapter.primary;
 
 
 import com.nextfeed.library.core.adapter.primary.grpc.sharedcore.SharedCoreCacheService;
-import com.nextfeed.library.core.grpc.service.manager.ParticipantManagerServiceClient;
-import com.nextfeed.library.core.proto.manager.NewCalculatedMoodRequest;
 import com.nextfeed.library.security.utils.PrincipalUtils;
 import com.nextfeed.service.core.mood.ports.incoming.IMoodManager;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +18,7 @@ import java.util.Optional;
 public class MoodSocketController {
 
     private final SharedCoreCacheService sharedCoreCacheService;
-    private final IMoodManager moodManagerServiceClient;
+    private final IMoodManager moodManager;
     private final PrincipalUtils principalUtils;
 
     @MessageMapping("/socket/mood-socket/v1/participant/session/{sessionId}/mood/{rating}")
@@ -28,7 +26,7 @@ public class MoodSocketController {
         Optional<Integer> participantId = principalUtils.getClaim("id", principal);
         if(participantId.isPresent()){
             if(sharedCoreCacheService.existsParticipantIdBySessionId(sessionId, participantId.get())){
-                moodManagerServiceClient.createCalculatedMoodValue(sessionId, NewCalculatedMoodRequest.newBuilder().setMoodValue(Double.valueOf(rating)).setParticipantId(participantId.get()).build());
+                moodManager.createCalculatedMoodValue(sessionId, Double.valueOf(rating), participantId.get());
             }
         }
     }

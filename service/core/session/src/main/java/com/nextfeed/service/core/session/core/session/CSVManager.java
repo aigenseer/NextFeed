@@ -1,7 +1,7 @@
 package com.nextfeed.service.core.session.core.session;
 
-import com.nextfeed.library.core.grpc.service.manager.SessionManagerServiceClient;
 import com.nextfeed.library.core.proto.entity.DTOEntities;
+import com.nextfeed.service.core.session.ports.incoming.session.ISessionManager;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
@@ -16,19 +16,19 @@ import java.util.zip.ZipOutputStream;
 @RequiredArgsConstructor
 public class CSVManager {
 
-    private final SessionManagerServiceClient sessionManagerServiceClient;
+    private final ISessionManager sessionManager;
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
 
     public File buildSessionZip(Integer sessionId) throws IOException {
         File tempZip = File.createTempFile("lecturefeed-tmp-session-", ".zip");
-        var session = sessionManagerServiceClient.getSessionById(sessionId);
+        var session = sessionManager.getSessionById(sessionId);
         ZipOutputStream out = new ZipOutputStream(new FileOutputStream(tempZip));
         if(session.isPresent()){
-            appendFileToZip(out, "session.csv", createSessionCSVFile(session.get()));
-            appendFileToZip(out, "questions.csv", createQuestionsCSV(session.get()));
-            appendFileToZip(out, "participants.csv", createParticipantCSV(session.get()));
-            appendFileToZip(out, "moods.csv", createMoodCSV(session.get()));
-            appendFileToZip(out, "surveys.csv", createSurveyCSV(session.get()));
+            appendFileToZip(out, "session.csv", createSessionCSVFile(session.get().getDTO()));
+            appendFileToZip(out, "questions.csv", createQuestionsCSV(session.get().getDTO()));
+            appendFileToZip(out, "participants.csv", createParticipantCSV(session.get().getDTO()));
+            appendFileToZip(out, "moods.csv", createMoodCSV(session.get().getDTO()));
+            appendFileToZip(out, "surveys.csv", createSurveyCSV(session.get().getDTO()));
         }
         out.close();
         return tempZip;

@@ -1,6 +1,5 @@
 package com.nextfeed.service.core.session.core.authorization;
 
-import com.nextfeed.library.core.proto.manager.ValidateUserRequest;
 import com.nextfeed.library.core.service.external.utils.ServiceUtils;
 import com.nextfeed.library.core.valueobject.user.UserValue;
 import com.nextfeed.library.security.TokenUserService;
