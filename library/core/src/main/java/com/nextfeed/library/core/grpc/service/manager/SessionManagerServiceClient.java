@@ -1,8 +1,8 @@
 package com.nextfeed.library.core.grpc.service.manager;
 
 import com.nextfeed.library.core.proto.entity.DTOEntities;
-import com.nextfeed.library.core.proto.repository.NewSessionRequest;
-import com.nextfeed.library.core.proto.repository.SessionManagerServiceGrpc;
+import com.nextfeed.library.core.proto.manager.NewSessionRequest;
+import com.nextfeed.library.core.proto.manager.SessionManagerServiceGrpc;
 import com.nextfeed.library.core.proto.requests.Requests;
 import com.nextfeed.library.core.utils.DTOResponseUtils;
 import com.nextfeed.library.core.valueobject.session.SessionValueList;
@@ -31,10 +31,6 @@ public class SessionManagerServiceClient {
 
     public void closeSession(Integer id) {
         rpcService.closeSession(Requests.IDRequest.newBuilder().setId(id).build());
-    }
-
-    public boolean isSessionClosed(Integer id) {
-        return rpcService.isSessionClosed(Requests.IDRequest.newBuilder().setId(id).build()).getResult();
     }
 
     public boolean existsOpenSessionById(Integer id) {

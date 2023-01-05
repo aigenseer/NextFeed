@@ -8,7 +8,7 @@ import com.nextfeed.library.core.proto.response.Response;
 import com.nextfeed.library.core.utils.DTOResponseUtils;
 import com.nextfeed.library.core.valueobject.participant.ParticipantValue;
 import com.nextfeed.library.core.valueobject.participant.ParticipantValueList;
-import com.nextfeed.service.core.session.ports.incoming.ISessionSocketService;
+import com.nextfeed.service.core.session.ports.incoming.session.ISessionSocketService;
 import io.grpc.stub.StreamObserver;
 import lombok.RequiredArgsConstructor;
 import net.devh.boot.grpc.server.service.GrpcService;

@@ -9,12 +9,7 @@ option java_package = "com.nextfeed.library.core.proto.manager";
 option java_outer_classname = "ParticipantManagerServiceProto";
 
 service ParticipantManagerService {
-  rpc createParticipantBySessionId (CreateParticipantBySessionIdRequest) returns (ParticipantDTO) {}
   rpc getParticipantsBySessionId (IDRequest) returns (ParticipantDTOList) {}
-  rpc getConnectedParticipantsBySessionId (IDRequest) returns (ParticipantDTOList) {}
-  rpc getSessionByParticipantId (IDRequest) returns (OptionalSessionDTO) {}
-  rpc getSessionIdByParticipantId (IDRequest) returns (IDResponse) {}
-  rpc updateConnectionStatusByParticipantId (UpdateConnectionStatusByParticipantIdRequest) returns (Empty) {}
   rpc existsParticipantId(IDRequest) returns (BooleanResponse) {}
   rpc getParticipant(IDRequest) returns (OptionalParticipantDTO) {}
 }

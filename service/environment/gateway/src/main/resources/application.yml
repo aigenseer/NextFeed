@@ -40,17 +40,12 @@ spring:
         - id: session-service
           uri: http://session-service.nextfeed:8030
           predicates:
-            - Path=/api/session-service/**,/socket/session-socket/**
+            - Path=/api/session-service/**,/socket/session-socket/**,/api/authorization-service/**
 
         - id: survey-service
           uri: http://survey-service.nextfeed:8040
           predicates:
             - Path=/api/survey-service/**,/socket/survey-socket/**
-
-        - id: authorization-service
-          uri: http://authorization-service.nextfeed:8050
-          predicates:
-            - Path=/api/authorization-service/**
 
 
 management:

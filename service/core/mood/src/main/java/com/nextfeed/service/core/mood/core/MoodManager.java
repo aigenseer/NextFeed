@@ -1,5 +1,7 @@
 package com.nextfeed.service.core.mood.core;
 
+import com.nextfeed.library.core.adapter.primary.grpc.sharedcore.SharedCoreCacheService;
+import com.nextfeed.library.core.entity.participant.Participant;
 import com.nextfeed.library.core.grpc.service.manager.ParticipantManagerServiceClient;
 import com.nextfeed.library.core.grpc.service.manager.SessionManagerServiceClient;
 import com.nextfeed.library.core.proto.entity.DTOEntities;
@@ -23,8 +25,7 @@ import java.util.Set;
 public class MoodManager implements IMoodManager {
 
     private final MoodRepositoryService moodRepositoryService;
-    private final SessionManagerServiceClient sessionManagerServiceClient;
-    private final ParticipantManagerServiceClient participantManagerServiceClient;
+    private final SharedCoreCacheService sharedCoreCacheService;
     private final MoodSocketServices moodSocketServices;
 
     private final Map<Integer, Map<Integer, Double>> sessionsParticipantMoodValueCache = new HashMap<>();
@@ -36,10 +37,10 @@ public class MoodManager implements IMoodManager {
     }
 
     private Map<Integer, Double> getParticipantMoodValueCacheBySessionId(int sessionId){
-        if(!sessionManagerServiceClient.existsOpenSessionById(sessionId)) return null;
+        if(!sharedCoreCacheService.existsSessionId(sessionId)) return null;
         //todo: muss noch gemacht werden
 //        List<Integer> connectedParticipantIds = participantManager.getConnectedParticipantsBySessionId(sessionId).stream().map(Participant::getId).toList();
-        List<Integer> connectedParticipantIds = participantManagerServiceClient.getParticipantsBySessionId(sessionId).getDTOs().getParticipantsList().stream().map(DTOEntities.ParticipantDTO::getId).toList();
+        List<Integer> connectedParticipantIds = sharedCoreCacheService.getSessionCache().get(sessionId).getParticipants().values().stream().map(Participant::getId).toList();
         if(!sessionsParticipantMoodValueCache.containsKey(sessionId)){
             Map<Integer, Double> cache = new HashMap<>();
             connectedParticipantIds.forEach(participantId -> cache.put(participantId, 0.0));

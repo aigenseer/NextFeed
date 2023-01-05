@@ -1,12 +1,12 @@
 package com.nextfeed.service.core.session.adapter.primary.grpc;
 
 import com.nextfeed.library.core.proto.entity.DTOEntities;
-import com.nextfeed.library.core.proto.repository.NewSessionRequest;
-import com.nextfeed.library.core.proto.repository.SessionManagerServiceGrpc;
+import com.nextfeed.library.core.proto.manager.NewSessionRequest;
+import com.nextfeed.library.core.proto.manager.SessionManagerServiceGrpc;
 import com.nextfeed.library.core.proto.requests.Requests;
 import com.nextfeed.library.core.proto.response.Response;
 import com.nextfeed.library.core.utils.DTOResponseUtils;
-import com.nextfeed.service.core.session.ports.incoming.ISessionManager;
+import com.nextfeed.service.core.session.ports.incoming.session.ISessionManager;
 import io.grpc.stub.StreamObserver;
 import lombok.AllArgsConstructor;
 import net.devh.boot.grpc.server.service.GrpcService;
@@ -42,13 +42,6 @@ public class SessionManagerGRPCService extends SessionManagerServiceGrpc.Session
     public void closeSession(Requests.IDRequest request, StreamObserver<Response.Empty> responseObserver) {
         sessionManager.closeSession(request.getId());
         responseObserver.onNext(DTOResponseUtils.createEmpty());
-        responseObserver.onCompleted();
-    }
-
-    @Override
-    public void isSessionClosed(Requests.IDRequest request, StreamObserver<Response.BooleanResponse> responseObserver) {
-        var b = sessionManager.isSessionClosed(request.getId());
-        responseObserver.onNext(DTOResponseUtils.createBooleanResponse(b));
         responseObserver.onCompleted();
     }
 

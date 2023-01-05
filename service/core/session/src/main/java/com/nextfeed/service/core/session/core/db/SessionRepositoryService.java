@@ -2,12 +2,12 @@ package com.nextfeed.service.core.session.core.db;
 
 import com.nextfeed.library.core.entity.session.SessionEntity;
 import com.nextfeed.library.core.grpc.service.manager.MoodManagerServiceClient;
-import com.nextfeed.library.core.grpc.service.manager.ParticipantManagerServiceClient;
 import com.nextfeed.library.core.grpc.service.manager.QuestionManagerServiceClient;
 import com.nextfeed.library.core.grpc.service.manager.SurveyManagerServiceClient;
 import com.nextfeed.library.core.valueobject.session.OptionalSessionValue;
 import com.nextfeed.library.core.valueobject.session.SessionValue;
 import com.nextfeed.library.core.valueobject.session.SessionValueList;
+import com.nextfeed.service.core.session.ports.incoming.usermanagement.IParticipantManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +18,7 @@ import java.util.Optional;
 public class SessionRepositoryService {
 
     private final SessionDBService sessionDBService;
-    private final ParticipantManagerServiceClient participantManagerServiceClient;
+    private final IParticipantManager participantManager;
     private final QuestionManagerServiceClient questionManagerServiceClient;
     private final SurveyManagerServiceClient surveyManagerServiceClient;
     private final MoodManagerServiceClient moodManagerServiceClient;
@@ -27,7 +27,7 @@ public class SessionRepositoryService {
         var sessionId = entity.getId();
         return SessionValue.createByEntity(
                 entity,
-                participantManagerServiceClient.getParticipantsBySessionId(sessionId),
+                participantManager.getParticipantsBySessionId(sessionId),
                 questionManagerServiceClient.findBySessionId(sessionId),
                 moodManagerServiceClient.findBySessionId(sessionId),
                 surveyManagerServiceClient.getSurveysBySessionId(sessionId)

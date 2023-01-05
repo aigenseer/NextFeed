@@ -1,0 +1,36 @@
+syntax = "proto3";
+
+import public "core/DTOEntities.proto";
+import public "core/Requests.proto";
+import public "core/Response.proto";
+option java_multiple_files = true;
+option java_package = "com.nextfeed.library.core.proto.manager";
+option java_outer_classname = "SharedCoreServiceProto";
+
+service SharedCoreService {
+  rpc sessionCreated (SessionCreatedRequest) returns (Empty) {}
+  rpc sessionClosed (IDRequest) returns (Empty) {}
+  rpc participantRegistered (ParticipantRegistered) returns (Empty) {}
+  rpc participantLoggedOff (ParticipantLoggedOff) returns (Empty) {}
+}
+
+message SessionCreatedRequest {
+  int32 sessionId = 1;
+  string name = 2;
+  ParticipantDTOList participantDTOList = 3;
+}
+
+message ParticipantRegistered{
+  int32 sessionId = 1;
+  ParticipantDTO participantDTO = 2;
+}
+
+message ParticipantLoggedOff{
+  int32 sessionId = 1;
+  int32 participantId = 2;
+}
+
+
+
+
+

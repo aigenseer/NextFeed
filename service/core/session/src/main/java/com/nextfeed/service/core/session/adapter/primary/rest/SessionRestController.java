@@ -6,8 +6,8 @@ import com.nextfeed.library.core.entity.session.SessionContainer;
 import com.nextfeed.library.core.entity.session.SessionMetadata;
 import com.nextfeed.library.core.service.external.dto.authorization.NewSessionRequest;
 import com.nextfeed.library.core.service.external.utils.ServiceUtils;
-import com.nextfeed.service.core.session.core.CSVManager;
-import com.nextfeed.service.core.session.ports.incoming.ISessionManager;
+import com.nextfeed.service.core.session.core.session.CSVManager;
+import com.nextfeed.service.core.session.ports.incoming.session.ISessionManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.HttpStatus;
@@ -97,7 +97,7 @@ public class SessionRestController{
     @GetMapping("/v1/session/presenter/{sessionId}/participant/{participantId}/kill/{blocked}")
     public void killParticipant(@PathVariable("sessionId") Integer sessionId, @PathVariable("participantId") Integer participantId, @PathVariable("blocked") Boolean blocked) {
         serviceUtils.checkSessionId(sessionId);
-        serviceUtils.checkParticipantId(participantId);
+        serviceUtils.checkParticipantId(sessionId, participantId);
         //todo: muss noch gemacht werden
 //        if(blocked){
 //            webSocketHolderService.blockRemoteAddrByParticipantId(participantId);

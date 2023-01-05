@@ -19,29 +19,10 @@ public class ParticipantManagerServiceClient {
     @GrpcClient("user-management-service")
     private ParticipantManagerServiceGrpc.ParticipantManagerServiceBlockingStub rpcService;
 
-    public ParticipantValue createParticipantBySessionId(Integer sessionId, DTOEntities.ParticipantDTO dto) {
-        return ParticipantValue.createByDTO(rpcService.createParticipantBySessionId(CreateParticipantBySessionIdRequest.newBuilder().setSessionId(sessionId).setParticipant(dto).build()));
-    }
 
     public ParticipantValueList getParticipantsBySessionId(Integer id) {
         var list = rpcService.getParticipantsBySessionId(DTORequestUtils.createIDRequest(id));
         return ParticipantValueList.createByDTO(list);
-    }
-
-    public ParticipantValueList getConnectedParticipantsBySessionId(Integer id) {
-        return ParticipantValueList.createByDTO(rpcService.getConnectedParticipantsBySessionId(DTORequestUtils.createIDRequest(id)));
-    }
-
-    public Optional<DTOEntities.SessionDTO> getSessionByParticipantId(Integer id) {
-        return Optional.of(rpcService.getSessionByParticipantId(DTORequestUtils.createIDRequest(id)).getSession());
-    }
-
-    public Integer getSessionIdByParticipantId(Integer id) {
-        return rpcService.getSessionIdByParticipantId(DTORequestUtils.createIDRequest(id)).getId();
-    }
-
-    public void updateConnectionStatusByParticipantId(Integer participantId, Boolean status) {
-        rpcService.updateConnectionStatusByParticipantId(UpdateConnectionStatusByParticipantIdRequest.newBuilder().setParticipantId(participantId).setStatus(status).build());
     }
 
     public boolean existsParticipantId(Integer id) {

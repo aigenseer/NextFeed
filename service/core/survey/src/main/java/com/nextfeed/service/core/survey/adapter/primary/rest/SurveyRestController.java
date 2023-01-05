@@ -6,8 +6,10 @@ import com.nextfeed.library.core.service.external.dto.survey.MessageRequest;
 import com.nextfeed.library.core.service.external.utils.ServiceUtils;
 import com.nextfeed.service.core.survey.ports.incoming.ISurveyManager;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -34,10 +36,15 @@ public class SurveyRestController {
         return surveyManager.getSurveysBySessionId(sessionId).getEntities();
     }
 
+    private void checkTemplateId(int templateId){
+        if (!surveyManager.findTemplateById(templateId).isPresent())
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, String.format("Template-Id %d are not exists", templateId));
+    }
+
     @GetMapping("/presenter/v1/session/{sessionId}/survey/create/{templateId}")
     public void create(@PathVariable int sessionId, @PathVariable int templateId){
         serviceUtils.checkSessionId(sessionId);
-        serviceUtils.checkTemplateId(templateId);
+        checkTemplateId(templateId);
         surveyManager.createSurvey(sessionId, surveyManager.findTemplateById(templateId).get());
     }
 

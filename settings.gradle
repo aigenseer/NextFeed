@@ -14,9 +14,9 @@ include 'service:core:session'
 include 'service:core:survey'
 include 'service:core:mood'
 
-include 'service:generic:authorization'
-
-include 'service:supporting:user-management'
+//include 'service:generic:authorization'
+//
+//include 'service:supporting:user-management'
 
 
 

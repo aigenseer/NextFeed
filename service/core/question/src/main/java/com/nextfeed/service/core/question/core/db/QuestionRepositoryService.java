@@ -1,5 +1,6 @@
 package com.nextfeed.service.core.question.core.db;
 
+import com.nextfeed.library.core.adapter.primary.grpc.sharedcore.SharedCoreCacheService;
 import com.nextfeed.library.core.entity.question.QuestionEntity;
 import com.nextfeed.library.core.entity.question.VoterEntity;
 import com.nextfeed.library.core.grpc.service.manager.ParticipantManagerServiceClient;
@@ -19,11 +20,11 @@ public class QuestionRepositoryService {
 
     private final QuestionDBService questionDBService;
     private final VoterDBService voterDBService;
-    private final ParticipantManagerServiceClient participantManagerServiceClient;
+    private final SharedCoreCacheService sharedCoreCacheService;
 
     private OptionalQuestionValue toValue(QuestionEntity e){
         if(e == null) return OptionalQuestionValue.createByOptionalEntity(Optional.empty(), null, null);
-        var p = participantManagerServiceClient.getParticipant(e.getParticipant_id());
+        var p = sharedCoreCacheService.getParticipantById(e.getSession_id(), e.getParticipant_id());
         var voters = voterDBService.getRepo().findByQuestionId(e.getId());
         return OptionalQuestionValue.createByOptionalEntity(Optional.of(e), p.get(), voters);
     }

@@ -1,6 +1,7 @@
 package com.nextfeed.service.core.mood.adapter.primary;
 
 
+import com.nextfeed.library.core.adapter.primary.grpc.sharedcore.SharedCoreCacheService;
 import com.nextfeed.library.core.grpc.service.manager.ParticipantManagerServiceClient;
 import com.nextfeed.library.core.proto.manager.NewCalculatedMoodRequest;
 import com.nextfeed.library.security.utils.PrincipalUtils;
@@ -18,7 +19,7 @@ import java.util.Optional;
 @Controller
 public class MoodSocketController {
 
-    private final ParticipantManagerServiceClient participantManagerServiceClient;
+    private final SharedCoreCacheService sharedCoreCacheService;
     private final IMoodManager moodManagerServiceClient;
     private final PrincipalUtils principalUtils;
 
@@ -26,7 +27,7 @@ public class MoodSocketController {
     public void ratingChange(@DestinationVariable Integer sessionId, @DestinationVariable Integer rating, Principal principal){
         Optional<Integer> participantId = principalUtils.getClaim("id", principal);
         if(participantId.isPresent()){
-            if(participantManagerServiceClient.existsParticipantId(participantId.get())){
+            if(sharedCoreCacheService.existsParticipantIdBySessionId(sessionId, participantId.get())){
                 moodManagerServiceClient.createCalculatedMoodValue(sessionId, NewCalculatedMoodRequest.newBuilder().setMoodValue(Double.valueOf(rating)).setParticipantId(participantId.get()).build());
             }
         }

@@ -20,7 +20,7 @@ public class QuestionRestController {
     @PostMapping("/v1/session/{sessionId}/question/create")
     public QuestionEntity createQuestion(@RequestBody NewQuestionRequest request, @PathVariable("sessionId") Integer sessionId){
         serviceUtils.checkSessionId(sessionId);
-        serviceUtils.checkParticipantId(request.getParticipantId());
+        serviceUtils.checkParticipantId(sessionId, request.getParticipantId());
         var questionValue = questionManager.createQuestion(sessionId, request.getParticipantId(), request.getMessage(), System.currentTimeMillis(), request.getAnonymous());
         return questionValue.getEntity();
     }
