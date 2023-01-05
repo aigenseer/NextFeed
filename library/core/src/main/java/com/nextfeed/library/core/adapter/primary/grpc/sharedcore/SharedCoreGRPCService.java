@@ -4,6 +4,7 @@ import com.nextfeed.library.core.adapter.primary.grpc.sharedcore.event.Participa
 import com.nextfeed.library.core.adapter.primary.grpc.sharedcore.event.ParticipantRegisteredEvent;
 import com.nextfeed.library.core.adapter.primary.grpc.sharedcore.event.SessionClosedEvent;
 import com.nextfeed.library.core.adapter.primary.grpc.sharedcore.event.SessionCreatedEvent;
+import com.nextfeed.library.core.grpc.service.manager.SessionManagerServiceClient;
 import com.nextfeed.library.core.proto.manager.ParticipantLoggedOff;
 import com.nextfeed.library.core.proto.manager.ParticipantRegistered;
 import com.nextfeed.library.core.proto.manager.SessionCreatedRequest;
@@ -18,11 +19,27 @@ import lombok.RequiredArgsConstructor;
 import net.devh.boot.grpc.server.service.GrpcService;
 import org.springframework.context.ApplicationEventPublisher;
 
+import javax.annotation.PostConstruct;
+
 @RequiredArgsConstructor
 @GrpcService
 public class SharedCoreGRPCService extends SharedCoreServiceGrpc.SharedCoreServiceImplBase {
 
     private final ApplicationEventPublisher applicationEventPublisher;
+    private final SessionManagerServiceClient sessionManagerServiceClient;
+
+    @PostConstruct
+    public void init(){
+        try {
+            var response = sessionManagerServiceClient.getShareCache();
+            for (var shareCache :response.getShareCachesList()) {
+                var event = new SessionCreatedEvent(this, shareCache.getSessionId(), ParticipantValueList.createByDTO(shareCache.getParticipantDTOList()));
+                applicationEventPublisher.publishEvent(event);
+            }
+        }catch (Exception e){
+            System.out.println("Failed to fetch initial share cache");
+        }
+    }
 
     @Override
     public void sessionCreated(SessionCreatedRequest request, StreamObserver<Response.Empty> responseObserver) {

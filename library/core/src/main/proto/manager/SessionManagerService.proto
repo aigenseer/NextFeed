@@ -8,7 +8,16 @@ option java_package = "com.nextfeed.library.core.proto.manager";
 option java_outer_classname = "SessionManagerServiceProto";
 
 service SessionManagerService {
-  rpc getAllSessions (Empty) returns (SessionDTOList) {}
+  rpc getShareCache(Empty) returns (ShareCacheResponse) {}
+}
+
+message ShareCacheResponse{
+  repeated ShareCache shareCaches = 1;
+}
+
+message ShareCache {
+  int32 sessionId = 1;
+  ParticipantDTOList participantDTOList = 2;
 }
 
 
