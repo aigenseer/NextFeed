@@ -9,22 +9,25 @@ import com.nextfeed.library.core.valueobject.mood.MoodValueList;
 import com.nextfeed.service.core.mood.core.db.MoodRepositoryService;
 import com.nextfeed.service.core.mood.ports.incoming.IMoodManager;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Component
 @RequiredArgsConstructor
+@EnableCaching
 public class MoodManager implements IMoodManager {
 
     private final MoodRepositoryService moodRepositoryService;
     private final SharedCoreCacheService sharedCoreCacheService;
     private final MoodSocketServices moodSocketServices;
 
-    private final Map<Integer, Map<Integer, Double>> sessionsParticipantMoodValueCache = new HashMap<>();
+    private final ConcurrentHashMap<Integer, ConcurrentHashMap<Integer, Double>> sessionsParticipantMoodValueCache = new ConcurrentHashMap<>();
 
     public MoodValue addMoodValueToSession(int sessionId, NewMoodRequest request){
         var moodValue = moodRepositoryService.create(sessionId, request);
@@ -32,17 +35,17 @@ public class MoodManager implements IMoodManager {
         return moodValue;
     }
 
-    private Map<Integer, Double> getParticipantMoodValueCacheBySessionId(int sessionId){
+    private ConcurrentHashMap<Integer, Double> getParticipantMoodValueCacheBySessionId(int sessionId){
         if(!sharedCoreCacheService.existsSessionId(sessionId)) return null;
         //todo: muss noch gemacht werden
 //        List<Integer> connectedParticipantIds = participantManager.getConnectedParticipantsBySessionId(sessionId).stream().map(Participant::getId).toList();
-        List<Integer> connectedParticipantIds = sharedCoreCacheService.getSessionCache().get(sessionId).getParticipants().values().stream().map(Participant::getId).toList();
+        List<Integer> connectedParticipantIds = sharedCoreCacheService.getSessionsCache().get(sessionId).getParticipants().values().stream().map(Participant::getId).toList();
         if(!sessionsParticipantMoodValueCache.containsKey(sessionId)){
-            Map<Integer, Double> cache = new HashMap<>();
+            ConcurrentHashMap<Integer, Double> cache = new ConcurrentHashMap<>();
             connectedParticipantIds.forEach(participantId -> cache.put(participantId, 0.0));
             sessionsParticipantMoodValueCache.put(sessionId, cache);
         }else{
-            Map<Integer, Double> cache = sessionsParticipantMoodValueCache.get(sessionId);
+            ConcurrentHashMap<Integer, Double> cache = sessionsParticipantMoodValueCache.get(sessionId);
             Set<Integer> cachedParticipantIds = cache.keySet();
             cachedParticipantIds.forEach(participantId -> {
                 if(!connectedParticipantIds.contains(participantId)){
@@ -61,7 +64,7 @@ public class MoodManager implements IMoodManager {
 
     @Override
     public MoodValue createCalculatedMoodValue(int sessionId, double moodValue, int participantId) {
-        Map<Integer, Double> cache = getParticipantMoodValueCacheBySessionId(sessionId);
+        ConcurrentHashMap<Integer, Double> cache = getParticipantMoodValueCacheBySessionId(sessionId);
         if(cache == null || !cache.containsKey(participantId)) return null;
         cache.put(participantId, moodValue);
         sessionsParticipantMoodValueCache.put(sessionId, cache);

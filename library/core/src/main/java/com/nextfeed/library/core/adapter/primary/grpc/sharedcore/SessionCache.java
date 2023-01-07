@@ -5,8 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 @RequiredArgsConstructor
 @Builder
@@ -14,7 +13,7 @@ public class SessionCache {
     @Getter
     private final int sessionId;
     @Getter
-    private final Map<Integer, Participant> participants = new HashMap<>();
+    private final ConcurrentHashMap<Integer, Participant> participants = new ConcurrentHashMap<>();
 
 
     public final boolean existsParticipantById(Integer participantId){

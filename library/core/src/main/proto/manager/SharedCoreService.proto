@@ -12,6 +12,7 @@ service SharedCoreService {
   rpc sessionClosed (IDRequest) returns (Empty) {}
   rpc participantRegistered (ParticipantRegistered) returns (Empty) {}
   rpc participantLoggedOff (ParticipantLoggedOff) returns (Empty) {}
+  rpc notifyServiceStatusChance(Empty) returns (Empty) {}
 }
 
 message SessionCreatedRequest {

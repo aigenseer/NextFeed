@@ -1,7 +1,7 @@
 package com.nextfeed.library.core.service.socket;
 
 import com.nextfeed.library.core.proto.repository.*;
-import com.nextfeed.library.core.utils.SocketServiceUtils;
+import com.nextfeed.library.core.utils.MicroserviceUtils;
 import com.nextfeed.library.core.valueobject.survey.SurveyValue;
 import com.nextfeed.library.core.valueobject.surveytemplate.SurveyTemplateValue;
 import io.grpc.ManagedChannel;
@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class SurveySocketServices{
 
-    private final SocketServiceUtils serviceUtils;
+    private final MicroserviceUtils serviceUtils;
     private final static String INSTANCE_NAME = "survey-service";
 
     @Value("#{new Integer('${nextfeed.service.survey-service.grpc-port}')}")

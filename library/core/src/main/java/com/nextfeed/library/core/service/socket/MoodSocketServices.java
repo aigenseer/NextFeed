@@ -2,7 +2,7 @@ package com.nextfeed.library.core.service.socket;
 
 import com.nextfeed.library.core.proto.repository.MoodSocketServiceGrpc;
 import com.nextfeed.library.core.proto.repository.SendMoodRequest;
-import com.nextfeed.library.core.utils.SocketServiceUtils;
+import com.nextfeed.library.core.utils.MicroserviceUtils;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import lombok.RequiredArgsConstructor;
@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class MoodSocketServices {
 
-    private final SocketServiceUtils serviceUtils;
+    private final MicroserviceUtils serviceUtils;
     private final static String INSTANCE_NAME = "mood-service";
 
     @Value("#{new Integer('${nextfeed.service.mood-service.grpc-port}')}")

@@ -5,12 +5,14 @@ import com.nextfeed.library.core.proto.manager.ParticipantRegistered;
 import com.nextfeed.library.core.proto.manager.SessionCreatedRequest;
 import com.nextfeed.library.core.proto.manager.SharedCoreServiceGrpc;
 import com.nextfeed.library.core.utils.DTORequestUtils;
-import com.nextfeed.library.core.utils.SocketServiceUtils;
+import com.nextfeed.library.core.utils.DTOResponseUtils;
+import com.nextfeed.library.core.utils.MicroserviceUtils;
 import com.nextfeed.library.core.valueobject.participant.ParticipantValue;
 import com.nextfeed.library.core.valueobject.participant.ParticipantValueList;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import lombok.RequiredArgsConstructor;
+import org.apache.tomcat.util.http.ResponseUtil;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -24,7 +26,7 @@ import static java.util.Map.entry;
 @Service
 public class SharedCoreServices {
 
-    private final SocketServiceUtils serviceUtils;
+    private final MicroserviceUtils serviceUtils;
 
     @Value("#{new Integer('${nextfeed.service.mood-service.grpc-port}')}")
     private Integer mood_port;
@@ -52,6 +54,7 @@ public class SharedCoreServices {
         for (var entry : getInstances().entrySet()) {
             serviceUtils.getInstanceInfoByName(entry.getKey()).forEach(instance -> {
                 try {
+                    //System.out.println("Try to connect to %s:%s".formatted(instance.getIPAddr(), entry.getValue()));
                     ManagedChannel managedChannel = ManagedChannelBuilder.forTarget("static://%s:%s".formatted(instance.getIPAddr(), entry.getValue())).usePlaintext().build();
                     list.add(managedChannel);
                 }catch (Exception e){
@@ -63,12 +66,30 @@ public class SharedCoreServices {
         return list;
     }
 
+    public void notifyServiceStatusChance(){
+        for (var managedChannel: getManagedChannels()) {
+            try {
+                SharedCoreServiceGrpc.SharedCoreServiceBlockingStub blockingStub = SharedCoreServiceGrpc.newBlockingStub(managedChannel);
+                blockingStub.notifyServiceStatusChance(DTOResponseUtils.createEmpty());
+                managedChannel.shutdown();
+            }catch (Exception e){
+                System.out.println("Failed to send Data");
+                System.out.println(managedChannel);
+            }
+        }
+    }
+
     public void sessionCreated(int sessionId, ParticipantValueList participantValueList){
         for (var managedChannel: getManagedChannels()) {
-            SharedCoreServiceGrpc.SharedCoreServiceBlockingStub blockingStub = SharedCoreServiceGrpc.newBlockingStub(managedChannel);
-            var request = SessionCreatedRequest.newBuilder().setSessionId(sessionId).setParticipantDTOList(participantValueList.getDTOs()).build();
-            blockingStub.sessionCreated(request);
-            managedChannel.shutdown();
+            try {
+                SharedCoreServiceGrpc.SharedCoreServiceBlockingStub blockingStub = SharedCoreServiceGrpc.newBlockingStub(managedChannel);
+                var request = SessionCreatedRequest.newBuilder().setSessionId(sessionId).setParticipantDTOList(participantValueList.getDTOs()).build();
+                blockingStub.sessionCreated(request);
+                managedChannel.shutdown();
+            }catch (Exception e){
+                System.out.println("Failed to send Data");
+                System.out.println(managedChannel);
+            }
         }
     }
 

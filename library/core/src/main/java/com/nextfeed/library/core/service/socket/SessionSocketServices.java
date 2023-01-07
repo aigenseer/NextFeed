@@ -4,7 +4,7 @@ import com.nextfeed.library.core.proto.repository.SendConnectionStatusRequest;
 import com.nextfeed.library.core.proto.repository.SendNewParticipantToAllRequest;
 import com.nextfeed.library.core.proto.repository.SessionSocketServiceGrpc;
 import com.nextfeed.library.core.utils.DTORequestUtils;
-import com.nextfeed.library.core.utils.SocketServiceUtils;
+import com.nextfeed.library.core.utils.MicroserviceUtils;
 import com.nextfeed.library.core.valueobject.participant.ParticipantValue;
 import com.nextfeed.library.core.valueobject.participant.ParticipantValueList;
 import io.grpc.ManagedChannel;
@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class SessionSocketServices {
 
-    private final SocketServiceUtils serviceUtils;
+    private final MicroserviceUtils serviceUtils;
     private final static String INSTANCE_NAME = "session-service";
 
     @Value("#{new Integer('${nextfeed.service.session-service.grpc-port}')}")

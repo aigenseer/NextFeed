@@ -5,6 +5,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -18,7 +20,7 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @Service
-public class SocketServiceUtils {
+public class MicroserviceUtils {
 
     private final KubernetesServiceUtils serviceUtils;
 
@@ -31,7 +33,14 @@ public class SocketServiceUtils {
         private final String iPAddr;
     }
 
+    @CacheEvict(value="instance_info",allEntries=true)
+    public void evictCache() {
+        System.out.println("Evicting all entries from instance.");
+    }
+
+    @Cacheable(value = "instance_info", key = "#instanceName")
     public List<Instance> getInstanceInfoByName(String instanceName){
+        System.out.println("Load instance infos by %s".formatted(instanceName));
         if(debug){
             System.out.println("Debug service active");
             return List.of(new Instance("localhost"));

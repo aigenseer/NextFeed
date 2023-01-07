@@ -2,7 +2,7 @@ package com.nextfeed.library.core.service.socket;
 
 import com.nextfeed.library.core.proto.repository.QuestionSocketServiceGrpc;
 import com.nextfeed.library.core.proto.repository.SendQuestionRequest;
-import com.nextfeed.library.core.utils.SocketServiceUtils;
+import com.nextfeed.library.core.utils.MicroserviceUtils;
 import com.nextfeed.library.core.valueobject.question.QuestionValue;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class QuestionSocketServices {
 
-    private final SocketServiceUtils serviceUtils;
+    private final MicroserviceUtils serviceUtils;
     private final static String INSTANCE_NAME = "question-service";
 
     @Value("#{new Integer('${nextfeed.service.question-service.grpc-port}')}")
