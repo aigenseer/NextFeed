@@ -21,15 +21,18 @@ public class MoodSocketServices {
 
     public void sendMood(Integer sessionId, Double value){
         serviceUtils.getInstanceInfoByName(INSTANCE_NAME).forEach(instance -> {
-            try {
-                ManagedChannel managedChannel = ManagedChannelBuilder.forTarget("static://%s:%s".formatted(instance.getIPAddr(), port)).usePlaintext().build();
-                MoodSocketServiceGrpc.MoodSocketServiceBlockingStub blockingStub = MoodSocketServiceGrpc.newBlockingStub(managedChannel);
-                blockingStub.sendMood(SendMoodRequest.newBuilder().setSessionId(sessionId).setValue(value).build());
-                managedChannel.shutdown();
-            }catch (Exception e){
-                System.err.println("Can not call instance");
-                System.err.println(e);
-            }
+            var t = new Thread(() -> {
+                try {
+                    ManagedChannel managedChannel = ManagedChannelBuilder.forTarget("static://%s:%s".formatted(instance.getIPAddr(), port)).usePlaintext().build();
+                    MoodSocketServiceGrpc.MoodSocketServiceBlockingStub blockingStub = MoodSocketServiceGrpc.newBlockingStub(managedChannel);
+                    blockingStub.sendMood(SendMoodRequest.newBuilder().setSessionId(sessionId).setValue(value).build());
+                    managedChannel.shutdown();
+                }catch (Exception e){
+                    System.err.println("Can not call instance");
+                    System.err.println(e);
+                }
+            });
+            t.start();
         });
     }
 
